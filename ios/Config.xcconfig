@@ -1,0 +1,10 @@
+//
+//  Config.xcconfig
+//  RN_Boilerplate_Latest
+//
+//  react-native-config build configuration
+//
+
+APP_NAME = RNBoilerplate
+BUNDLE_ID = com.rn_boilerplate_latest
+#include? "tmp.xcconfig"

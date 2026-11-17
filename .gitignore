@@ -1,0 +1,94 @@
+# ─── OS Metadata ─────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+ehthumbs.db
+
+# ─── Environment & Secrets ─────────────────────────────────────────────────
+# react-native-keys generated iOS xcconfig
+ios/tmp.xcconfig
+# Local secrets overrides (do not commit private keys)
+keys.local.json
+keys.private.json
+.env.local
+.env.*.local
+*.env.local
+
+# ─── Build Artifacts & Output ──────────────────────────────────────────────
+build/
+DerivedData/
+*.apk
+*.aab
+*.ipa
+*.jsbundle
+*.bundle
+*.map
+*.hmap
+
+# ─── Xcode / iOS ────────────────────────────────────────────────────────────
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+**/.xcode.env.local
+
+# CocoaPods
+**/Pods/
+Podfile.lock.tmp
+
+# ─── Android / Gradle / IntelliJ ───────────────────────────────────────────
+.idea/
+.gradle/
+local.properties
+*.iml
+*.hprof
+.cxx/
+*.keystore
+!debug.keystore
+.kotlin/
+captures/
+
+# ─── Node & Package Managers ───────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+
+# Yarn Berry
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# ─── Ruby / Bundler ────────────────────────────────────────────────────────
+.bundle/
+/vendor/bundle/
+
+# ─── Testing & Coverage ────────────────────────────────────────────────────
+/coverage/
+.nyc_output/
+
+# ─── Metro, Linters & Cache ────────────────────────────────────────────────
+.metro-health-check*
+.eslintcache
+*.tsbuildinfo
+
+# ─── Fastlane ──────────────────────────────────────────────────────────────
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output

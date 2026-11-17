@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "project": ["src/**/*.{ts,tsx}", "specs/**/*.{ts,tsx}"],
+  "entry": ["index.js", "reactotron.config.ts"],
+  "ignoreDependencies": [
+    "reactotron-plugin-zustand",
+    "reactotron-react-native",
+    "reactotron-redux"
+  ],
+  "ignoreBinaries": ["xed"],
+  "ignoreExportsUsedInFile": true
+}

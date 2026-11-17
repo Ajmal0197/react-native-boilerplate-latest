@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "editorconfig.editorconfig",
+    "msjsdiag.vscode-react-native",
+    "SonarSource.sonarlint-vscode"
+  ],
+  "unwantedRecommendations": ["hookyqr.beautify"]
+}

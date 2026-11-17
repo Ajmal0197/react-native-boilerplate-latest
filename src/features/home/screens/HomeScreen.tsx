@@ -1,0 +1,86 @@
+import type { TabScreenProps } from '@navigation/types';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet } from 'react-native-unistyles';
+
+import { Input } from '@components/atoms';
+import { Header } from '@components/organisms';
+import { useDebounce } from '@hooks/useDebounce';
+import { useAppDispatch, useAppSelector } from '@store/redux/hooks';
+import { PhotoList } from '../components/PhotoList';
+import { fetchPhotos } from '../store/homeSlice';
+
+export const HomeScreen = ({ navigation }: TabScreenProps<'Home'>) => {
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const { photos, page, isLoading, isRefreshing, isLoadingMore, hasMore } =
+    useAppSelector(state => state.home);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearch = useDebounce(searchQuery, 250);
+
+  useEffect(() => {
+    void dispatch(fetchPhotos({ page: 1 }));
+  }, [dispatch]);
+
+  const handleRefresh = () => {
+    void dispatch(fetchPhotos({ page: 1, isRefresh: true }));
+  };
+
+  const handleLoadMore = () => {
+    if (!isLoadingMore && hasMore) {
+      void dispatch(fetchPhotos({ page: page + 1 }));
+    }
+  };
+
+  const filteredPhotos = photos.filter(
+    photo =>
+      photo.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      String(photo.albumId).includes(debouncedSearch),
+  );
+
+  return (
+    <View style={styles.container}>
+      <Header title={t('home.title')} subtitle={t('home.subtitle')} />
+
+      <View style={styles.searchContainer}>
+        <Input
+          placeholder={t('home.searchPlaceholder')}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          clearButtonMode="while-editing"
+        />
+      </View>
+
+      <PhotoList
+        photos={filteredPhotos}
+        isLoading={isLoading}
+        isRefreshing={isRefreshing}
+        isLoadingMore={isLoadingMore}
+        hasMore={hasMore}
+        onRefresh={handleRefresh}
+        onLoadMore={handleLoadMore}
+        onPhotoPress={photo => {
+          navigation.navigate('ProductDetail', {
+            productId: String(photo.id),
+            title: photo.title,
+          });
+        }}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create(theme => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+  searchContainer: {
+    paddingHorizontal: theme.spacing.md,
+    paddingTop: theme.spacing.sm,
+  },
+}));
+
+export default HomeScreen;

@@ -1,0 +1,76 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "retry": "Reintentar",
+    "loading": "Cargando...",
+    "search": "Buscar",
+    "submit": "Enviar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "done": "Hecho"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión para acceder a tu cuenta",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "nombre@ejemplo.com",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Introduce tu contraseña",
+      "submitButton": "Iniciar sesión",
+      "noAccount": "¿No tienes una cuenta?",
+      "signUpLink": "Regístrate"
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "subtitle": "Únete hoy en unos sencillos pasos",
+      "name": "Nombre completo",
+      "namePlaceholder": "María Gómez",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "nombre@ejemplo.com",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Elige una contraseña segura",
+      "confirmPassword": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "Vuelve a escribir la contraseña",
+      "submitButton": "Registrarse",
+      "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+      "signInLink": "Iniciar sesión"
+    }
+  },
+  "home": {
+    "title": "Descubrir",
+    "subtitle": "Listas de alto rendimiento con LegendList",
+    "searchPlaceholder": "Buscar productos...",
+    "emptyList": "No se encontraron elementos",
+    "pullToRefresh": "Desliza para actualizar"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "instantButton": "Notificación instantánea",
+    "scheduleButton": "Programar notificación (5s)",
+    "permissionPrompt": "Activa las notificaciones para estar al día",
+    "unreadCount_zero": "Sin notificaciones nuevas",
+    "unreadCount_one": "{{count}} notificación nueva",
+    "unreadCount_other": "{{count}} notificaciones nuevas"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "theme": "Tema",
+    "themeLight": "Claro",
+    "themeDark": "Oscuro",
+    "themeAuto": "Sistema",
+    "language": "Idioma",
+    "deviceInfo": "Información del dispositivo",
+    "appVersion": "Versión de la app",
+    "logout": "Cerrar sesión"
+  },
+  "errors": {
+    "general": "Algo salió mal. Inténtalo de nuevo.",
+    "network": "Error de conexión de red. Revisa tu internet.",
+    "notFound": "Recurso no encontrado.",
+    "unauthorized": "Sesión expirada. Por favor, inicia sesión de nuevo."
+  }
+}

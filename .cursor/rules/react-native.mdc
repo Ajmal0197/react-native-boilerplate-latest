@@ -1,0 +1,71 @@
+---
+description: Definitive standards for generating production-ready React Native TypeScript code
+globs: **/*.{ts,tsx}
+alwaysApply: true
+---
+
+# React Native Production Standards
+
+You are an expert mobile architect specializing in React Native (CLI), New Architecture (Fabric + TurboModules), and TypeScript.
+
+## 1. Zero Placeholders & Complete Code
+
+- Never output partial code, stubs, or comments like `// TODO: implement later` or `// ... rest of component`.
+- Write production-ready, compiling code with full error handling.
+- Keep diffs focused: only modify files directly relevant to the user prompt.
+
+## 2. Architecture & File Structure
+
+- **Feature-First**: New business logic belongs in `src/features/<feature-name>/`.
+  - Feature subfolders: `api/`, `components/`, `hooks/`, `screens/`, `store/`, `types/`, `validation/`, `index.ts`.
+- **Absolute Imports**: Always use configured aliases (e.g., `@components/atoms`, `@theme`, `@services/storage`, `@locales`). Never use deep relative paths (`../../../`).
+- **Barrel Exports**: Expose public feature APIs via `index.ts`. Internal helpers remain unexported.
+
+## 3. Styling — Unistyles v3 (Strict)
+
+- Use `react-native-unistyles` exclusively. Never use raw `StyleSheet.create` without theme injection.
+- Standard pattern:
+  ```tsx
+  const styles = StyleSheet.create((theme, rt) => ({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+      padding: theme.spacing.md,
+    },
+  }));
+  ```
+- No hardcoded hex codes (`#FFFFFF`) or magic numbers for padding/margin. Always use `theme.colors.*` and `theme.spacing.*`.
+- Never define inline style objects within `renderItem` or scroll loops.
+
+## 4. Multi-language (i18n)
+
+- **Never hardcode raw user-facing text** in JSX.
+- Always use `useTranslation()` from `react-i18next`:
+  ```tsx
+  const { t } = useTranslation();
+  <Text>{t('auth.login.title')}</Text>;
+  ```
+- When creating a new screen or string, add corresponding keys to `src/locales/en.json`, `es.json`, and `ar.json`.
+
+## 5. State Management & Storage
+
+- **UI & Lightweight state**: Use **Zustand** (`src/store/zustand/` or feature-level store).
+- **Complex server / normalized cached state**: Use **Redux Toolkit** (`src/store/redux/`).
+- **Key-Value Storage**: Use **MMKV** via `storage` from `@services/storage`. Never use `@react-native-async-storage/async-storage`.
+
+## 6. Forms & Validation
+
+- Standardize on **React Hook Form** + **Yup** schemas via `@hookform/resolvers/yup`.
+- Wrap inputs in `<Controller />` or use custom `@components/atoms/Input`.
+
+## 7. TypeScript Standards
+
+- Strict mode is enabled. No `any` or loose casts (`as any`).
+- Prefer `interface` for component props and state shapes.
+- Use `type` for unions, intersections, and navigation param lists.
+- Avoid TypeScript `enum` — use union literals or `as const` objects.
+
+## 8. New Architecture (Fabric & TurboModules)
+
+- Do not generate legacy bridge modules (`RCTBridgeModule` with `@ReactMethod`).
+- When native modules are requested, generate Codegen specs in `specs/Native<Name>.ts` using `TurboModuleRegistry.getEnforcing<Spec>()`.

@@ -1,0 +1,76 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "retry": "Retry",
+    "loading": "Loading...",
+    "search": "Search",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "done": "Done"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to access your account",
+      "email": "Email Address",
+      "emailPlaceholder": "name@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submitButton": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign Up"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Join us today in a few simple steps",
+      "name": "Full Name",
+      "namePlaceholder": "Jane Doe",
+      "email": "Email Address",
+      "emailPlaceholder": "name@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Choose a strong password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Re-enter your password",
+      "submitButton": "Register",
+      "alreadyHaveAccount": "Already have an account?",
+      "signInLink": "Sign In"
+    }
+  },
+  "home": {
+    "title": "Discover",
+    "subtitle": "High-performance lists powered by LegendList",
+    "searchPlaceholder": "Search products...",
+    "emptyList": "No items found",
+    "pullToRefresh": "Pull down to refresh"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "instantButton": "Trigger Instant Notification",
+    "scheduleButton": "Schedule Notification (5s)",
+    "permissionPrompt": "Enable notifications to stay updated",
+    "unreadCount_zero": "No new notifications",
+    "unreadCount_one": "{{count}} new notification",
+    "unreadCount_other": "{{count}} new notifications"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeAuto": "System",
+    "language": "Language",
+    "deviceInfo": "Device Information",
+    "appVersion": "App Version",
+    "logout": "Log Out"
+  },
+  "errors": {
+    "general": "Something went wrong. Please try again.",
+    "network": "Network connection error. Check your internet.",
+    "notFound": "Resource not found.",
+    "unauthorized": "Session expired. Please log in again."
+  }
+}
