@@ -1,4 +1,5 @@
 export * from './screens/HomeScreen';
+export * from './screens/ProductDetailScreen';
 export * from './components/PhotoList';
 export * from './components/PhotoCard';
 export * from './components/ProductList';

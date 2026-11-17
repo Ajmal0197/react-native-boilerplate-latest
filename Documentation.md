@@ -576,6 +576,6 @@ it('handles button press', async () => {
 | **`yarn lint`** | `eslint .` | Run ESLint across project |
 | **`yarn lint:fix`** | `eslint . --fix` | Automatically fix linting issues |
 | **`yarn format`** | `prettier --write .` | Format all files with Prettier |
-| **`yarn test`** | `jest` | Run all 10 test suites in `__tests__/` (28 tests) |
+| **`yarn test`** | `jest` | Run all 12 test suites in `__tests__/` (35 tests) |
 | **`yarn test:coverage`** | `jest --coverage` | Run tests with coverage summary |
 | **`yarn knip:check`** | `knip` | Detect unused files, exports & dependencies |

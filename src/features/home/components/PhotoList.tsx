@@ -48,7 +48,8 @@ export const PhotoList: React.FC<PhotoListProps> = ({
       data={photos}
       keyExtractor={item => String(item.id)}
       renderItem={renderItem}
-      estimatedItemSize={96}
+      estimatedItemSize={64}
+      recycleItems={true}
       contentContainerStyle={styles.listContent}
       onEndReached={() => {
         if (!isLoadingMore && hasMore) {

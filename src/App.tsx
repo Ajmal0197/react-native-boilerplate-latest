@@ -17,6 +17,7 @@ import './theme';
 import './services/i18n';
 
 import { ErrorFallback } from './components/organisms/ErrorFallback';
+import { Config } from './config/env';
 import { linking } from './navigation/linking';
 import { RootNavigator } from './navigation/RootNavigator';
 import { store } from './store/redux/store';
@@ -56,7 +57,7 @@ export const App = () => {
           </KeyboardProvider>
         </SafeAreaProvider>
       </Provider>
-      {__DEV__ && <BugBubble />}
+      {Config.APP_ENV !== 'production' && <BugBubble />}
     </ErrorBoundary>
   );
 };

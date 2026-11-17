@@ -13,8 +13,20 @@
   <a href="https://react.dev"><img src="https://img.shields.io/badge/React-19.3.0-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" /></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript Strict" /></a>
   <a href="https://reactnative.dev/docs/the-new-architecture/landing-page"><img src="https://img.shields.io/badge/New%20Architecture-Enabled-success?style=for-the-badge" alt="New Architecture" /></a>
-  <a href="https://jestjs.io/"><img src="https://img.shields.io/badge/Tests-10%2F10%20Passed-brightgreen?style=for-the-badge&logo=jest" alt="Tests" /></a>
+  <a href="https://jestjs.io/"><img src="https://img.shields.io/badge/Tests-12%2F12%20Passed-brightgreen?style=for-the-badge&logo=jest" alt="Tests" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License" /></a>
+</p>
+
+---
+
+## 📱 App Demo & Walkthrough
+
+<p align="center">
+  <img src="./docs/assets/demo.gif" alt="App Walkthrough Demo" width="300" style="border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+  <br />
+  <sub>📱 <b>Live Demo on iOS Simulator (iPhone Air)</b> — High-speed LegendList scrolling, Unistyles dynamic theming, and multi-environment setup.</sub>
+  <br />
+  <sub><a href="./docs/assets/demo.mp4">▶️ Watch High-Resolution MP4 Recording</a> • <a href="./Simulator Screen Recording - iPhone Air - 2026-11-18 at 02.02.25.mp4">Original Recording</a></sub>
 </p>
 
 ---
@@ -39,7 +51,7 @@ Looking for the exhaustive technical guide, deep-dive architecture notes, native
 - 🌐 **Multi-Environment Ready**: Out-of-the-box support for **Development**, **Staging**, and **Production** environments (`react-native-config`) with dynamic app display names and bundle IDs.
 - 🌍 **Internationalization (i18n) & RTL**: Multi-language support (English, Arabic, Spanish) with automatic RTL layout switching and application restart.
 - 🛡️ **Production Minification & Obfuscation**: Android R8/ProGuard rules configured for all libraries, Hermes bytecode compilation, and Terser console stripping in release mode.
-- 🃏 **100% Test Coverage Ready**: Pre-configured Jest & React Native Testing Library suite with 10 test suites (28 tests) passing.
+- 🃏 **100% Test Coverage Ready**: Pre-configured Jest & React Native Testing Library suite with 12 test suites (35 tests) passing.
 
 ---
 

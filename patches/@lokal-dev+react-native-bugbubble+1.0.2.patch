@@ -1,0 +1,42 @@
+diff --git a/node_modules/@lokal-dev/react-native-bugbubble/lib/module/BugBubbleDebugger.js b/node_modules/@lokal-dev/react-native-bugbubble/lib/module/BugBubbleDebugger.js
+index cd73e23..d996506 100644
+--- a/node_modules/@lokal-dev/react-native-bugbubble/lib/module/BugBubbleDebugger.js
++++ b/node_modules/@lokal-dev/react-native-bugbubble/lib/module/BugBubbleDebugger.js
+@@ -167,6 +167,16 @@ export class BugBubbleDebugger {
+       if (!this.isTabEnabled('network')) {
+         return;
+       }
++      if (
++        typeof url === 'string' &&
++        (url.includes('/symbolicate') ||
++          url.includes(':8081/open-debugger') ||
++          url.includes(':8081/hot') ||
++          url.includes(':8081/message') ||
++          url.includes(':8081/logs'))
++      ) {
++        return;
++      }
+       const log = {
+         id: this.generateId(),
+         timestamp: Date.now(),
+diff --git a/node_modules/@lokal-dev/react-native-bugbubble/lib/module/interceptors/NetworkInterceptor.js b/node_modules/@lokal-dev/react-native-bugbubble/lib/module/interceptors/NetworkInterceptor.js
+index 4fef918..ff0d937 100644
+--- a/node_modules/@lokal-dev/react-native-bugbubble/lib/module/interceptors/NetworkInterceptor.js
++++ b/node_modules/@lokal-dev/react-native-bugbubble/lib/module/interceptors/NetworkInterceptor.js
+@@ -140,6 +140,16 @@ export class NetworkInterceptor {
+    */
+ 
+   logNetworkRequest(method, url, status, requestHeaders, responseHeaders, requestBody, responseBody, duration) {
++    if (
++      typeof url === 'string' &&
++      (url.includes('/symbolicate') ||
++        url.includes(':8081/open-debugger') ||
++        url.includes(':8081/hot') ||
++        url.includes(':8081/message') ||
++        url.includes(':8081/logs'))
++    ) {
++      return;
++    }
+     if (this.logCallback) {
+       this.logCallback(method, url, status, requestHeaders, responseHeaders, requestBody, responseBody, duration);
+     }

@@ -19,20 +19,36 @@ const getInitialTheme = (): ThemeMode => {
   return saved || 'light';
 };
 
+const applyThemeToUnistyles = (mode: ThemeMode) => {
+  try {
+    if (mode === 'light' || mode === 'dark') {
+      if (UnistylesRuntime.hasAdaptiveThemes) {
+        UnistylesRuntime.setAdaptiveThemes(false);
+      }
+      UnistylesRuntime.setTheme(mode);
+    } else {
+      // Auto / System
+      if (!UnistylesRuntime.hasAdaptiveThemes) {
+        UnistylesRuntime.setAdaptiveThemes(true);
+      }
+    }
+  } catch {
+    // Graceful safeguard
+  }
+};
+
+const initialTheme = getInitialTheme();
+applyThemeToUnistyles(initialTheme);
+
 export const useAppStore = create<AppState>()(
   devtools(
     set => ({
-      themeMode: getInitialTheme(),
+      themeMode: initialTheme,
       isFirstLaunch: !storage.getBoolean('@first_launch_done'),
 
       setThemeMode: (mode: ThemeMode) => {
         storage.set(STORAGE_KEYS.THEME_MODE, mode);
-        if (mode === 'light' || mode === 'dark') {
-          UnistylesRuntime.setTheme(mode);
-        } else {
-          // Auto / System
-          UnistylesRuntime.setAdaptiveThemes(true);
-        }
+        applyThemeToUnistyles(mode);
         set({ themeMode: mode });
       },
 

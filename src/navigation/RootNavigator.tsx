@@ -1,6 +1,7 @@
 import type { RootStackParamList } from './types';
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ProductDetailScreen } from '@features/home';
 import { LanguageSelectScreen } from '@features/settings';
 import { useAuthStore } from '@store/zustand/useAuthStore';
 import { AppNavigator } from './AppNavigator';
@@ -26,6 +27,13 @@ export const RootNavigator = () => {
         options={{
           presentation: 'modal',
           animation: 'slide_from_bottom',
+        }}
+      />
+      <Stack.Screen
+        name="ProductDetail"
+        component={ProductDetailScreen}
+        options={{
+          animation: 'slide_from_right',
         }}
       />
     </Stack.Navigator>
