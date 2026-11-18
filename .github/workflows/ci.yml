@@ -20,13 +20,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Must run before setup-node: its `cache: yarn` step calls `yarn cache dir`,
+      # which must resolve to the yarn version pinned by "packageManager" (3.6.4),
+      # not the runner's global yarn 1.x.
+      - name: Enable Corepack
+        run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: yarn
-
-      - name: Enable Corepack
-        run: corepack enable
 
       - name: Install dependencies
         run: yarn install --immutable
