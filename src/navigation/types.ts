@@ -30,6 +30,7 @@ export type RootStackParamList = {
   Main: NavigatorScreenParams<MainTabParamList>;
   LanguageSelect: undefined;
   ProductDetail: { productId: string; title: string };
+  TabViewDemo: undefined;
 };
 
 /**

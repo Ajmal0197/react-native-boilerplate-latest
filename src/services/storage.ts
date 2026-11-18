@@ -1,4 +1,5 @@
 import { createMMKV, type MMKV } from 'react-native-mmkv';
+import { Config } from '@config';
 
 /**
  * Storage Service — powered by MMKV
@@ -11,9 +12,10 @@ class StorageService {
   private mmkv: MMKV;
 
   constructor() {
+    const encryptionKey = Config.secureFor('MMKV_ENCRYPTION_KEY');
     this.mmkv = createMMKV({
       id: 'app-default-storage',
-      // encryptionKey: 'optional-encryption-key-for-security',
+      ...(encryptionKey ? { encryptionKey } : {}),
     });
   }
 

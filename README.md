@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <b>A battle-tested, feature-driven React Native boilerplate built on the New Architecture (Fabric & TurboModules), powered by React 19, TypeScript, Unistyles v3, and multi-environment pipelines.</b>
+  <b>A clean, production-ready React Native boilerplate built on React Native 0.88 & React 19 with the New Architecture enabled. Designed for speed, type safety, and beginner-friendly maintainability.</b>
 </p>
 
 <p align="center">
@@ -13,275 +13,451 @@
   <a href="https://react.dev"><img src="https://img.shields.io/badge/React-19.3.0-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" /></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript Strict" /></a>
   <a href="https://reactnative.dev/docs/the-new-architecture/landing-page"><img src="https://img.shields.io/badge/New%20Architecture-Enabled-success?style=for-the-badge" alt="New Architecture" /></a>
-  <a href="https://jestjs.io/"><img src="https://img.shields.io/badge/Tests-13%2F13%20Passed-brightgreen?style=for-the-badge&logo=jest" alt="Tests" /></a>
+  <a href="https://jestjs.io/"><img src="https://img.shields.io/badge/Tests-21%2F21%20Passed%20(85%20tests)-brightgreen?style=for-the-badge&logo=jest" alt="Tests" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License" /></a>
 </p>
 
 ---
 
-## 📱 App Demo & Walkthrough
+## 📱 Demo & Preview
 
 <p align="center">
-  <img src="./docs/assets/demo.gif" alt="App Walkthrough Demo" width="300" style="border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+  <img src="./docs/assets/demo.gif" alt="App Walkthrough Demo" width="280" style="border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
   <br />
-  <sub>📱 <b>Live Demo on iOS Simulator (iPhone Air)</b> — High-speed LegendList scrolling, Unistyles dynamic theming, and multi-environment setup.</sub>
+  <sub>📱 <b>iOS Simulator Demo</b> — High-speed list rendering, Unistyles dynamic theming, and multi-environment setup.</sub>
   <br />
-  <sub><a href="./docs/assets/demo.mp4">▶️ Watch High-Resolution MP4 Recording</a> • <a href="./Simulator Screen Recording - iPhone Air - 2026-11-18 at 02.02.25.mp4">Original Recording</a></sub>
+  <sub><a href="./docs/assets/demo.webm">▶️ Watch Demo Video (demo.webm)</a></sub>
 </p>
 
 ---
 
-## 📖 Complete Documentation
+## 📖 In-Depth Technical Guide
 
-Looking for the exhaustive technical guide, deep-dive architecture notes, native module tutorials, or Android/iOS internal configurations?
+Looking for native module implementation tutorials (TurboModules & Fabric), Android/iOS build internals, or deep architectural breakdowns?
 
 👉 **[Read the Full Documentation Guide (Documentation.md)](./Documentation.md)**
 
 ---
 
-## 🌟 Key Highlights & Architecture
+## 🌟 What's Inside
 
-- ⚡ **100% New Architecture**: Hermes V1 enabled, native C++ JSI bindings, custom **TurboModule** (`NativeAppDeviceInfo`), and custom **Fabric Component** (`NativeBatteryView`).
-- 🎨 **Unistyles v3 + Dynamic Theming**: High-performance Nitro Modules C++ styling with zero JS re-renders on theme or orientation changes. Supports automatic light/dark mode.
-- 📦 **Dual State Management**:
-  - **Redux Toolkit**: Predictable state container for complex domains, async thunks, and entity caching.
-  - **Zustand**: Minimalist store for authentication & UI flags, backed by synchronous MMKV persistence.
-- 🚀 **High-Speed MMKV Storage**: 30x faster than AsyncStorage via direct memory-mapped key-value storage.
-- 🧭 **React Navigation v7**: Native Stack and Bottom Tabs with end-to-end type safety and deep linking.
-- 🌐 **Multi-Environment Ready**: Out-of-the-box support for **Development**, **Staging**, and **Production** environments (`react-native-config`) with dynamic app display names and bundle IDs.
-- 🌍 **Internationalization (i18n) & RTL**: Multi-language support (English, Arabic, Spanish) with automatic RTL layout switching and application restart.
-- 🛡️ **Production Minification & Obfuscation**: Android R8/ProGuard rules configured for all libraries, Hermes bytecode compilation, and Terser console stripping in release mode.
-- 🃏 **100% Test Coverage Ready**: Pre-configured Jest & React Native Testing Library suite with 13 test suites (39 tests) passing.
+| Feature | Technology | Description |
+| :--- | :--- | :--- |
+| **New Architecture** | Fabric & TurboModules | 100% C++ JSI / Hermes V1 enabled with custom native modules |
+| **Styling** | [Unistyles v3](https://github.com/jpudysz/react-native-unistyles) | High-performance C++ theming with automatic light/dark mode and zero re-renders |
+| **Multi-Environment** | [react-native-keys](https://github.com/numandev1/react-native-keys) | Secure JSI encrypted keys for Dev, Staging, and Production |
+| **Bottom Sheets** | [@swmansion/react-native-bottom-sheet](https://github.com/software-mansion/react-native-bottom-sheet) | Official Software Mansion modal sheets with multi-level stacking & keyboard avoidance |
+| **Tab View** | [react-native-tab-view](https://github.com/satya164/react-native-tab-view) | High performance swipable tabs backed by `react-native-pager-view` |
+| **Native Bottom Toast** | [react-native-toast-message](https://github.com/calintamas/react-native-toast-message) | Capsule HUD toast anchored above soft nav bars with auto API error display |
+| **Android Soft Navigation** | Safe Area Insets Calculation | Automated safe clearance above on-screen 3-button & gesture navigation bars |
+| **State Management** | Redux Toolkit & Zustand | Redux Toolkit for complex domain data + Zustand for lightweight UI & auth |
+| **Storage** | [react-native-mmkv](https://github.com/mrousavy/react-native-mmkv) | High-speed encrypted storage (30x faster than AsyncStorage) |
+| **Navigation** | React Navigation v7 | Type-safe Native Stack and Bottom Tabs with deep linking support |
+| **Global Loader** | [react-native-root-siblings](https://github.com/magicismight/react-native-root-siblings) | Fullscreen overlay controllable from anywhere without native modal conflicts |
+| **API Cancellation** | Axios + AbortController | Automatic request cancellation on unmount and bulk cancellation on logout |
+| **Network Resilience** | `normalizeApiError` | Standardized error normalization for offline drops, timeouts, HTTP codes, and cancels |
+| **Internationalization** | i18next | Multi-language support (English, Arabic, Spanish) with auto RTL restart |
+| **Testing** | Jest & RNTL | 21 test suites (85 tests) covering bottom sheets, tabs, toasts, state, and UI |
 
 ---
 
 ## 📋 Prerequisites
 
-Before setting up the project, make sure your development environment satisfies the official requirements:
+Before starting, make sure your environment has:
 
-- **Node.js**: `>= 18` (LTS recommended) — [Official Node.js Guide](https://nodejs.org/)
-- **Yarn**: `v1` or Yarn Modern (Berry) — [Official Yarn Guide](https://yarnpkg.com/)
-- **Android**:
-  - [Android Studio](https://developer.android.com/studio) with Android SDK & Platform Tools
-  - JDK 17 (`java -version`)
-- **iOS** *(macOS only)*:
-  - [Xcode](https://developer.apple.com/xcode/) `>= 15.0`
-  - CocoaPods `>= 1.13` (`brew install cocoapods` or `sudo gem install cocoapods`)
-- **React Native Official Setup**: [React Native CLI Environment Setup](https://reactnative.dev/docs/set-up-your-environment)
+1. **Node.js**: `>= 18` (LTS recommended)
+2. **Yarn**: `v1` (Classic) or Modern
+3. **Android**: Android Studio with SDK Platform 36/37 and JDK 17
+4. **iOS** *(macOS only)*: Xcode `>= 15.0` and CocoaPods (`brew install cocoapods`)
+
+👉 See the [Official React Native Environment Setup Guide](https://reactnative.dev/docs/set-up-your-environment) if you are setting up a machine for the first time.
 
 ---
 
 ## ⚡ Quick Start
 
-### 1. Clone & Install Dependencies
+### 1. Clone & Install
 
 ```bash
 # Clone the repository
 git clone https://github.com/<your-username>/<your-repo-name>.git
 cd RN_BoilerplateLatest
 
-# One-command full setup (Node modules + CocoaPods)
+# Install dependencies and iOS CocoaPods in one command
 yarn install:all
 ```
 
 > [!TIP]
-> If you ever need to clean your workspace and reinstall dependencies from scratch, run:
-> ```bash
-> yarn clean:install
-> ```
+> Need to reset caches or reinstall cleanly? Run `yarn clean:install`.
 
 ---
 
-### 2. Run the Application
+### 2. Run the App
 
-#### 📱 Development (Default)
+Start Metro bundler in one terminal:
 ```bash
-# Start Metro bundler with cache reset
 yarn start
-
-# Run Android (Development Flavor)
-yarn android
-
-# Run iOS (Development Scheme)
-yarn ios
 ```
 
-#### 🧪 Staging
-```bash
-# Run Android with .env.staging
-yarn android:staging
+Run on your target platform:
 
-# Run iOS with .env.staging
-yarn ios:staging
-```
-
-#### 🚀 Production
-```bash
-# Run Android with .env.production
-yarn android:prod
-
-# Run iOS with .env.production
-yarn ios:prod
-```
+| Environment | Android Command | iOS Command |
+| :--- | :--- | :--- |
+| **Development** (default) | `yarn android` | `yarn ios` |
+| **Staging** | `yarn android:staging` | `yarn ios:staging` |
+| **Production** | `yarn android:prod` | `yarn ios:prod` |
 
 ---
 
-### 3. Build & Package Binaries
+### 3. Build Release Binaries
 
 ```bash
-# Build Android Production Release APK
+# Android Production APK
 yarn build:android
 
-# Build Android Development Debug APK
-yarn build:android:debug
-
-# Build Android App Bundle (.aab for Google Play Store)
+# Android Production AAB (for Google Play)
 yarn bundle:android
 
-# Build iOS Production Release App
+# iOS Production Release App
 yarn build:ios
 ```
 
 ---
 
-## ⚙️ Multi-Environment Configuration
+## 💡 Beginner How-To Guides
 
-Environment variables are managed cleanly using [`react-native-config`](https://github.com/react-native-config/react-native-config):
+### 1. How to Use Environment Variables (`react-native-keys`)
 
-| Environment | Config File | iOS Scheme | Android Flavor | Bundle / Application ID | App Name |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Development** | `.env.development` | `RN_Boilerplate_Latest_Dev` | `development` | `com.rn_boilerplate_latest.dev` | `RNBoilerplate (Dev)` |
-| **Staging** | `.env.staging` | `RN_Boilerplate_Latest_Staging` | `staging` | `com.rn_boilerplate_latest.staging` | `RNBoilerplate (Staging)` |
-| **Production** | `.env.production` | `RN_Boilerplate_Latest` | `production` | `com.rn_boilerplate_latest` | `RNBoilerplate` |
+Environment variables and secret keys live in JSON files at the project root:
+- `keys.development.json`
+- `keys.staging.json`
+- `keys.production.json`
 
-To access variables in TypeScript with full autocompletion:
+To read variables in your TypeScript code, use `@config`:
+
 ```typescript
-import { env } from '@config/env';
+import { Config } from '@config';
 
-console.log(env.API_BASE_URL);
-console.log(env.APP_ENV); // 'development' | 'staging' | 'production'
+// 1. Read public variables (API endpoints, environment name, etc.)
+const apiUrl = Config.publicFor('API_BASE_URL');
+const appEnv = Config.publicFor('APP_ENV'); // 'development' | 'staging' | 'production'
+
+// 2. Read encrypted / secure secrets (JSI memory-protected)
+const secretKey = Config.secureFor('SECRET_KEY');
 ```
 
 ---
 
-## 📂 Project Architecture
+### 2. How to Show & Hide the Global Loader
 
-This boilerplate follows a modular, feature-first structure:
+The loader is powered by `react-native-root-siblings`. It renders above all screens and navigation without native `<Modal>` bugs:
+
+```typescript
+import { AppConstant } from '@config';
+
+// Show loader with an optional message
+AppConstant.showLoader('Please wait...');
+
+// Hide loader when done
+AppConstant.hideLoader();
+```
+
+> [!NOTE]
+> You can also import `GlobalLoader` from `@components/organisms` and call `GlobalLoader.show('...')` / `GlobalLoader.hide()` directly.
+
+---
+
+### 3. How to Cancel API Calls on Unmount
+
+Prevent memory leaks and unwanted state updates when a user leaves a screen before an API call finishes:
+
+```typescript
+import React, { useEffect } from 'react';
+import { useApiCancellation } from '@hooks';
+import { apiClient } from '@api';
+
+export const MyScreen = () => {
+  // 1. Get an AbortSignal automatically cancelled on component unmount
+  const { signal } = useApiCancellation();
+
+  useEffect(() => {
+    // 2. Pass the signal to your API request
+    apiClient.get('/photos', { signal })
+      .then(res => console.log(res.data))
+      .catch(err => {
+        // Cancelled requests are automatically ignored by client interceptors!
+      });
+  }, [signal]);
+
+  return <View>...</View>;
+};
+```
+
+To cancel **all** pending API requests across the entire app at once (e.g. on logout):
+```typescript
+import { AppConstant } from '@config';
+
+AppConstant.cancelAllRequests();
+```
+
+---
+
+### 4. How to Handle Network & API Errors
+
+Use `normalizeApiError` to translate raw Axios exceptions, offline network drops, and timeouts into user-friendly messages:
+
+```typescript
+import { normalizeApiError } from '@api';
+import { Toast } from '@components/organisms';
+
+try {
+  const data = await homeApi.getPhotos({ page: 1 });
+} catch (error) {
+  const { message, isNetworkError, isTimeout, isCanceled } = normalizeApiError(error);
+
+  if (isCanceled) return; // Ignore unmount aborts
+
+  if (isNetworkError) {
+    // Shows native HUD capsule toast at the bottom:
+    Toast.error(message, 'Network Error');
+  }
+}
+```
+
+> [!TIP]
+> **Zero-Boilerplate Global Network Handling**: You do not even need to write manual try/catch blocks for basic network failures! The Axios response interceptor (`src/api/client.ts`) automatically surfaces a bottom `Toast.error` whenever an offline drop (`ERR_NETWORK`) or 5xx server error occurs, unless `{ silent: true }` is passed in request config.
+
+---
+
+### 5. How to Display Native Bottom Toasts
+
+We use `react-native-toast-message` customized into a native HUD capsule anchored at the **bottom** (`position: 'bottom'`). It automatically offsets itself above the Android soft navigation bar and iOS home indicator:
+
+```typescript
+import { Toast } from '@components/organisms';
+// Or via AppConstant:
+import { AppConstant } from '@config';
+
+// 1. Error toast (Red accent with Alert icon)
+Toast.error('Unable to connect to the server. Please check your internet connection.');
+
+// 2. Success toast (Green accent with Check icon)
+Toast.success('Profile preferences updated successfully.');
+
+// 3. Warning toast (Amber accent with Warning icon)
+Toast.warning('Session expiring in 2 minutes.');
+
+// 4. Info toast (Blue accent with Info icon)
+Toast.info('A newer version of the catalog is available.');
+
+// 5. Dismiss any active toast
+Toast.hide();
+```
+
+---
+
+### 6. How to Use Stacked & Keyboard Bottom Sheets (`@swmansion/react-native-bottom-sheet`)
+
+We utilize `@swmansion/react-native-bottom-sheet` (Software Mansion's official bottom sheet) hosted within `<BottomSheetProvider>`.
+
+#### A. Stacked Bottom Sheets (Layered Modals)
+Allows presenting a second modal sheet on top of the first, with fluid backdrop scrim layering and independent detents:
+
+```typescript
+import React, { useRef } from 'react';
+import { Button } from '@components/atoms';
+import { StackedBottomSheet, StackedBottomSheetRef } from '@components/organisms';
+
+export const MyScreen = () => {
+  const sheetRef = useRef<StackedBottomSheetRef>(null);
+
+  return (
+    <>
+      <Button title="Open Stacked Sheet" onPress={() => sheetRef.current?.present()} />
+      <StackedBottomSheet ref={sheetRef} />
+    </>
+  );
+};
+```
+
+#### B. Keyboard-Handled Bottom Sheet
+Implements seamless keyboard tracking using `ModalBottomSheet` with `detents={[0, 'content']}` and `KeyboardAwareScrollView` from `react-native-keyboard-controller` (per Swmansion official examples):
+- **Smart Backdrop Press**: Tapping the backdrop while the keyboard is visible hides the keyboard (`Keyboard.dismiss()`) via `useKeyboardState`. Tapping when the keyboard is hidden closes the bottom sheet.
+
+```typescript
+import React, { useRef } from 'react';
+import { Button } from '@components/atoms';
+import { KeyboardBottomSheet, KeyboardBottomSheetRef } from '@components/organisms';
+
+export const FeedbackScreen = () => {
+  const keyboardSheetRef = useRef<KeyboardBottomSheetRef>(null);
+
+  return (
+    <>
+      <Button title="Open Feedback Sheet" onPress={() => keyboardSheetRef.current?.present()} />
+      <KeyboardBottomSheet ref={keyboardSheetRef} />
+    </>
+  );
+};
+```
+
+---
+
+### 7. How Android On-Screen Soft Navigation Bars Are Handled
+
+Many Android devices utilize an on-screen soft navigation bar (3-button layout ~48dp or 2-button / gesture bar ~16-24dp). If an app only accounts for `insets.bottom` on devices with translucent navigation bars or edge-to-edge layouts, bottom-fixed UI elements (bottom sheets, toasts, floating action buttons) can be partially obscured by the buttons.
+
+Our components use a standard safe clearance formula:
+
+```typescript
+import { Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const insets = useSafeAreaInsets();
+
+// Safe bottom clearance guaranteeing zero soft navigation overlap:
+const bottomInset = Math.max(insets.bottom, Platform.OS === 'android' ? 16 : 10) + 12;
+```
+
+- **Bottom Sheets**: `bottomInset={bottomInset}` applied to `<ModalBottomSheet>` content and `KeyboardAwareScrollView`.
+- **Toasts**: `bottomOffset: Math.max(insets.bottom, Platform.OS === 'android' ? 16 : 10) + 16`.
+- **Tab Content**: `paddingBottom: insets.bottom + 24`.
+
+---
+
+### 8. Interactive Features Lab (`TabViewDemoScreen`)
+
+A verification screen powered by `react-native-tab-view` and `react-native-pager-view` is included out of the box to test all components interactively:
+- **Tab 1: Bottom Sheets**: Test Level 1 & Level 2 Stacked Sheets and Keyboard-Handled Sheets live.
+- **Tab 2: Toast & Network**: Simulate offline drops, 500 server errors, custom success/warning HUD capsules, and bulk request cancellation.
+- **Tab 3: Architecture**: Real-time stack verification matrix.
+
+You can navigate to it from **HomeScreen** (via the *"Features Lab"* button) or from **SettingsScreen** (via the *"Features & UI Lab"* list item).
+
+---
+
+### 9. How to Style with Unistyles & Themes
+
+Styles are written with `StyleSheet.create` from `react-native-unistyles`. They adapt automatically to light/dark mode and orientation:
+
+```typescript
+import React from 'react';
+import { View } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
+import { Text } from '@components/atoms';
+
+export const UserCard = () => (
+  <View style={styles.card}>
+    <Text variant="heading" weight="bold">Welcome</Text>
+  </View>
+);
+
+const styles = StyleSheet.create(theme => ({
+  card: {
+    backgroundColor: theme.colors.surface,
+    padding: theme.spacing.md,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+  },
+}));
+```
+
+---
+
+### 10. How to Use State Management
+
+- **Zustand** (for lightweight UI, auth, and theme state):
+  ```typescript
+  import { useAuthStore } from '@store';
+
+  const user = useAuthStore(state => state.user);
+  const login = useAuthStore(state => state.login);
+  ```
+
+- **Redux Toolkit** (for complex domain state, async thunks, and caching):
+  ```typescript
+  import { useAppDispatch, useAppSelector } from '@store';
+  import { fetchPhotos } from '@features/home/store/homeSlice';
+
+  const dispatch = useAppDispatch();
+  const { photos, isLoading } = useAppSelector(state => state.home);
+
+  useEffect(() => {
+    const promise = dispatch(fetchPhotos());
+    return () => {
+      promise.abort(); // Auto abort thunk on unmount
+    };
+  }, [dispatch]);
+  ```
+
+---
+
+## 📂 Project Structure
 
 ```text
 RN_BoilerplateLatest/
-├── android/                          # 🤖 Android native project & ProGuard rules
-├── ios/                              # 🍏 iOS native project, xcconfig & schemes
-├── specs/                            # ⚡ Codegen specs (TurboModules & Fabric)
+├── android/               # 🤖 Native Android configuration & ProGuard rules
+├── ios/                   # 🍏 Native iOS configuration, Podfile & Xcode schemes
+├── keys.development.json  # 🔑 Development keys & secrets
+├── keys.staging.json      # 🔑 Staging keys & secrets
+├── keys.production.json   # 🔑 Production keys & secrets
 ├── src/
-│   ├── api/                          # 🌐 Axios client, endpoints, and interceptors
-│   ├── assets/                       # 🎨 Vector icons (SVGs) and fonts
-│   ├── components/                   # 🧱 Atomic design system
-│   │   ├── atoms/                    #    Button, Text, Input, Spacer
-│   │   ├── molecules/                #    Card, ListItem
-│   │   └── organisms/                #    Header, ErrorFallback
-│   ├── config/                       # ⚙️ Constants, environment configs
-│   ├── features/                     # 📦 Feature-driven slices
-│   │   ├── auth/                     #    Authentication screens, validation & API
-│   │   ├── home/                     #    Product list with LegendList & Redux
-│   │   ├── notifications/            #    Notifee notification triggers
-│   │   └── settings/                 #    Theme switcher, language selection
-│   ├── hooks/                        # 🪝 Shared custom React hooks
-│   ├── locales/                      # 🌍 Translation files (en, ar, es)
-│   ├── native/                       # 📱 TypeScript wrappers for native modules
-│   ├── navigation/                   # 🧭 Navigators (Root, Auth, App Tabs)
-│   ├── services/                     # 🔌 Storage (MMKV), i18n, notifications
-│   ├── store/                        # 🧠 State management (Redux & Zustand)
-│   ├── theme/                        # 🎨 Unistyles themes, colors, typography
-│   ├── types/                        # 📘 Global TypeScript definitions
-│   └── utils/                        # 🛠️ Formatters, validators, logger
-├── __tests__/                        # 🃏 Jest unit & integration test suites
-├── Documentation.md                  # 📑 In-depth technical documentation
+│   ├── api/               # 🌐 Axios client, endpoints, and error normalizer
+│   ├── assets/            # 🎨 Vector icons (SVGs) and images
+│   ├── components/        # 🧱 Reusable UI components (Atomic Design)
+│   │   ├── atoms/         #    Basic building blocks: Button, Text, Input, Spacer
+│   │   ├── molecules/     #    Combinations: Card, ListItem
+│   │   └── organisms/     #    Header, GlobalLoader, Toast, StackedBottomSheet, KeyboardBottomSheet
+│   ├── config/            # ⚙️ AppConstant, environment wrapper (Config)
+│   ├── features/          # 📦 Feature-driven modules
+│   │   ├── auth/          #    Login & authentication
+│   │   ├── home/          #    Product/Photo lists, TabViewDemoScreen
+│   │   ├── notifications/ #    Notifee notification triggers
+│   │   └── settings/      #    Theme, language & UI lab links
+│   ├── hooks/             # 🪝 Custom hooks (useApiCancellation, useDebounce)
+│   ├── locales/           # 🌍 Translation files (en, ar, es)
+│   ├── navigation/        # 🧭 Navigation stacks, bottom tabs, and TabViewDemo route
+│   ├── services/          # 🔌 Storage (MMKV), i18n setup
+│   ├── store/             # 🧠 Redux Toolkit slices and Zustand stores
+│   ├── theme/             # 🎨 Color tokens, typography, and spacing
+│   └── types/             # 📘 Global TypeScript interfaces & ambient declarations
+├── __tests__/             # 🃏 Jest unit and integration test suites (21 suites, 85 tests)
+├── Documentation.md       # 📑 Detailed native & architecture documentation
 └── package.json
 ```
 
 ---
 
-## 🛠️ NPM Scripts & Shortcuts
+## 🛠️ Handy Scripts Reference
 
-| Script | Command | Description |
-| :--- | :--- | :--- |
-| **`yarn start`** | `react-native start --reset-cache` | Start Metro bundler with cache reset |
-| **`yarn android`** | `react-native run-android --mode=developmentDebug` | Run Android in Development mode |
-| **`yarn android:staging`** | `react-native run-android --mode=stagingDebug` | Run Android in Staging mode |
-| **`yarn android:prod`** | `react-native run-android --mode=productionDebug` | Run Android in Production mode |
-| **`yarn ios`** | `react-native run-ios --scheme RN_Boilerplate_Latest_Dev` | Run iOS in Development mode |
-| **`yarn ios:staging`** | `react-native run-ios --scheme RN_Boilerplate_Latest_Staging` | Run iOS in Staging mode |
-| **`yarn ios:prod`** | `react-native run-ios --scheme RN_Boilerplate_Latest` | Run iOS in Production mode |
-| **`yarn build:android`** | `cd android && ./gradlew assembleProductionRelease && cd ..` | Build Production Release APK |
-| **`yarn build:android:debug`** | `cd android && ./gradlew assembleDevelopmentDebug && cd ..` | Build Development Debug APK |
-| **`yarn bundle:android`** | `cd android && ./gradlew bundleProductionRelease && cd ..` | Build Production Release Bundle (`.aab`) |
-| **`yarn build:ios`** | `react-native build-ios --mode Release --scheme RN_Boilerplate_Latest` | Build iOS in Release mode |
-| **`yarn install:all`** | `yarn install && (bundle install \|\| true) && cd ios && (bundle exec pod install \|\| pod install) && cd ..` | Full dependency installation |
-| **`yarn clean:install`** | `bash scripts/clean-install.sh` | Deep clean caches & fresh dependency install |
-| **`yarn openAS`** | `open -a "Android Studio" android` | Open Android project in Android Studio |
-| **`yarn openWS`** | `xed -b ios` | Open iOS workspace in Xcode |
-| **`yarn typecheck`** | `tsc --noEmit` | Validate TypeScript types (0 errors) |
-| **`yarn lint`** | `eslint .` | Run ESLint across project |
-| **`yarn lint:fix`** | `eslint . --fix` | Automatically fix linting issues |
-| **`yarn format`** | `prettier --write .` | Format all files with Prettier |
-| **`yarn test`** | `jest` | Run all 13 test suites (39 tests) |
-| **`yarn test:coverage`** | `jest --coverage` | Run tests with coverage summary |
-| **`yarn knip:check`** | `knip` | Detect unused files, exports & dependencies |
+| Command | What It Does |
+| :--- | :--- |
+| `yarn start` | Starts Metro bundler with cache reset |
+| `yarn android` | Runs Android in Development flavor |
+| `yarn android:staging` | Runs Android in Staging flavor |
+| `yarn android:prod` | Runs Android in Production flavor |
+| `yarn ios` | Runs iOS with Dev scheme |
+| `yarn ios:staging` | Runs iOS with Staging scheme |
+| `yarn ios:prod` | Runs iOS with Production scheme |
+| `yarn test` | Runs all 21 Jest test suites (85 tests) |
+| `yarn typecheck` | Checks TypeScript for errors (`tsc --noEmit`) |
+| `yarn lint` | Checks ESLint rules |
+| `yarn lint:fix` | Fixes ESLint and auto-removes unused imports |
+| `yarn format` | Formats the codebase with Prettier |
+| `yarn clean:install` | Deep cleans caches and performs a fresh install |
 
 ---
 
-## 🛡️ Code Quality & Engineering Practices
+## 🛡️ Code Quality & Quality Assurance
 
-This boilerplate enforces enterprise-grade code health, strict typing, and defensive design patterns:
-
-### 1. ESLint & Static Analysis Rules (`eslint.config.mjs`)
-- 🪝 **Strict React Hooks Validation**:
-  - `react-hooks/rules-of-hooks: error`: Calling hooks conditionally, inside nested loops, or outside React components throws immediate lint errors.
-  - `react-hooks/exhaustive-deps: warn`: Enforces declaring all dependencies in `useEffect`, `useCallback`, and `useMemo` to prevent stale closures.
-- 📱 **React & React Native Best Practices**:
-  - `react-native/no-inline-styles: warn`: Flags inline style objects to prevent object re-allocation per render.
-  - `react-native/no-unused-styles: warn`: Detects leftover unreferenced style definitions.
-  - `react-native/no-single-element-style-arrays: error`: Flags redundant single-item arrays like `style={[styles.box]}`.
-  - `react/self-closing-comp: warn`: Enforces self-closing tags `<View />` instead of `<View></View>`.
-  - `react/jsx-no-useless-fragment: warn`: Eliminates redundant `<>...</>` wrappers that clutter the fiber tree.
-  - `eqeqeq: error`: Enforces strict type equality (`===` / `!==`).
-  - `max-lines: warn (400 lines)`: Soft warning discouraging monolithic files and prompting component/hook decomposition.
-- 🧹 **Automatic Dead Import Stripping**: Uses `eslint-plugin-unused-imports` to detect and auto-remove unreferenced imports on save (`yarn lint:fix`).
-- 🗂️ **Deterministic Import Sorting**: Enforces `import/order` with strict grouping (`type` ➔ `react` ➔ `react-native` ➔ external libraries ➔ `@/` path aliases ➔ relative files) and case-insensitive alphabetization.
-
-### 2. Strict TypeScript Architecture
-- Configured with `strict: true`, `noImplicitAny: true`, and `strictNullChecks: true`.
-- Zero `any` policy across core modules, custom TurboModules, navigation route parameter contracts (`RootStackParamList`), and state slices.
-- Verified in CI with `yarn typecheck` (`tsc --noEmit`).
-
-### 3. Atomic Design & Anti-Monolith Philosophy
-- UI is strictly decoupled into **Atoms** (Button, Text, Input), **Molecules** (Card, ListItem), and **Organisms** (Header, ErrorFallback).
-- Screens stay lightweight and delegate domain logic to custom hooks (`@hooks/`) and feature-specific slices (`@features/`), avoiding 1,000+ line bloated component files.
-
-### 4. Dead Code & Unused Export Detection (Knip)
-- Integrated with [`knip`](https://knip.dev) (`yarn knip:check`) to automatically detect unused npm packages, dead exports, dangling types, and orphaned assets before merging to production.
-
-### 5. Automated Testing & Regression Shield
-- **12 Test Suites (35 Tests)** pre-configured with Jest and React Native Testing Library.
-- Covers Redux Toolkit reducers, asynchronous thunks, Zustand store persistence, custom React hooks (`useDebounce`), Atomic UI components, and end-to-end screen navigation.
-
-### 6. Production Hardening & Sanitization
-- **Console & Debugger Stripping**: Production release builds strip `console.log` and `debugger` statements via Terser in Metro bundler.
-- **Android R8 & ProGuard**: Configured with library-specific keep rules for Unistyles, MMKV, and TurboModules, with resource shrinking enabled.
-
----
-
-## 💻 VS Code Configuration
-
-Pre-configured in `.vscode/settings.json`:
-- **Format On Save**: Automatically formats with Prettier on every save (`Cmd + S`).
-- **ESLint Fix On Save**: Removes unreachable code and cleans up lint issues automatically.
-- **Workspace TypeScript SDK**: Locked to project TypeScript compiler.
-- **Jest Runner Disabled in Background**: Prevents background terminal spawning.
+- **Strict TypeScript**: `noImplicitAny: true` and `strictNullChecks: true`. Zero `any` policy.
+- **ESLint Protection**: Strict React Hooks rules (`rules-of-hooks`, `exhaustive-deps`), no inline style allocations, and automatic unreferenced import pruning on save.
+- **100% Passing Tests**: All 21 test suites (85 tests) passing cleanly across components, hooks, storage, network errors, bottom sheets, and state.
+- **Release Optimization**: Console statements and debuggers are stripped automatically in production builds via Terser.
 
 ---
 
 ## 📄 License
 
-This boilerplate is open-source software licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).

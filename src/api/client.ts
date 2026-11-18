@@ -3,9 +3,12 @@ import axios, {
   AxiosError,
   InternalAxiosRequestConfig,
 } from 'axios';
+import { AppConstant } from '@config/AppConstant';
 import { STORAGE_KEYS } from '@config/constants';
 import { Config } from '@config/env';
 import { storage } from '@services/storage';
+import { Toast } from '../components/organisms/Toast';
+import { normalizeApiError } from './errors';
 
 /**
  * Production Axios Client
@@ -42,6 +45,10 @@ apiClient.interceptors.response.use(
     return response;
   },
   async (error: AxiosError) => {
+    if (axios.isCancel(error)) {
+      return Promise.reject(error);
+    }
+
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
@@ -71,11 +78,34 @@ apiClient.interceptors.response.use(
           return apiClient(originalRequest);
         }
       } catch (refreshError) {
-        // Refresh failed: wipe storage session
+        // Refresh failed: wipe storage session and reset global state/requests
+        AppConstant.reset();
         storage.delete(STORAGE_KEYS.AUTH_TOKEN);
         storage.delete(STORAGE_KEYS.REFRESH_TOKEN);
         storage.delete(STORAGE_KEYS.USER_DATA);
         return Promise.reject(refreshError);
+      }
+    }
+
+    // Automatically surface native error toast on network failure or 5xx server errors
+    const isSilent = Boolean(
+      (error.config as InternalAxiosRequestConfig & { silent?: boolean })?.silent,
+    );
+
+    if (!isSilent) {
+      const normalized = normalizeApiError(error);
+      if (
+        normalized.isNetworkError ||
+        (normalized.statusCode && normalized.statusCode >= 500)
+      ) {
+        Toast.error(
+          normalized.message,
+          normalized.isTimeout
+            ? 'Request Timeout'
+            : normalized.isNetworkError
+              ? 'Network Error'
+              : 'Something Went Wrong',
+        );
       }
     }
 

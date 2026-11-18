@@ -69,21 +69,21 @@ def enableProguardInReleaseBuilds = true
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
-project.ext.envConfigFiles = [
-    developmentdebug: ".env.development",
-    developmentrelease: ".env.development",
-    development: ".env.development",
-    stagingdebug: ".env.staging",
-    stagingrelease: ".env.staging",
-    staging: ".env.staging",
-    productiondebug: ".env.production",
-    productionrelease: ".env.production",
-    production: ".env.production",
-    debug: ".env.development",
-    release: ".env.production"
+project.ext.keyFiles = [
+    developmentdebug: "keys.development.json",
+    developmentrelease: "keys.development.json",
+    development: "keys.development.json",
+    stagingdebug: "keys.staging.json",
+    stagingrelease: "keys.staging.json",
+    staging: "keys.staging.json",
+    productiondebug: "keys.production.json",
+    productionrelease: "keys.production.json",
+    production: "keys.production.json",
+    debug: "keys.development.json",
+    release: "keys.production.json"
 ]
 
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+apply from: project(':react-native-keys').projectDir.getPath() + "/RNKeys.gradle"
 
 android {
     ndkVersion rootProject.ext.ndkVersion

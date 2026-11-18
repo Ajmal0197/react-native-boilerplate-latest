@@ -1,7 +1,7 @@
 import React from 'react';
 import { homeApi } from '@features/home/api/homeApi';
 import { ProductDetailScreen } from '@features/home/screens/ProductDetailScreen';
-import { render, screen, fireEvent, waitFor } from '@test-utils';
+import { render, screen, fireEvent, waitFor, act } from '@test-utils';
 
 jest.mock('@features/home/api/homeApi', () => ({
   homeApi: {
@@ -47,10 +47,51 @@ describe('ProductDetailScreen', () => {
     expect(screen.getByText('#42')).toBeTruthy();
 
     await waitFor(() => {
-      expect(homeApi.getPhotoDetail).toHaveBeenCalledWith('42');
+      expect(homeApi.getPhotoDetail).toHaveBeenCalledWith(
+        '42',
+        expect.anything(),
+      );
       expect(screen.getByText('Super Smart Gadget Loaded')).toBeTruthy();
       expect(screen.getByText('Album #5')).toBeTruthy();
     });
+  });
+
+  it('displays normalized error message when API call fails', async () => {
+    (homeApi.getPhotoDetail as jest.Mock).mockRejectedValueOnce(
+      new Error('Failed to connect to backend'),
+    );
+
+    await render(
+      <ProductDetailScreen navigation={mockNavigation} route={mockRoute} />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Failed to connect to backend')).toBeTruthy();
+      expect(screen.getByText('Tap to retry')).toBeTruthy();
+    });
+  });
+
+  it('aborts API call when screen unmounts', async () => {
+    let capturedSignal: AbortSignal | undefined;
+    (homeApi.getPhotoDetail as jest.Mock).mockImplementationOnce(
+      (_id, signal) => {
+        capturedSignal = signal;
+        return new Promise(() => {});
+      },
+    );
+
+    const { unmount } = await render(
+      <ProductDetailScreen navigation={mockNavigation} route={mockRoute} />,
+    );
+
+    expect(capturedSignal).toBeDefined();
+    expect(capturedSignal?.aborted).toBe(false);
+
+    await act(async () => {
+      unmount();
+    });
+
+    expect(capturedSignal?.aborted).toBe(true);
   });
 
   it('navigates back when header back button or button is pressed', async () => {
@@ -66,12 +107,12 @@ describe('ProductDetailScreen', () => {
       <ProductDetailScreen navigation={mockNavigation} route={mockRoute} />,
     );
 
+    await waitFor(() => {
+      expect(screen.getByText('Super Smart Gadget')).toBeTruthy();
+    });
+
     const backButton = screen.getByText('‹ Back');
     fireEvent.press(backButton);
     expect(mockNavigation.goBack).toHaveBeenCalledTimes(1);
-
-    const bottomBackButton = screen.getByText('Back to Products');
-    fireEvent.press(bottomBackButton);
-    expect(mockNavigation.goBack).toHaveBeenCalledTimes(2);
   });
 });

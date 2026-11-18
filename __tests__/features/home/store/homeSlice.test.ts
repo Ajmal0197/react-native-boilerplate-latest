@@ -93,6 +93,28 @@ describe('homeSlice reducer', () => {
     expect(state.error).toBe(errorMessage);
   });
 
+  it('does not set error on fetchProducts.rejected if action was aborted', () => {
+    const previousState = {
+      photos: [sampleProduct],
+      products: [sampleProduct],
+      page: 1,
+      limit: 10,
+      isLoading: true,
+      isRefreshing: false,
+      isLoadingMore: false,
+      hasMore: true,
+      error: null,
+    };
+    const state = homeReducer(previousState, {
+      type: fetchProducts.rejected.type,
+      payload: undefined,
+      meta: { aborted: true },
+    } as any);
+
+    expect(state.isLoading).toBe(false);
+    expect(state.error).toBeNull();
+  });
+
   it('executes fetchProducts async thunk successfully in store', async () => {
     const getPhotosSpy = jest
       .spyOn(homeApi, 'getPhotos')

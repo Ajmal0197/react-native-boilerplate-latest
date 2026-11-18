@@ -19,6 +19,26 @@ index cd73e23..d996506 100644
        const log = {
          id: this.generateId(),
          timestamp: Date.now(),
+@@ -340,11 +350,13 @@ export class BugBubbleDebugger {
+    * Notify all listeners of state changes
+    */
+   notify() {
+-    this.listeners.forEach(listener => {
+-      try {
+-        listener();
+-      } catch (error) {
+-        // Error handled silently
+-      }
++    queueMicrotask(() => {
++      this.listeners.forEach(listener => {
++        try {
++          listener();
++        } catch (error) {
++          // Error handled silently
++        }
++      });
+     });
+   }
 diff --git a/node_modules/@lokal-dev/react-native-bugbubble/lib/module/interceptors/NetworkInterceptor.js b/node_modules/@lokal-dev/react-native-bugbubble/lib/module/interceptors/NetworkInterceptor.js
 index 4fef918..ff0d937 100644
 --- a/node_modules/@lokal-dev/react-native-bugbubble/lib/module/interceptors/NetworkInterceptor.js

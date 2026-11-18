@@ -2,7 +2,7 @@
 //  Config.xcconfig
 //  RN_Boilerplate_Latest
 //
-//  react-native-config build configuration
+//  react-native-keys build configuration
 //
 
 APP_NAME = RNBoilerplate

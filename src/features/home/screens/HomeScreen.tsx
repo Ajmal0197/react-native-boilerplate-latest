@@ -1,10 +1,11 @@
 import type { TabScreenProps } from '@navigation/types';
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { Input, Text } from '@components/atoms';
+import { Input, Text, Spacer } from '@components/atoms';
+
 import { Header } from '@components/organisms';
 import { AppConstant } from '@config';
 import { useDebounce } from '@hooks/useDebounce';
@@ -26,7 +27,10 @@ export const HomeScreen = ({ navigation }: TabScreenProps<'Home'>) => {
   }, [page]);
 
   useEffect(() => {
-    void dispatch(fetchPhotos({ page: 1 }));
+    const promise = dispatch(fetchPhotos({ page: 1 }));
+    return () => {
+      promise.abort();
+    };
   }, [dispatch]);
 
   const handleRefresh = () => {
@@ -64,6 +68,16 @@ export const HomeScreen = ({ navigation }: TabScreenProps<'Home'>) => {
           onChangeText={setSearchQuery}
           clearButtonMode="while-editing"
         />
+        <Spacer size="xs" />
+        <TouchableOpacity
+          style={styles.labCard}
+          onPress={() => navigation.navigate('TabViewDemo')}
+          testID="btn-navigate-features-lab"
+        >
+          <Text variant="caption" weight="bold">
+            🚀 Features Lab: Tab View • Bottom Sheets • Bottom Toast ›
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <PhotoList
@@ -93,6 +107,13 @@ const styles = StyleSheet.create(theme => ({
   searchContainer: {
     paddingHorizontal: theme.spacing.md,
     paddingTop: theme.spacing.sm,
+  },
+  labCard: {
+    backgroundColor: 'rgba(0, 102, 255, 0.08)',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    alignItems: 'center',
   },
 }));
 

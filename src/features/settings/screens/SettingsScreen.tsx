@@ -65,6 +65,13 @@ export const SettingsScreen = ({ navigation }: TabScreenProps<'Settings'>) => {
             onPress={() => navigation.navigate('LanguageSelect')}
             rightElement={<Text variant="body">›</Text>}
           />
+          <ListItem
+            title="Features & UI Lab"
+            subtitle="Tab View, Stacked Bottom Sheet, Bottom Toast"
+            onPress={() => navigation.navigate('TabViewDemo')}
+            rightElement={<Text variant="body">›</Text>}
+            testID="settings-item-features-lab"
+          />
         </Card>
 
         <Spacer size="md" />
@@ -81,6 +88,23 @@ export const SettingsScreen = ({ navigation }: TabScreenProps<'Settings'>) => {
           <ListItem
             title="Active Page Tracker"
             subtitle={`Home Page ID: ${AppConstant.getCurrentHomeScreenPageId() ?? '1'}`}
+          />
+          <ListItem
+            title="Global App Loader"
+            subtitle="Trigger loader via AppConstant"
+            rightElement={
+              <Button
+                title="Test (2s)"
+                size="sm"
+                variant="outline"
+                onPress={() => {
+                  AppConstant.showLoader('Loading via AppConstant...');
+                  setTimeout(() => {
+                    AppConstant.hideLoader();
+                  }, 2000);
+                }}
+              />
+            }
           />
         </Card>
 

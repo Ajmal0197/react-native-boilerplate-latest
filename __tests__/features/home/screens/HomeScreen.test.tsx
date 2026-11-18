@@ -1,6 +1,19 @@
 import React from 'react';
+import { homeApi } from '@features/home/api/homeApi';
 import { HomeScreen } from '@features/home/screens/HomeScreen';
-import { render, screen, fireEvent } from '@test-utils';
+import { render, screen, fireEvent, act } from '@test-utils';
+
+jest.mock('@features/home/api/homeApi', () => ({
+  homeApi: {
+    getPhotos: jest.fn().mockImplementation(
+      () =>
+        new Promise(() => {
+          // Keep promise pending during screen render tests
+        }),
+    ),
+    getPhotoDetail: jest.fn(),
+  },
+}));
 
 const mockNavigation: any = {
   navigate: jest.fn(),
@@ -44,5 +57,26 @@ describe('HomeScreen (Redux Connected UI)', () => {
       productId: '1',
       title: 'Wireless Noise-Canceling Headphones',
     });
+  });
+
+  it('aborts in-flight request when component unmounts', async () => {
+    let capturedSignal: AbortSignal | undefined;
+    (homeApi.getPhotos as jest.Mock).mockImplementationOnce((_params, signal) => {
+      capturedSignal = signal;
+      return new Promise(() => {});
+    });
+
+    const { unmount } = await render(
+      <HomeScreen navigation={mockNavigation} route={mockRoute} />,
+    );
+
+    expect(capturedSignal).toBeDefined();
+    expect(capturedSignal?.aborted).toBe(false);
+
+    await act(async () => {
+      unmount();
+    });
+
+    expect(capturedSignal?.aborted).toBe(true);
   });
 });

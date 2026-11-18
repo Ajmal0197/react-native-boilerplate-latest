@@ -22,8 +22,13 @@ A production-ready, feature-driven **React Native CLI (v0.88+)** boilerplate bui
 14. [Native TurboModules & Fabric Components](#-native-turbomodules--fabric-components)
 15. [Local Notifications — Notifee](#-local-notifications--notifee)
 16. [Minification, Resource Shrinking & Obfuscation](#-minification-resource-shrinking--obfuscation)
-17. [Testing Guide — Jest + RNTL](#-testing-guide--jest--rntl)
-18. [NPM Scripts & Shortcuts](#-npm-scripts--shortcuts)
+17. [Global Loader & Network Architecture](#-global-loader--network-architecture)
+18. [Native Bottom Toast & Global Network Error Display](#-native-bottom-toast--global-network-error-display)
+19. [Bottom Sheet Modals — Stacked & Keyboard-Handled](#-bottom-sheet-modals--stacked--keyboard-handled)
+20. [Android On-Screen Soft Navigation Bar Handling](#-android-on-screen-soft-navigation-bar-handling)
+21. [Interactive Features Lab — TabViewDemoScreen](#-interactive-features-lab--tabviewdemoscreen)
+22. [Testing Guide — Jest + RNTL](#-testing-guide--jest--rntl)
+23. [NPM Scripts & Shortcuts](#-npm-scripts--shortcuts)
 
 ---
 
@@ -36,6 +41,9 @@ A production-ready, feature-driven **React Native CLI (v0.88+)** boilerplate bui
 | **Primary State**    | [Redux Toolkit](https://redux-toolkit.js.org)                                                                  | Centralized global store for server caches, products, and complex slices   |
 | **Optional State**   | [Zustand](https://zustand.docs.pmnd.rs)                                                                        | _(Optional)_ Lightweight store with MMKV persistence for auth and UI flags |
 | **Fast Storage**     | [react-native-mmkv](https://github.com/mrousavy/react-native-mmkv)                                             | JSI memory-mapped key-value storage (30x faster than AsyncStorage)         |
+| **Bottom Sheets**    | [@gorhom/bottom-sheet](https://docs.swmansion.com/react-native-bottom-sheet/) (v5)                             | Gesture-driven stacked modal sheets and interactive keyboard avoidance     |
+| **Tab View**         | [react-native-tab-view](https://github.com/satya164/react-native-tab-view)                                      | Virtualized swipable tabs backed by `react-native-pager-view`               |
+| **Native Toast**     | [react-native-toast-message](https://github.com/calintamas/react-native-toast-message)                          | Bottom-anchored capsule HUD toasts with automatic API error surfacing      |
 | **Localization**     | [i18next](https://www.i18next.com) + [react-native-localize](https://github.com/zoontek/react-native-localize) | 100% type-safe translation keys with RTL layout switching                  |
 | **Forms**            | [React Hook Form](https://react-hook-form.com) + [Yup](https://github.com/jquense/yup)                         | Uncontrolled, lag-free inputs with schema validation                       |
 | **Navigation**       | [React Navigation v7](https://reactnavigation.org)                                                             | Native Stack + Bottom Tabs navigation with deep linking                    |
@@ -43,8 +51,11 @@ A production-ready, feature-driven **React Native CLI (v0.88+)** boilerplate bui
 | **Keyboard**         | [react-native-keyboard-controller](https://kirillzyusko.github.io/react-native-keyboard-controller/)           | Edge-to-edge window insets and keyboard tracking                           |
 | **Notifications**    | [@notifee/react-native](https://notifee.app)                                                                   | Local notifications, channels, and background triggers                     |
 | **Animations**       | [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/)                                 | Worklet-based 60/120fps UI thread animations                               |
-| **Network**          | [Axios](https://axios-http.com)                                                                                | Interceptors, Bearer token injection, automatic 401 refresh loop           |
+| **Network**          | [Axios](https://axios-http.com)                                                                                | Interceptors, Bearer token injection, automatic 401 refresh, and errors    |
+| **Global Loader**    | [react-native-root-siblings](https://github.com/magicismight/react-native-root-siblings)                        | Fullscreen overlay with reference counting, controllable from anywhere     |
+| **Multi-Env Config** | [react-native-keys](https://github.com/numandev1/react-native-keys)                                             | Build-flavor dynamic app name, package ID, and encrypted JSI keys          |
 | **Security / Build** | R8 / ProGuard + Terser + Hermes                                                                                | Bytecode compilation, dead code stripping, and identifier mangling         |
+| **Testing**          | [Jest](https://jestjs.io) + RNTL                                                                               | 21 consolidated test suites (85 tests) covering state, hooks, UI, and APIs  |
 
 ---
 
@@ -171,15 +182,15 @@ If you are coming from native iOS (Swift / SwiftUI / UIKit):
 
 ## ⚙️ Application Configuration & Multi-Environment Setup
 
-The project uses [`react-native-config`](https://github.com/react-native-config/react-native-config) for seamless, New-Architecture-compatible multi-environment support (`development`, `staging`, and `production`).
+The project uses [`react-native-keys`](https://github.com/numandev1/react-native-keys) for seamless, New-Architecture-compatible multi-environment support (`development`, `staging`, and `production`) with C++ & JSI obfuscation and native key separation.
 
 ### Environment Files
 
 | Environment | Config File | App Name | Application / Bundle ID |
 | --- | --- | --- | --- |
-| **Development** | [`.env.development`](.env.development) | `RNBoilerplate (Dev)` | `com.rn_boilerplate_latest.dev` |
-| **Staging** | [`.env.staging`](.env.staging) | `RNBoilerplate (Staging)` | `com.rn_boilerplate_latest.staging` |
-| **Production** | [`.env.production`](.env.production) | `RNBoilerplate` | `com.rn_boilerplate_latest` |
+| **Development** | [`keys.development.json`](keys.development.json) | `RNBoilerplate (Dev)` | `com.rn_boilerplate_latest.dev` |
+| **Staging** | [`keys.staging.json`](keys.staging.json) | `RNBoilerplate (Staging)` | `com.rn_boilerplate_latest.staging` |
+| **Production** | [`keys.production.json`](keys.production.json) | `RNBoilerplate` | `com.rn_boilerplate_latest` |
 
 ### Accessing Config in TypeScript
 
@@ -233,15 +244,12 @@ yarn bundle:android
 yarn build:ios
 ```
 
-### 🔐 Secure Keys Storage (`react-native-keys`)
+### 🔐 Secure Keys Architecture (`react-native-keys`)
 
-For storing sensitive API keys, private tokens, or encryption secrets that require binary-level obfuscation, use [`react-native-keys`](https://github.com/numandev1/react-native-keys):
+All environment variables and secrets are managed via [`react-native-keys`](https://github.com/numandev1/react-native-keys):
 
-- **Environment & Build Config**: Use `react-native-config` for build settings, environment flags (`APP_ENV`, `ENABLE_DEV_TOOLS`), bundle IDs, and dynamic app names (`APP_NAME`).
-- **Sensitive Secrets**: Use `react-native-keys` for private API secrets, third-party SDK client secrets, and authentication keys. It encrypts keys at build time and exposes them via C++ JSI directly in memory, preventing reverse-engineering from decompiled `.apk` or `.ipa` packages.
-
-> [!TIP]
-> Keep `.env` files for non-sensitive runtime configurations and integrate `react-native-keys` whenever storing private credentials or payment gateway secrets.
+- **Public Keys**: Stored natively in Java/Objective-C/xcconfig (`APP_NAME`, `BUNDLE_ID`, `PACKAGE_ID`, `APP_ENV`, `ENABLE_DEV_TOOLS`, `TIMEOUT_MS`) for build-time manifest injection and build flavors.
+- **Secure Keys**: Encrypted at build-time with AES and accessed via C++ and JSI directly into memory (`Keys.secureFor(...)`), preventing secrets from leaking in decompiled APK/IPA packages.
 
 ---
 
@@ -268,19 +276,19 @@ RN_BoilerplateLatest/
 │   └── RN_Boilerplate_Latest.xcodeproj
 ├── src/
 │   ├── App.tsx                       # 🚀 Root Component: Providers, ErrorBoundary, Theme, Navigation
-│   ├── api/                          # 🌐 Axios client, endpoints, and response types
+│   ├── api/                          # 🌐 Axios client, endpoints, error normalizer, and types
 │   ├── assets/                       # 🎨 Vector icons (SVGs) and graphics
 │   ├── components/                   # 🧱 Atomic design components
 │   │   ├── atoms/                    #    Button, Text, Input, Spacer
 │   │   ├── molecules/                #    Card, ListItem
-│   │   └── organisms/                #    Header, ErrorFallback
-│   ├── config/                       # ⚙️ App constants and secure env wrapper
+│   │   └── organisms/                #    Header, ErrorFallback, GlobalLoader, Toast, StackedBottomSheet, KeyboardBottomSheet
+│   ├── config/                       # ⚙️ AppConstant, constants, and secure env wrapper (Config)
 │   ├── features/                     # 📦 Feature-driven modules
 │   │   ├── auth/                     #    Login & Register screens with Yup & React Hook Form
-│   │   ├── home/                     #    Product list with LegendList & Redux
+│   │   ├── home/                     #    Photo/Product list with LegendList & Redux, TabViewDemoScreen
 │   │   ├── notifications/            #    Notifee local notification triggers
 │   │   └── settings/                 #    Theme toggle, language switcher, device info
-│   ├── hooks/                        # 🪝 Reusable custom hooks (useAppState, useDebounce, etc.)
+│   ├── hooks/                        # 🪝 Reusable custom hooks (useApiCancellation, useDebounce, etc.)
 │   ├── locales/                      # 🌍 Translation catalogs (en, es, ar with RTL support)
 │   ├── native/                       # 📱 Type-safe TS wrappers for TurboModules & Fabric
 │   ├── navigation/                   # 🧭 Type-safe React Navigation (Root, App, Auth Navigators)
@@ -291,13 +299,14 @@ RN_BoilerplateLatest/
 │   ├── theme/                        # 🎨 Unistyles v3 theme definitions and breakpoints
 │   ├── types/                        # 📝 Global TypeScript definitions
 │   └── utils/                        # 🛠️ Pure utilities (formatters, validators, logger)
-└── __tests__/                        # 🧪 Consolidated Test Suite (Mirrors src/ structure)
+└── __tests__/                        # 🧪 Consolidated Test Suite (21 suites, 85 tests)
     ├── App.test.tsx                  #    Root App rendering test
-    ├── setup.ts                      #    Global Jest mocks (MMKV, Reanimated, LegendList, Notifee)
+    ├── setup.ts                      #    Global Jest mocks (MMKV, Reanimated, LegendList, Notifee, BottomSheet)
     ├── test-utils.tsx                #    Custom render() wrapped with Redux & Theme providers
-    ├── components/                   #    Component tests (Button.test.tsx, Text.test.tsx)
-    ├── features/                     #    Feature tests (HomeScreen.test.tsx, homeSlice.test.ts)
-    ├── hooks/                        #    Custom hook tests (useDebounce.test.ts)
+    ├── api/                          #    API error normalizer tests (errors.test.ts)
+    ├── components/                   #    Component tests (Button, Text, GlobalLoader, Toast, StackedBottomSheet, KeyboardBottomSheet)
+    ├── features/                     #    Feature tests (HomeScreen, ProductDetailScreen, TabViewDemoScreen, homeSlice)
+    ├── hooks/                        #    Custom hook tests (useApiCancellation, useDebounce)
     ├── store/                        #    Store tests (Redux store, hooks, Zustand MMKV persist)
     └── utils/                        #    Pure utility tests (formatters.test.ts)
 ```
@@ -337,14 +346,17 @@ Configured in [`src/store/redux/store.ts`](src/store/redux/store.ts) with typed 
 
 ```typescript
 import { useAppDispatch, useAppSelector } from '@store/redux/hooks';
-import { fetchProducts } from '@features/home/store/homeSlice';
+import { fetchPhotos } from '@features/home/store/homeSlice';
 
-export const ProductList = () => {
+export const PhotoListScreen = () => {
   const dispatch = useAppDispatch();
-  const { items, loading } = useAppSelector(state => state.home);
+  const { photos, isLoading } = useAppSelector(state => state.home);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    const promise = dispatch(fetchPhotos({ page: 1 }));
+    return () => {
+      promise.abort(); // Auto abort in-flight network request on unmount
+    };
   }, [dispatch]);
 };
 ```
@@ -522,7 +534,226 @@ Production release builds are hardened out-of-the-box:
 
 ---
 
-## 🧪 Testing Guide — Jest + RNTL
+## 🌐 Global Loader & Network Architecture
+
+### 1. Global Loader (`react-native-root-siblings`)
+
+The loader is rendered imperatively via `react-native-root-siblings`, bypassing React Native `<Modal>` layering issues on iOS and Android.
+
+- **Controllable Anywhere**: Use `GlobalLoader.show('Loading...')` or `AppConstant.showLoader('Loading...')`.
+- **Reference Counted**: If two async tasks trigger the loader, the loader remains visible until both finish. Calling `hide(true)` force-resets it immediately.
+- **Hardware Back Button**: Automatically disabled while the loader overlay is visible.
+
+```typescript
+import { AppConstant } from '@config';
+
+// Show loader with reference count increment
+AppConstant.showLoader('Saving changes...');
+
+try {
+  await api.save();
+} finally {
+  // Decrements counter; dismisses overlay when count reaches 0
+  AppConstant.hideLoader();
+}
+```
+
+### 2. API Request Cancellation on Unmount
+
+To prevent memory leaks and unmounted component state updates:
+
+- **Redux Toolkit**: RTK thunks pass `signal` into Axios. Calling `promise.abort()` in `useEffect` cleanup immediately cancels the mobile network socket.
+  ```typescript
+  useEffect(() => {
+    const promise = dispatch(fetchPhotos({ page: 1 }));
+    return () => {
+      promise.abort();
+    };
+  }, [dispatch]);
+  ```
+- **Direct Calls (`useApiCancellation`)**: For local-state components:
+  ```typescript
+  const { signal } = useApiCancellation();
+
+  useEffect(() => {
+    apiClient.get('/details', { signal });
+  }, [signal]);
+  ```
+- **Bulk Cancellation**: `AppConstant.cancelAllRequests()` is automatically called upon user logout (`useAuthStore.logout()`) and 401 token refresh failures.
+
+### 3. Industry-Level Network Issue Normalizer (`normalizeApiError`)
+
+Defined in [`src/api/errors.ts`](src/api/errors.ts), this helper unifies Axios, network, timeout, and JavaScript errors into a structured shape:
+
+```typescript
+import { normalizeApiError } from '@api';
+
+try {
+  const result = await apiClient.get('/endpoint');
+} catch (error) {
+  const { message, isNetworkError, isTimeout, isCanceled } = normalizeApiError(error);
+
+  if (isCanceled) {
+    // Silently ignore aborted requests on unmount
+    return;
+  }
+
+  // User-facing message: "Unable to connect to the server. Please check your internet connection."
+  showErrorMessage(message);
+}
+```
+
+---
+
+## 🔔 Native Bottom Toast & Global Network Error Display
+
+Powered by `react-native-toast-message`, our toast architecture is customized into a native HUD capsule anchored at the **bottom of the screen** (`position: 'bottom'`).
+
+### 1. Visual HUD Design & Types
+- **Variants**: `error` (crimson), `success` (emerald), `warning` (amber), `info` (azure).
+- **Surface Elevation**: Rendered inside a rounded capsule (18dp corner radius) with subtle border contrast and dual-mode dark/light elevation.
+- **Dismiss Interaction**: Includes an icon badge, title, subtitle message, and touchable close button.
+
+### 2. Auto-Clearance Above Soft Navigation Bars
+Instead of a static bottom margin, the toast calculates its `bottomOffset` dynamically:
+```typescript
+bottomOffset: Math.max(insets.bottom, Platform.OS === 'android' ? 16 : 10) + 16
+```
+This guarantees the toast sits gracefully above the Android 3-button bar or iOS home bar.
+
+### 3. Imperative Static API
+Use `Toast` from `@components/organisms` anywhere in UI components, sagas, thunks, or helper classes:
+```typescript
+import { Toast } from '@components/organisms';
+
+Toast.error('Server timed out', 'Request Failed');
+Toast.success('Saved to wishlist');
+Toast.warning('Battery level low');
+Toast.info('Sync in progress');
+Toast.hide();
+```
+
+### 4. Global Interceptor Integration (`src/api/client.ts`)
+Zero-boilerplate error notification: When any network error (`ERR_NETWORK`) or 5xx server failure occurs, the response interceptor automatically triggers:
+```typescript
+Toast.error(
+  'Unable to connect to the server. Please check your internet connection.',
+  'Network Error',
+);
+```
+Pass `{ silent: true }` in Axios request config to disable automatic error toasts for background ping requests.
+
+---
+
+## 🗂️ Bottom Sheet Modals — Stacked & Keyboard-Handled
+
+Implemented using `@swmansion/react-native-bottom-sheet` (Software Mansion's official bottom sheet) inside `<BottomSheetProvider>`.
+
+### 1. Dual-Level Stacked Bottom Sheets (`StackedBottomSheet.tsx`)
+Enables opening a modal sheet on top of another modal sheet with layered dimming backdrops:
+- **Level 1 Sheet**: Snap points configured with `detents={[0, '55%', '85%']}`.
+- **Level 2 Stacked Sheet**: Snap points configured with `detents={[0, '42%', '70%']}`, presented over Level 1.
+- Both sheets share smooth dismiss gestures, pan-down-to-close physics, layered scrims, and independent ref controllers (`StackedBottomSheetRef`).
+
+```typescript
+import { StackedBottomSheet, StackedBottomSheetRef } from '@components/organisms';
+
+const sheetRef = useRef<StackedBottomSheetRef>(null);
+
+// Open Level 1 sheet
+sheetRef.current?.present();
+```
+
+### 2. Keyboard-Handled Bottom Sheet (`KeyboardBottomSheet.tsx`)
+Prevents inputs from being obscured by the virtual keyboard:
+- Utilizes `ModalBottomSheet` with `detents={[0, 'content']}`.
+- Pairs with `KeyboardAwareScrollView` from `react-native-keyboard-controller` (following official Swmansion examples).
+- **Smart Backdrop Interaction**: Powered by `useKeyboardState` from `react-native-keyboard-controller`. Tapping the scrim/backdrop when the soft keyboard is visible dismisses the keyboard (`Keyboard.dismiss()`) while preserving the open sheet. Tapping the backdrop when the keyboard is hidden dismisses the bottom sheet (`setIndex(0)`).
+- Includes interactive dismiss on drag, automatic input scrolling, and safe bottom padding above the Android navigation bar.
+
+```typescript
+import { KeyboardBottomSheet, KeyboardBottomSheetRef } from '@components/organisms';
+
+const keyboardSheetRef = useRef<KeyboardBottomSheetRef>(null);
+
+// Open interactive input sheet
+keyboardSheetRef.current?.present();
+```
+
+---
+
+## 📱 Android On-Screen Soft Navigation Bar & Notch Architecture
+
+### 1. Device Notch & Status Bar (Zero Extra Height Guarantee)
+To avoid the common "double notch spacing / extra top height" pitfall:
+- **No Duplicate Safe Areas**: Screen container views use `{ flex: 1, backgroundColor: theme.colors.background }` with **zero** `paddingTop` and no nested `SafeAreaView`.
+- **Organism Header Ownership**: The [`Header`](src/components/organisms/Header.tsx) organism is the single authority for top inset clearance, applying `paddingTop: insets.top` above a standard 52dp action bar.
+- **Full Screen Consistency**: Navigation stack routes (`ProductDetail`, `TabViewDemo`, `LanguageSelect`) use native slide transitions (`animation: 'slide_from_right'`), guaranteeing uniform top notch alignment across iOS (Dynamic Island / Notch) and Android.
+
+### 2. On-Screen Soft Navigation Bar Handling
+On Android devices without physical buttons, navigation is handled on-screen:
+1. **3-Button Navigation**: Back, Home, Recent Apps (~48-60dp height).
+2. **2-Button Navigation**: Back + Pill (~40dp height).
+3. **Gesture Navigation**: Slim swipe bar (~16-24dp height).
+
+#### The Inset Pitfall
+On devices with transparent status/nav bars (`edge-to-edge`), `insets.bottom` may report `0` or small values if the view does not explicitly query the window inset provider or if the user switches navigation modes.
+
+#### Standardized Universal Safe Clearance Formula
+Across all bottom-anchored overlays (bottom sheets, toasts, action bars, bottom tabs), we apply:
+```typescript
+const insets = useSafeAreaInsets();
+const bottomInset = Math.max(insets.bottom, Platform.OS === 'android' ? 16 : 10) + 12;
+```
+- **Modal Sheets**: Applied as dynamic content safe padding in `<ModalBottomSheet>`.
+- **Toasts**: Handled via `bottomOffset: Platform.OS === 'android' ? 56 : 40` without redundant card margins.
+- **Scrollable Scenes**: Added to `paddingBottom: insets.bottom + 24`.
+
+### 3. Provider Nesting Order & Portal Contexts
+In [`src/App.tsx`](src/App.tsx), providers are layered hierarchically:
+```tsx
+<GestureHandlerRootView>
+  <ErrorBoundary>
+    <SafeAreaProvider>
+      <KeyboardProvider>
+        <BottomSheetProvider>
+          <RootSiblingParent>
+            <Provider store={store}>
+              <NavigationContainer>
+                <StatusBar barStyle={...} />
+                <RootNavigator />
+              </NavigationContainer>
+            </Provider>
+          </RootSiblingParent>
+          <RNToastMessage config={toastConfig} />
+        </BottomSheetProvider>
+        {Config.APP_ENV !== 'production' && <BugBubble />}
+      </KeyboardProvider>
+    </SafeAreaProvider>
+  </ErrorBoundary>
+</GestureHandlerRootView>
+```
+- **Why `KeyboardProvider` wraps `BottomSheetProvider`**: `ModalBottomSheet` renders overlays into the `BottomSheetProvider` portal host. By wrapping `BottomSheetProvider` inside `KeyboardProvider`, any sheet content mounted in the modal portal (such as `KeyboardBottomSheet` with `KeyboardAwareScrollView`) inherits `KeyboardContext` seamlessly without context missing warnings.
+- **Edge-to-Edge Detection**: With React Native 0.88, edge-to-edge is enabled natively by default. `react-native-keyboard-controller` automatically detects this (`IS_EDGE_TO_EDGE = true`). Explicitly passing `statusBarTranslucent` or `navigationBarTranslucent` is unnecessary and triggers dev warnings (`"statusBarTranslucent and navigationBarTranslucent values are ignored when using react-native-edge-to-edge"`); omitting them allows the library to apply edge-to-edge handling cleanly.
+- **Async Debugger Notifications**: Debugger listener notifications in `BugBubble` are dispatched via `queueMicrotask()`, preventing synchronous `setState` during render in React 19.
+- **Unistyles Status Bar & Native Window Synchronization**: `UnistylesRuntime.statusBar.setStyle(isDark ? StatusBarStyle.Light : StatusBarStyle.Dark, true)` and `UnistylesRuntime.setRootViewBackgroundColor(theme.colors.background)` synchronize native iOS UIKit and Android window decorations directly on theme toggle (`light`, `dark`, `auto`). In addition, `RootNavigator` specifies `statusBarStyle: isDark ? 'light' : 'dark'` so `react-native-screens`'s `preferredStatusBarStyle` is always in full agreement with the active theme.
+
+---
+
+## 🧪 Interactive Features Lab — TabViewDemoScreen
+
+Located at [`src/features/home/screens/TabViewDemoScreen.tsx`](src/features/home/screens/TabViewDemoScreen.tsx), this screen provides an interactive lab to verify all components on a live device:
+- **Tab 1: Bottom Sheets**: Live triggers for Dual-Level Stacked Modal Sheets and Keyboard-Handled Modal Sheets.
+- **Tab 2: Toast & Network**: Interactive buttons to simulate network drops, 500 server errors, warning HUDs, and bulk API request cancellation.
+- **Tab 3: Architecture**: Complete matrix of libraries, architectural guarantees, and unit test coverage.
+
+**Direct Navigation Entry Points**:
+- **HomeScreen**: Tap the **"Features Lab"** top banner.
+- **SettingsScreen**: Tap **"Features & UI Lab"** in the list.
+
+---
+
+## 🧪 Testing Guide — Jest + RNTL (21 Suites, 85 Tests)
 
 All test files are stored in the root `__tests__/` directory, mirroring the `src/` directory structure.
 
@@ -576,6 +807,6 @@ it('handles button press', async () => {
 | **`yarn lint`** | `eslint .` | Run ESLint across project |
 | **`yarn lint:fix`** | `eslint . --fix` | Automatically fix linting issues |
 | **`yarn format`** | `prettier --write .` | Format all files with Prettier |
-| **`yarn test`** | `jest` | Run all 12 test suites in `__tests__/` (35 tests) |
+| **`yarn test`** | `jest` | Run all 21 test suites in `__tests__/` (85 tests) |
 | **`yarn test:coverage`** | `jest --coverage` | Run tests with coverage summary |
 | **`yarn knip:check`** | `knip` | Detect unused files, exports & dependencies |

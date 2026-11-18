@@ -6,10 +6,10 @@ export const homeApi = {
   /**
    * Fetch paginated photos from JSONPlaceholder
    */
-  getPhotos: async ({
-    page = 1,
-    limit = 10,
-  }: FetchPhotosParams): Promise<PhotoItem[]> => {
+  getPhotos: async (
+    { page = 1, limit = 10 }: FetchPhotosParams,
+    signal?: AbortSignal,
+  ): Promise<PhotoItem[]> => {
     const response = await apiClient.get<PhotoItem[]>(
       API_ENDPOINTS.PHOTOS.LIST,
       {
@@ -17,6 +17,7 @@ export const homeApi = {
           _page: page,
           _limit: limit,
         },
+        signal,
       },
     );
     return response.data;
@@ -25,9 +26,13 @@ export const homeApi = {
   /**
    * Fetch a single photo by id
    */
-  getPhotoDetail: async (id: number | string): Promise<PhotoItem> => {
+  getPhotoDetail: async (
+    id: number | string,
+    signal?: AbortSignal,
+  ): Promise<PhotoItem> => {
     const response = await apiClient.get<PhotoItem>(
       API_ENDPOINTS.PHOTOS.DETAIL(id),
+      { signal },
     );
     return response.data;
   },

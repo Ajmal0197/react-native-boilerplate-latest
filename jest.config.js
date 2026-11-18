@@ -39,7 +39,7 @@ module.exports = {
     '^@test-utils$': '<rootDir>/__tests__/test-utils.tsx',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@react-native|@react-navigation|react-native-reanimated|react-native-unistyles|react-native-nitro-modules|nitro-core|@legendapp|react-native-mmkv|@notifee|react-native-svg|react-native-localize|@reduxjs|redux|react-redux|immer|react-native-error-boundary|@lokal-dev/react-native-bugbubble)/)',
+    'node_modules/(?!(react-native|@react-native|@react-navigation|react-native-reanimated|react-native-unistyles|react-native-nitro-modules|nitro-core|@legendapp|react-native-mmkv|@notifee|react-native-svg|react-native-localize|@reduxjs|redux|react-redux|immer|react-native-error-boundary|@lokal-dev/react-native-bugbubble|react-native-root-siblings|react-native-tab-view|react-native-pager-view|@swmansion/react-native-bottom-sheet|react-native-gesture-handler|react-native-toast-message)/)',
   ],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',

@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import { Text } from '@components/atoms';
 import { Header } from '@components/organisms';
-import { languageList, SupportedLanguage } from '@locales';
+import { LANGUAGE_OPTIONS, type LanguageOption } from '@config/constants';
 import { changeLanguage } from '@services/i18n';
 
 export const LanguageSelectScreen = ({
@@ -14,8 +14,8 @@ export const LanguageSelectScreen = ({
 }: RootStackScreenProps<'LanguageSelect'>) => {
   const { t, i18n } = useTranslation();
 
-  const handleSelectLanguage = (code: SupportedLanguage, isRTL: boolean) => {
-    void changeLanguage(code, isRTL);
+  const handleSelectLanguage = (item: LanguageOption) => {
+    void changeLanguage(item.code, item.isRTL);
     navigation.goBack();
   };
 
@@ -27,7 +27,7 @@ export const LanguageSelectScreen = ({
       />
 
       <FlatList
-        data={languageList}
+        data={LANGUAGE_OPTIONS}
         keyExtractor={item => item.code}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => {
@@ -36,21 +36,22 @@ export const LanguageSelectScreen = ({
           return (
             <TouchableOpacity
               style={[styles.item, isSelected && styles.itemSelected]}
-              onPress={() => handleSelectLanguage(item.code, item.isRTL)}
+              onPress={() => handleSelectLanguage(item)}
+              activeOpacity={0.7}
             >
               <View>
                 <Text variant="body" weight={isSelected ? 'bold' : 'regular'}>
                   {item.label}
                 </Text>
-                {item.isRTL && (
-                  <Text variant="caption" color="#6B7280">
-                    Right-to-Left Layout (RTL)
+                {item.subLabel ? (
+                  <Text variant="caption" style={styles.subLabel}>
+                    {item.subLabel}
                   </Text>
-                )}
+                ) : null}
               </View>
 
               {isSelected && (
-                <Text variant="label" weight="bold" color="#0066FF">
+                <Text variant="label" weight="bold" style={styles.checkmark}>
                   ✓
                 </Text>
               )}
@@ -86,4 +87,13 @@ const styles = StyleSheet.create(theme => ({
     borderColor: theme.colors.primary,
     backgroundColor: theme.colors.primaryLight,
   },
+  subLabel: {
+    color: theme.colors.textSecondary,
+    marginTop: 2,
+  },
+  checkmark: {
+    color: theme.colors.primary,
+  },
 }));
+
+export default LanguageSelectScreen;

@@ -1,4 +1,5 @@
 import { STORAGE_KEYS } from '@app/config/constants';
+import { AppConstant } from '@config/AppConstant';
 import { storage } from '@services/storage';
 import { useAuthStore, User } from '@store/zustand/useAuthStore';
 
@@ -96,5 +97,17 @@ describe('useAuthStore (MMKV Persisted)', () => {
     const persistedRaw = storage.getString('auth-storage');
     const persisted = JSON.parse(persistedRaw || '{}');
     expect(persisted.state.isLoading).toBe(true);
+  });
+
+  it('resets global app state, active loaders and in-flight requests on logout', () => {
+    AppConstant.showLoader('Signing in...');
+    const controller = AppConstant.createAbortController();
+    expect(AppConstant.isLoading()).toBe(true);
+    expect(controller.signal.aborted).toBe(false);
+
+    useAuthStore.getState().logout();
+
+    expect(AppConstant.isLoading()).toBe(false);
+    expect(controller.signal.aborted).toBe(true);
   });
 });

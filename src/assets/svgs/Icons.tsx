@@ -84,3 +84,91 @@ export const CheckIcon: React.FC<IconProps> = ({
     <Path d="M20 6L9 17l-5-5" />
   </Svg>
 );
+
+export const AlertCircleIcon: React.FC<IconProps> = ({
+  size = 24,
+  color = '#000',
+  ...props
+}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <Circle cx="12" cy="12" r="10" />
+    <Path d="M12 8v4" />
+    <Path d="M12 16h.01" />
+  </Svg>
+);
+
+export const AlertTriangleIcon: React.FC<IconProps> = ({
+  size = 24,
+  color = '#000',
+  ...props
+}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <Path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+    <Path d="M12 9v4" />
+    <Path d="M12 17h.01" />
+  </Svg>
+);
+
+export const InfoIcon: React.FC<IconProps> = ({
+  size = 24,
+  color = '#000',
+  ...props
+}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <Circle cx="12" cy="12" r="10" />
+    <Path d="M12 16v-4" />
+    <Path d="M12 8h.01" />
+  </Svg>
+);
+
+export const CloseIcon: React.FC<IconProps> = ({
+  size = 24,
+  color = '#000',
+  ...props
+}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <Path d="M18 6L6 18" />
+    <Path d="M6 6l12 12" />
+  </Svg>
+);
+

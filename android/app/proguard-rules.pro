@@ -73,10 +73,10 @@
 # 4. INSTALLED THIRD-PARTY LIBRARIES (CRASH PREVENTION)
 # ==============================================================================
 
-# BuildConfig & react-native-config
+# BuildConfig & react-native-keys
 -keep class com.rn_boilerplate_latest.BuildConfig { *; }
 -keepresources string/build_config_package
--keep class com.lugg.RNCConfig.** { *; }
+-keep class com.reactnativekeysjsi.** { *; }
 
 # react-native-mmkv (Tencent MMKV + Nitro MMKV)
 -keep class com.tencent.mmkv.** { *; }

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
+import { AppConstant } from '@config/AppConstant';
 import { STORAGE_KEYS } from '@config/constants';
 import { storage, zustandStorage } from '@services/storage';
 
@@ -60,6 +61,7 @@ export const useAuthStore = create<AuthState>()(
         },
 
         logout: () => {
+          AppConstant.reset();
           storage.delete(STORAGE_KEYS.USER_DATA);
           storage.delete(STORAGE_KEYS.AUTH_TOKEN);
           storage.delete(STORAGE_KEYS.REFRESH_TOKEN);

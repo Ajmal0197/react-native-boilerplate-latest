@@ -29,3 +29,29 @@ export const API_ENDPOINTS = {
     DETAIL: (id: string) => `/products/${id}`,
   },
 } as const;
+
+export interface LanguageOption {
+  code: 'en' | 'es' | 'ar';
+  label: string;
+  subLabel?: string;
+  isRTL: boolean;
+}
+
+export const LANGUAGE_OPTIONS: readonly LanguageOption[] = [
+  {
+    code: 'en',
+    label: 'English',
+    isRTL: false,
+  },
+  {
+    code: 'es',
+    label: 'Español',
+    isRTL: false,
+  },
+  {
+    code: 'ar',
+    label: 'العربية (Arabic)',
+    subLabel: 'Right-to-Left Layout (RTL)',
+    isRTL: true,
+  },
+] as const;

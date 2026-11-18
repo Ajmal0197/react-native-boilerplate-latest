@@ -8,34 +8,46 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
+import axios from 'axios';
 import { StyleSheet } from 'react-native-unistyles';
 
+import { normalizeApiError } from '@api/errors';
 import { Text, Spacer, Button } from '@components/atoms';
 import { Card } from '@components/molecules';
 import { Header } from '@components/organisms';
+import { useApiCancellation } from '@hooks';
 import { homeApi } from '../api/homeApi';
 
 export const ProductDetailScreen: React.FC<
   RootStackScreenProps<'ProductDetail'>
 > = ({ route, navigation }) => {
   const { productId, title: initialTitle } = route.params;
+  const { signal } = useApiCancellation();
 
   const [product, setProduct] = useState<PhotoItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const fetchDetail = useCallback(async () => {
     setIsLoading(true);
     setHasError(false);
+    setErrorMessage(null);
     try {
-      const data = await homeApi.getPhotoDetail(productId);
+      const data = await homeApi.getPhotoDetail(productId, signal);
       setProduct(data);
-    } catch {
-      setHasError(true);
+    } catch (error) {
+      if (!signal.aborted && !axios.isCancel(error)) {
+        const normalized = normalizeApiError(error);
+        setErrorMessage(normalized.message);
+        setHasError(true);
+      }
     } finally {
-      setIsLoading(false);
+      if (!signal.aborted) {
+        setIsLoading(false);
+      }
     }
-  }, [productId]);
+  }, [productId, signal]);
 
   useEffect(() => {
     void fetchDetail();
@@ -95,7 +107,7 @@ export const ProductDetailScreen: React.FC<
 
           <Text variant="body" color="#4B5563">
             High performance photo item rendered with full details, metadata, and
-            react-native-config environment variables.
+            react-native-keys environment variables.
           </Text>
         </Card>
 
@@ -145,7 +157,7 @@ export const ProductDetailScreen: React.FC<
         {hasError && (
           <View style={styles.errorContainer}>
             <Text variant="caption" color="#DC2626">
-              Could not refresh live data. Showing cached parameters.
+              {errorMessage || 'Could not refresh live data. Showing cached parameters.'}
             </Text>
             <Spacer size="xs" />
             <TouchableOpacity onPress={fetchDetail}>

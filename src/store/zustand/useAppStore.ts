@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { UnistylesRuntime } from 'react-native-unistyles';
+import { StatusBarStyle, UnistylesRuntime } from 'react-native-unistyles';
 import { STORAGE_KEYS } from '@config/constants';
 import { storage } from '@services/storage';
 
@@ -26,11 +26,22 @@ const applyThemeToUnistyles = (mode: ThemeMode) => {
         UnistylesRuntime.setAdaptiveThemes(false);
       }
       UnistylesRuntime.setTheme(mode);
+      UnistylesRuntime.statusBar?.setStyle(
+        mode === 'dark' ? StatusBarStyle.Light : StatusBarStyle.Dark,
+        true,
+      );
     } else {
       // Auto / System
       if (!UnistylesRuntime.hasAdaptiveThemes) {
         UnistylesRuntime.setAdaptiveThemes(true);
       }
+      const isSystemDark =
+        UnistylesRuntime.colorScheme === 'dark' ||
+        UnistylesRuntime.themeName === 'dark';
+      UnistylesRuntime.statusBar?.setStyle(
+        isSystemDark ? StatusBarStyle.Light : StatusBarStyle.Dark,
+        true,
+      );
     }
   } catch {
     // Graceful safeguard

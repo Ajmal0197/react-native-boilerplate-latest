@@ -1,5 +1,7 @@
 import type { PhotoItem } from '../types/home.types';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { normalizeApiError } from '@api/errors';
 import { homeApi } from '../api/homeApi';
 
 export type Product = PhotoItem;
@@ -73,17 +75,20 @@ export const fetchPhotos = createAsyncThunk<
   { items: PhotoItem[]; page: number; isRefresh: boolean },
   { page?: number; limit?: number; isRefresh?: boolean } | undefined,
   { rejectValue: string }
->('home/fetchPhotos', async (params, { getState, rejectWithValue }) => {
+>('home/fetchPhotos', async (params, { getState, rejectWithValue, signal }) => {
   try {
     const state = (getState() as { home: HomeState }).home;
     const targetPage =
       params?.page ?? (params?.isRefresh ? 1 : (state?.page ?? 1));
     const targetLimit = params?.limit ?? state?.limit ?? 10;
 
-    const items = await homeApi.getPhotos({
-      page: targetPage,
-      limit: targetLimit,
-    });
+    const items = await homeApi.getPhotos(
+      {
+        page: targetPage,
+        limit: targetLimit,
+      },
+      signal,
+    );
 
     return {
       items,
@@ -91,8 +96,11 @@ export const fetchPhotos = createAsyncThunk<
       isRefresh: !!params?.isRefresh,
     };
   } catch (error) {
-    const err = error as Error;
-    return rejectWithValue(err.message || 'Failed to load photos');
+    if (signal.aborted || axios.isCancel(error)) {
+      throw error;
+    }
+    const { message } = normalizeApiError(error);
+    return rejectWithValue(message);
   }
 });
 
@@ -169,6 +177,10 @@ export const homeSlice = createSlice({
         state.isLoading = false;
         state.isRefreshing = false;
         state.isLoadingMore = false;
+        if (action.meta?.aborted) {
+          // Cancelled on unmount: preserve existing state and do not show an error
+          return;
+        }
         state.error = (action.payload as string) || 'Failed to load photos';
       });
   },
