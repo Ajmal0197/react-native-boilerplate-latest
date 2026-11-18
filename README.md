@@ -2,7 +2,7 @@
 
 A starter app for React Native **0.88.1** and React **19.3.0**. The New Architecture (Fabric and TurboModules) is on. TypeScript is strict. Clone it, run it, then replace the sample features with your product.
 
-This README tells you what is already in the box, where each piece lives, and how to run it. Native build internals and TurboModule walkthroughs are in [docs/DOCUMENTATION.md](./docs/DOCUMENTATION.md). Team workflow is in [CONTRIBUTING.md](./CONTRIBUTING.md).
+This README tells you what is already in the box, where each piece lives, and how to run it. Native build internals and TurboModule walkthroughs are in [docs/DOCUMENTATION.md](./docs/DOCUMENTATION.md). Team workflow is in [CONTRIBUTING.md](./CONTRIBUTING.md). For a full inventory of libraries, ESLint rules, tests, SonarQube, and CI, see the [dev.to walkthrough](https://dev.to/ajmal_hasan/everything-inside-rn-boilerplate-latest-libraries-lint-rules-tests-sonar-and-ci-a-full-46dc).
 
 <p>
   <a href="https://reactnative.dev"><img src="https://img.shields.io/badge/React%20Native-0.88.1-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React Native 0.88.1" /></a>
