@@ -7,8 +7,8 @@ import { StyleSheet } from 'react-native-unistyles';
 import { Input, Text, Spacer } from '@components/atoms';
 
 import { Header } from '@components/organisms';
-import { AppConstant } from '@config';
 import { useDebounce } from '@hooks/useDebounce';
+import { AppConstant } from '@services/AppConstant';
 import { useAppDispatch, useAppSelector } from '@store/redux/hooks';
 import { PhotoList } from '../components/PhotoList';
 import { fetchPhotos } from '../store/homeSlice';
@@ -55,7 +55,7 @@ export const HomeScreen = ({ navigation }: TabScreenProps<'Home'>) => {
         title={t('home.title')}
         subtitle={t('home.subtitle')}
         rightElement={
-          <Text variant="caption" color="#888888">
+          <Text variant="caption" tone="textMuted">
             v{AppConstant.appVersion}
           </Text>
         }
@@ -75,7 +75,7 @@ export const HomeScreen = ({ navigation }: TabScreenProps<'Home'>) => {
           testID="btn-navigate-features-lab"
         >
           <Text variant="caption" weight="bold">
-            🚀 Features Lab: Tab View • Bottom Sheets • Bottom Toast ›
+            {t('home.labLink')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -109,10 +109,10 @@ const styles = StyleSheet.create(theme => ({
     paddingTop: theme.spacing.sm,
   },
   labCard: {
-    backgroundColor: 'rgba(0, 102, 255, 0.08)',
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    backgroundColor: theme.colors.primaryLight,
+    borderRadius: theme.borderRadius.sm,
+    paddingVertical: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.md,
     alignItems: 'center',
   },
 }));

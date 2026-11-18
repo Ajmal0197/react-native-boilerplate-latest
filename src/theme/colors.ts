@@ -51,6 +51,8 @@ export interface AppThemeColors {
   info: string;
   tint: string;
   overlay: string;
+  onPrimary: string;
+  shadow: string;
 }
 
 export const lightColors: AppThemeColors = {
@@ -70,6 +72,8 @@ export const lightColors: AppThemeColors = {
   info: palette.info,
   tint: palette.primary,
   overlay: 'rgba(0, 0, 0, 0.4)',
+  onPrimary: palette.white,
+  shadow: palette.black,
 };
 
 export const darkColors: AppThemeColors = {
@@ -89,6 +93,22 @@ export const darkColors: AppThemeColors = {
   info: '#5E5CE6',
   tint: palette.primaryDark,
   overlay: 'rgba(0, 0, 0, 0.7)',
+  onPrimary: palette.white,
+  shadow: palette.black,
 };
 
 export type ColorKeys = keyof AppThemeColors;
+
+/**
+ * Apply an alpha channel to a 6-digit hex color (e.g. '#0066FF' -> 'rgba(0, 102, 255, 0.15)').
+ * Non-hex inputs are returned unchanged.
+ */
+export const withAlpha = (hex: string, alpha: number): string => {
+  const match = /^#([0-9a-fA-F]{6})$/.exec(hex);
+  if (!match) return hex;
+  const value = parseInt(match[1], 16);
+  const r = (value >> 16) & 255;
+  const g = (value >> 8) & 255;
+  const b = value & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};

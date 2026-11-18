@@ -152,14 +152,14 @@ If you are coming from native Android (Kotlin / Jetpack Compose):
 
 | Android Concept                 | React Native Equivalent in this Boilerplate                 | Location in Project                                                                                                                                  |
 | ------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Activity` / `Fragment`         | Screen components wrapped in React Navigation               | [`src/features/*/screens/`](src/features/)                                                                                                           |
-| Jetpack Compose `@Composable`   | Functional React components with JSX                        | [`src/components/atoms/`](src/components/atoms/)                                                                                                     |
-| `ViewModel` + `StateFlow`       | Redux Toolkit slice or Zustand store                        | [`src/store/`](src/store/)                                                                                                                           |
-| `SharedPreferences`             | MMKV (`storage.getString`, `storage.set`)                   | [`src/services/storage.ts`](src/services/storage.ts)                                                                                                 |
-| `strings.xml`                   | JSON translation catalogs (`en.json`, `es.json`, `ar.json`) | [`src/locales/`](src/locales/)                                                                                                                       |
-| `NotificationManager` / Channel | `@notifee/react-native` channels and triggers               | [`src/services/notification.ts`](src/services/notification.ts)                                                                                       |
-| `@ReactMethod` (Old Bridge)     | TurboModule via C++ JSI (`NativeAppDeviceInfoSpec`)         | [`android/app/src/main/java/com/rn_boilerplate_latest/DeviceInfoModule.kt`](android/app/src/main/java/com/rn_boilerplate_latest/DeviceInfoModule.kt) |
-| `build.gradle` properties       | `android/gradle.properties` (`newArchEnabled=true`)         | [`android/gradle.properties`](android/gradle.properties)                                                                                             |
+| `Activity` / `Fragment`         | Screen components wrapped in React Navigation               | [`src/features/*/screens/`](../src/features/)                                                                                                           |
+| Jetpack Compose `@Composable`   | Functional React components with JSX                        | [`src/components/atoms/`](../src/components/atoms/)                                                                                                     |
+| `ViewModel` + `StateFlow`       | Redux Toolkit slice or Zustand store                        | [`src/store/`](../src/store/)                                                                                                                           |
+| `SharedPreferences`             | MMKV (`storage.getString`, `storage.set`)                   | [`src/services/storage.ts`](../src/services/storage.ts)                                                                                                 |
+| `strings.xml`                   | JSON translation catalogs (`en.json`, `es.json`, `ar.json`) | [`src/locales/`](../src/locales/)                                                                                                                       |
+| `NotificationManager` / Channel | `@notifee/react-native` channels and triggers               | [`src/services/notification.ts`](../src/services/notification.ts)                                                                                       |
+| `@ReactMethod` (Old Bridge)     | TurboModule via C++ JSI (`NativeAppDeviceInfoSpec`)         | [`android/app/src/main/java/com/rn_boilerplate_latest/DeviceInfoModule.kt`](../android/app/src/main/java/com/rn_boilerplate_latest/DeviceInfoModule.kt) |
+| `build.gradle` properties       | `android/gradle.properties` (`newArchEnabled=true`)         | [`android/gradle.properties`](../android/gradle.properties)                                                                                             |
 
 ---
 
@@ -169,14 +169,14 @@ If you are coming from native iOS (Swift / SwiftUI / UIKit):
 
 | iOS Concept                       | React Native Equivalent in this Boilerplate                | Location in Project                                                                              |
 | --------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `UIViewController`                | Screen components                                          | [`src/features/*/screens/`](src/features/)                                                       |
-| `UINavigationController`          | `@react-navigation/native-stack`                           | [`src/navigation/`](src/navigation/)                                                             |
-| `UITabBarController`              | `@react-navigation/bottom-tabs`                            | [`src/navigation/AppNavigator.tsx`](src/navigation/AppNavigator.tsx)                             |
-| `ObservableObject` / `@Published` | Redux / Zustand hooks (`useAppSelector`, `useAuthStore`)   | [`src/store/`](src/store/)                                                                       |
-| `UserDefaults`                    | MMKV (`storage.getString`, `storage.set`)                  | [`src/services/storage.ts`](src/services/storage.ts)                                             |
-| `Localizable.strings`             | i18next translation resources                              | [`src/locales/`](src/locales/)                                                                   |
-| `UNUserNotificationCenter`        | Notifee notification manager                               | [`src/services/notification.ts`](src/services/notification.ts)                                   |
-| `RCTBridgeModule`                 | TurboModule (`NativeDeviceInfo.mm` conforming to JSI spec) | [`ios/RN_Boilerplate_Latest/NativeDeviceInfo.mm`](ios/RN_Boilerplate_Latest/NativeDeviceInfo.mm) |
+| `UIViewController`                | Screen components                                          | [`src/features/*/screens/`](../src/features/)                                                       |
+| `UINavigationController`          | `@react-navigation/native-stack`                           | [`src/navigation/`](../src/navigation/)                                                             |
+| `UITabBarController`              | `@react-navigation/bottom-tabs`                            | [`src/navigation/AppNavigator.tsx`](../src/navigation/AppNavigator.tsx)                             |
+| `ObservableObject` / `@Published` | Redux / Zustand hooks (`useAppSelector`, `useAuthStore`)   | [`src/store/`](../src/store/)                                                                       |
+| `UserDefaults`                    | MMKV (`storage.getString`, `storage.set`)                  | [`src/services/storage.ts`](../src/services/storage.ts)                                             |
+| `Localizable.strings`             | i18next translation resources                              | [`src/locales/`](../src/locales/)                                                                   |
+| `UNUserNotificationCenter`        | Notifee notification manager                               | [`src/services/notification.ts`](../src/services/notification.ts)                                   |
+| `RCTBridgeModule`                 | TurboModule (`NativeDeviceInfo.mm` conforming to JSI spec) | [`ios/RN_Boilerplate_Latest/NativeDeviceInfo.mm`](../ios/RN_Boilerplate_Latest/NativeDeviceInfo.mm) |
 
 ---
 
@@ -188,13 +188,13 @@ The project uses [`react-native-keys`](https://github.com/numandev1/react-native
 
 | Environment | Config File | App Name | Application / Bundle ID |
 | --- | --- | --- | --- |
-| **Development** | [`keys.development.json`](keys.development.json) | `RNBoilerplate (Dev)` | `com.rn_boilerplate_latest.dev` |
-| **Staging** | [`keys.staging.json`](keys.staging.json) | `RNBoilerplate (Staging)` | `com.rn_boilerplate_latest.staging` |
-| **Production** | [`keys.production.json`](keys.production.json) | `RNBoilerplate` | `com.rn_boilerplate_latest` |
+| **Development** | [`keys.development.json`](../keys.development.json) | `RNBoilerplate (Dev)` | `com.rn_boilerplate_latest.dev` |
+| **Staging** | [`keys.staging.json`](../keys.staging.json) | `RNBoilerplate (Staging)` | `com.rn_boilerplate_latest.staging` |
+| **Production** | [`keys.production.json`](../keys.production.json) | `RNBoilerplate` | `com.rn_boilerplate_latest` |
 
 ### Accessing Config in TypeScript
 
-Centralized and strictly typed in [`src/config/env.ts`](src/config/env.ts):
+Centralized and strictly typed in [`src/config/env.ts`](../src/config/env.ts):
 
 ```typescript
 import { Config } from '@config/env';
@@ -282,7 +282,7 @@ RN_BoilerplateLatest/
 │   │   ├── atoms/                    #    Button, Text, Input, Spacer
 │   │   ├── molecules/                #    Card, ListItem
 │   │   └── organisms/                #    Header, ErrorFallback, GlobalLoader, Toast, StackedBottomSheet, KeyboardBottomSheet
-│   ├── config/                       # ⚙️ AppConstant, constants, and secure env wrapper (Config)
+│   ├── config/                       # ⚙️ Constants and secure env wrapper (Config); AppConstant lives in services/
 │   ├── features/                     # 📦 Feature-driven modules
 │   │   ├── auth/                     #    Login & Register screens with Yup & React Hook Form
 │   │   ├── home/                     #    Photo/Product list with LegendList & Redux, TabViewDemoScreen
@@ -342,7 +342,7 @@ Decision Guide:
 
 ### 1. Primary: Redux Toolkit (`src/store/redux/`)
 
-Configured in [`src/store/redux/store.ts`](src/store/redux/store.ts) with typed hooks:
+Configured in [`src/store/redux/store.ts`](../src/store/redux/store.ts) with typed hooks:
 
 ```typescript
 import { useAppDispatch, useAppSelector } from '@store/redux/hooks';
@@ -486,9 +486,9 @@ The New Architecture is enabled by default.
 
 ### TurboModule (`NativeAppDeviceInfo`)
 
-1. **Spec**: Defined in [`specs/NativeAppDeviceInfo.ts`](specs/NativeAppDeviceInfo.ts)
-2. **Android**: Kotlin implementation in [`android/app/src/main/java/com/rn_boilerplate_latest/DeviceInfoModule.kt`](android/app/src/main/java/com/rn_boilerplate_latest/DeviceInfoModule.kt)
-3. **iOS**: Objective-C++ implementation in [`ios/RN_Boilerplate_Latest/NativeDeviceInfo.mm`](ios/RN_Boilerplate_Latest/NativeDeviceInfo.mm)
+1. **Spec**: Defined in [`specs/NativeAppDeviceInfo.ts`](../specs/NativeAppDeviceInfo.ts)
+2. **Android**: Kotlin implementation in [`android/app/src/main/java/com/rn_boilerplate_latest/DeviceInfoModule.kt`](../android/app/src/main/java/com/rn_boilerplate_latest/DeviceInfoModule.kt)
+3. **iOS**: Objective-C++ implementation in [`ios/RN_Boilerplate_Latest/NativeDeviceInfo.mm`](../ios/RN_Boilerplate_Latest/NativeDeviceInfo.mm)
 4. **TS Consumption**:
    ```typescript
    import { NativeDeviceInfo } from '@native/NativeDeviceInfo';
@@ -499,7 +499,7 @@ The New Architecture is enabled by default.
 
 ## 🔔 Local Notifications — Notifee
 
-Preconfigured notification channels and scheduling in [`src/services/notification.ts`](src/services/notification.ts):
+Preconfigured notification channels and scheduling in [`src/services/notification.ts`](../src/services/notification.ts):
 
 ```typescript
 import { notificationService } from '@services/notification';
@@ -523,12 +523,12 @@ Production release builds are hardened out-of-the-box:
 
 1. **Android R8 / ProGuard (`minifyEnabled true`, `shrinkResources true`)**:
    - Strips unused Java/Kotlin bytecode and shrinks unused resources.
-   - [`android/app/proguard-rules.pro`](android/app/proguard-rules.pro) includes rules for every library (`react-native-mmkv`, `nitro-modules`, `reanimated`, `screens`, `notifee`, `unistyles`) to prevent runtime crashes.
+   - [`android/app/proguard-rules.pro`](../android/app/proguard-rules.pro) includes rules for every library (`react-native-mmkv`, `nitro-modules`, `reanimated`, `screens`, `notifee`, `unistyles`) to prevent runtime crashes.
    - Retains line numbers for crash tracking services.
 2. **Hermes Bytecode Compilation**:
    - `hermesFlags = ["-O", "-output-source-map"]` compiles the JavaScript bundle into binary bytecode (`.hbc`), preventing plaintext extraction.
 3. **Metro Terser Identifier Mangling**:
-   - Configured in [`metro.config.js`](metro.config.js) to mangle local variable/function names to single-letter tokens and remove dead code.
+   - Configured in [`metro.config.js`](../metro.config.js) to mangle local variable/function names to single-letter tokens and remove dead code.
 4. **Console Log Stripping**:
    - `babel-plugin-transform-remove-console` strips `console.log` automatically from production builds while keeping errors and warnings.
 
@@ -545,7 +545,7 @@ The loader is rendered imperatively via `react-native-root-siblings`, bypassing 
 - **Hardware Back Button**: Automatically disabled while the loader overlay is visible.
 
 ```typescript
-import { AppConstant } from '@config';
+import { AppConstant } from '@services/AppConstant';
 
 // Show loader with reference count increment
 AppConstant.showLoader('Saving changes...');
@@ -583,7 +583,7 @@ To prevent memory leaks and unmounted component state updates:
 
 ### 3. Industry-Level Network Issue Normalizer (`normalizeApiError`)
 
-Defined in [`src/api/errors.ts`](src/api/errors.ts), this helper unifies Axios, network, timeout, and JavaScript errors into a structured shape:
+Defined in [`src/api/errors.ts`](../src/api/errors.ts), this helper unifies Axios, network, timeout, and JavaScript errors into a structured shape:
 
 ```typescript
 import { normalizeApiError } from '@api';
@@ -687,7 +687,7 @@ keyboardSheetRef.current?.present();
 ### 1. Device Notch & Status Bar (Zero Extra Height Guarantee)
 To avoid the common "double notch spacing / extra top height" pitfall:
 - **No Duplicate Safe Areas**: Screen container views use `{ flex: 1, backgroundColor: theme.colors.background }` with **zero** `paddingTop` and no nested `SafeAreaView`.
-- **Organism Header Ownership**: The [`Header`](src/components/organisms/Header.tsx) organism is the single authority for top inset clearance, applying `paddingTop: insets.top` above a standard 52dp action bar.
+- **Organism Header Ownership**: The [`Header`](../src/components/organisms/Header.tsx) organism is the single authority for top inset clearance, applying `paddingTop: insets.top` above a standard 52dp action bar.
 - **Full Screen Consistency**: Navigation stack routes (`ProductDetail`, `TabViewDemo`, `LanguageSelect`) use native slide transitions (`animation: 'slide_from_right'`), guaranteeing uniform top notch alignment across iOS (Dynamic Island / Notch) and Android.
 
 ### 2. On-Screen Soft Navigation Bar Handling
@@ -710,7 +710,7 @@ const bottomInset = Math.max(insets.bottom, Platform.OS === 'android' ? 16 : 10)
 - **Scrollable Scenes**: Added to `paddingBottom: insets.bottom + 24`.
 
 ### 3. Provider Nesting Order & Portal Contexts
-In [`src/App.tsx`](src/App.tsx), providers are layered hierarchically:
+In [`src/App.tsx`](../src/App.tsx), providers are layered hierarchically:
 ```tsx
 <GestureHandlerRootView>
   <ErrorBoundary>
@@ -742,7 +742,7 @@ In [`src/App.tsx`](src/App.tsx), providers are layered hierarchically:
 
 ## 🧪 Interactive Features Lab — TabViewDemoScreen
 
-Located at [`src/features/home/screens/TabViewDemoScreen.tsx`](src/features/home/screens/TabViewDemoScreen.tsx), this screen provides an interactive lab to verify all components on a live device:
+Located at [`src/features/home/screens/TabViewDemoScreen.tsx`](../src/features/home/screens/TabViewDemoScreen.tsx), this screen provides an interactive lab to verify all components on a live device:
 - **Tab 1: Bottom Sheets**: Live triggers for Dual-Level Stacked Modal Sheets and Keyboard-Handled Modal Sheets.
 - **Tab 2: Toast & Network**: Interactive buttons to simulate network drops, 500 server errors, warning HUDs, and bulk API request cancellation.
 - **Tab 3: Architecture**: Complete matrix of libraries, architectural guarantees, and unit test coverage.
@@ -767,7 +767,7 @@ yarn test:coverage
 
 ### Custom `render` Wrapper:
 
-[`__tests__/test-utils.tsx`](__tests__/test-utils.tsx) automatically provides a fresh Redux store and Navigation wrapper for every test:
+[`__tests__/test-utils.tsx`](../__tests__/test-utils.tsx) automatically provides a fresh Redux store and Navigation wrapper for every test:
 
 ```tsx
 import { render, screen, fireEvent } from '@test-utils';

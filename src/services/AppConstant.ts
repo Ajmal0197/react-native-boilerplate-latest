@@ -1,5 +1,6 @@
-import { GlobalLoader } from '../components/organisms/GlobalLoader';
-import { Toast, ToastOptions } from '../components/organisms/Toast';
+import { GlobalLoader } from '@components/organisms/GlobalLoader';
+import { Toast, ToastOptions } from '@components/organisms/Toast';
+import { NativeDeviceInfo } from '@native/NativeDeviceInfo';
 
 /**
  * AppConstant
@@ -8,7 +9,11 @@ import { Toast, ToastOptions } from '../components/organisms/Toast';
  * loader controls, native toast notifications, and network request cancellation orchestration.
  */
 class AppConstant {
-  static appVersion: string = '101';
+  /** Native app version name (falls back to '1.0.0' where the module is unavailable). */
+  static get appVersion(): string {
+    return NativeDeviceInfo.getAppVersion();
+  }
+
   static currentHomeScreenPageId: string | number | null = null;
 
   private static abortControllers = new Set<AbortController>();
@@ -61,7 +66,10 @@ class AppConstant {
   /**
    * Helper to display an error toast
    */
-  static showErrorToast(message: string, title: string = 'Network Error'): void {
+  static showErrorToast(
+    message: string,
+    title: string = 'Network Error',
+  ): void {
     Toast.error(message, title);
   }
 

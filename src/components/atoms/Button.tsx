@@ -5,7 +5,7 @@ import {
   TouchableOpacityProps,
   ViewStyle,
 } from 'react-native';
-import { StyleSheet } from 'react-native-unistyles';
+import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import { Text } from './Text';
 
 export interface ButtonProps extends TouchableOpacityProps {
@@ -27,12 +27,16 @@ export const Button: React.FC<ButtonProps> = ({
   style,
   ...props
 }) => {
+  const { theme } = useUnistyles();
   const isDisabled = disabled || isLoading;
 
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       disabled={isDisabled}
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      accessibilityState={{ disabled: isDisabled, busy: isLoading }}
       style={[
         styles.button,
         styles.variant(variant),
@@ -45,7 +49,11 @@ export const Button: React.FC<ButtonProps> = ({
       {isLoading ? (
         <ActivityIndicator
           size="small"
-          color={variant === 'outline' ? '#0066FF' : '#FFFFFF'}
+          color={
+            variant === 'outline'
+              ? theme.colors.primary
+              : theme.colors.onPrimary
+          }
         />
       ) : (
         <Text variant="label" weight="bold" style={styles.text(variant)}>
@@ -118,6 +126,6 @@ const styles = StyleSheet.create(theme => ({
     if (variant === 'secondary') {
       return { color: theme.colors.text };
     }
-    return { color: '#FFFFFF' };
+    return { color: theme.colors.onPrimary };
   },
 }));

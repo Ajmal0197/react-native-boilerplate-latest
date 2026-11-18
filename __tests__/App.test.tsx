@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import App from '@app/App';
 import { useAppStore } from '@store/zustand/useAppStore';
+import App from '../src/App';
 
 describe('App Root', () => {
   it('renders root application without crashing', async () => {

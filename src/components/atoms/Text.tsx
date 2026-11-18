@@ -1,3 +1,4 @@
+import type { ColorKeys } from '@theme/colors';
 import React from 'react';
 import { Text as RNText, TextProps as RNTextProps } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
@@ -5,6 +6,9 @@ import { StyleSheet } from 'react-native-unistyles';
 export interface TextProps extends RNTextProps {
   variant?: 'display' | 'title' | 'body' | 'caption' | 'label';
   weight?: 'regular' | 'medium' | 'bold';
+  /** Theme color token. Preferred over `color`. */
+  tone?: ColorKeys;
+  /** Raw color override for dynamic values only. */
   color?: string;
   center?: boolean;
 }
@@ -18,6 +22,7 @@ export const Text: React.FC<TextProps> = ({
   children,
   variant = 'body',
   weight = 'regular',
+  tone,
   color,
   center = false,
   style,
@@ -29,6 +34,7 @@ export const Text: React.FC<TextProps> = ({
         styles.text,
         styles.variant(variant),
         styles.weight(weight),
+        tone ? styles.tone(tone) : undefined,
         color ? { color } : undefined,
         center ? styles.center : undefined,
         style,
@@ -47,6 +53,9 @@ const styles = StyleSheet.create(theme => ({
   center: {
     textAlign: 'center',
   },
+  tone: (tone: ColorKeys) => ({
+    color: theme.colors[tone],
+  }),
   variant: (variant: TextProps['variant']) => {
     switch (variant) {
       case 'display':

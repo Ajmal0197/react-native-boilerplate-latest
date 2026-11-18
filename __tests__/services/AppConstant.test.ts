@@ -1,4 +1,4 @@
-import { AppConstant } from '@config/AppConstant';
+import { AppConstant } from '@services/AppConstant';
 
 describe('AppConstant', () => {
   beforeEach(() => {
@@ -6,7 +6,7 @@ describe('AppConstant', () => {
   });
 
   it('provides default appVersion and initial null pageId', () => {
-    expect(AppConstant.appVersion).toBe('101');
+    expect(AppConstant.appVersion).toBe('1.0.0');
     expect(AppConstant.getCurrentHomeScreenPageId()).toBeNull();
   });
 

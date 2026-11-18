@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { AppConstant } from '@config';
+import { AppConstant } from '@services/AppConstant';
 
 /**
  * Custom hook to manage API call cancellation on component unmount.

@@ -45,7 +45,5 @@ declare module 'react-native-root-siblings' {
     children?: ReactNode;
   }> {}
 
-  export function RootSiblingPortal(props: {
-    children: ReactNode;
-  }): null;
+  export function RootSiblingPortal(props: { children: ReactNode }): null;
 }

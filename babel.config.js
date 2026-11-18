@@ -22,7 +22,6 @@ module.exports = function (api) {
           '.json',
         ],
         alias: {
-          '@app': './src',
           '@components': './src/components',
           '@features': './src/features',
           '@hooks': './src/hooks',
@@ -35,7 +34,7 @@ module.exports = function (api) {
           '@api': './src/api',
           '@assets': './src/assets',
           '@native': './src/native',
-          '@types': './src/types',
+          '@appTypes': './src/types',
           '@config': './src/config',
           '@test-utils': './__tests__/test-utils',
         },

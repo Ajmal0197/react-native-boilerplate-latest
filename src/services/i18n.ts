@@ -4,10 +4,11 @@ import { initReactI18next } from 'react-i18next';
 import * as RNLocalize from 'react-native-localize';
 import RNRestart from 'react-native-restart';
 
+import { STORAGE_KEYS } from '@config/constants';
 import { resources, defaultLanguage, SupportedLanguage } from '@locales';
 import { storage } from './storage';
 
-const LANGUAGE_KEY = '@app_language';
+const LANGUAGE_KEY = STORAGE_KEYS.LANGUAGE;
 
 /**
  * Resolves initial language synchronously using MMKV storage,

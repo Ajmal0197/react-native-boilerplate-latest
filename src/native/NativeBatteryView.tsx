@@ -1,6 +1,7 @@
 import type { NativeProps } from '../../specs/NativeBatteryViewNativeComponent';
 import React from 'react';
-import { View, ViewProps, StyleSheet, type HostComponent } from 'react-native';
+import { View, ViewProps, type HostComponent } from 'react-native';
+import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 export interface BatteryViewProps extends ViewProps {
   level: number;
@@ -26,16 +27,19 @@ try {
 export const NativeBatteryView: React.FC<BatteryViewProps> = ({
   level,
   isCharging = false,
-  fillColor = '#34C759',
+  fillColor,
   style,
   ...props
 }) => {
+  const { theme } = useUnistyles();
+  const resolvedFillColor = fillColor ?? theme.colors.success;
+
   if (FabricBatteryView) {
     return (
       <FabricBatteryView
         level={level}
         isCharging={isCharging}
-        fillColor={fillColor}
+        fillColor={resolvedFillColor}
         style={style}
         {...props}
       />
@@ -47,31 +51,25 @@ export const NativeBatteryView: React.FC<BatteryViewProps> = ({
   // Fallback representation for tests or legacy runtime
   return (
     <View style={[styles.container, style]} {...props}>
-      <View
-        style={[
-          styles.fill,
-          {
-            width: fillWidth,
-            backgroundColor: fillColor,
-          },
-        ]}
-      />
+      <View style={styles.fill(fillWidth, resolvedFillColor)} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(theme => ({
   container: {
     width: 48,
     height: 24,
     borderWidth: 2,
-    borderColor: '#9CA3AF',
-    borderRadius: 4,
-    padding: 2,
+    borderColor: theme.colors.textMuted,
+    borderRadius: theme.borderRadius.xs,
+    padding: theme.spacing.xxs,
     justifyContent: 'center',
   },
-  fill: {
+  fill: (width: `${number}%`, backgroundColor: string) => ({
+    width,
     height: '100%',
-    borderRadius: 2,
-  },
-});
+    borderRadius: theme.spacing.xxs,
+    backgroundColor,
+  }),
+}));

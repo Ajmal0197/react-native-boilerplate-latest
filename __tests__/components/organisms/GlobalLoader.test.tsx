@@ -5,7 +5,7 @@ import {
   GlobalLoader,
   LoadingOverlay,
 } from '@components/organisms/GlobalLoader';
-import { AppConstant } from '@config';
+import { AppConstant } from '@services/AppConstant';
 import { render, screen } from '@test-utils';
 
 const waitTick = async () => {

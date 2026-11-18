@@ -42,7 +42,7 @@ const styles = StyleSheet.create(theme => ({
       case 'elevated':
       default:
         return {
-          shadowColor: '#000',
+          shadowColor: theme.colors.shadow,
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.08,
           shadowRadius: 8,

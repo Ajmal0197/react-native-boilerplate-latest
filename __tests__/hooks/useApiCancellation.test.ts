@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-native';
-import { AppConstant } from '@config';
 import { useApiCancellation } from '@hooks/useApiCancellation';
+import { AppConstant } from '@services/AppConstant';
 
 describe('useApiCancellation hook', () => {
   beforeEach(() => {

@@ -52,6 +52,8 @@ export const ListItem: React.FC<ListItemProps> = ({
         activeOpacity={0.7}
         onPress={onPress}
         style={[styles.container, style]}
+        accessibilityRole="button"
+        accessibilityLabel={subtitle ? `${title}, ${subtitle}` : title}
       >
         {content}
       </TouchableOpacity>

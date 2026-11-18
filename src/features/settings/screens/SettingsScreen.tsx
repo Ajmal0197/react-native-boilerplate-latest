@@ -8,9 +8,9 @@ import { WhatsAppPremiumIcon } from '@assets/svgs';
 import { Text, Button, Spacer } from '@components/atoms';
 import { ListItem, Card } from '@components/molecules';
 import { Header } from '@components/organisms';
-import { AppConstant } from '@config';
 import { Config } from '@config/env';
 import { NativeDeviceInfo } from '@native/NativeDeviceInfo';
+import { AppConstant } from '@services/AppConstant';
 import { useAppStore } from '@store/zustand/useAppStore';
 import { useAuthStore } from '@store/zustand/useAuthStore';
 
@@ -48,10 +48,12 @@ export const SettingsScreen = ({ navigation }: TabScreenProps<'Settings'>) => {
         <Card variant="outlined" style={styles.section}>
           <ListItem
             title={t('settings.theme')}
-            subtitle={`Current: ${themeMode.toUpperCase()}`}
+            subtitle={t('settings.currentTheme', {
+              mode: themeMode.toUpperCase(),
+            })}
             rightElement={
               <Button
-                title="Toggle"
+                title={t('common.toggle')}
                 size="sm"
                 variant="outline"
                 onPress={toggleTheme}
@@ -66,8 +68,8 @@ export const SettingsScreen = ({ navigation }: TabScreenProps<'Settings'>) => {
             rightElement={<Text variant="body">›</Text>}
           />
           <ListItem
-            title="Features & UI Lab"
-            subtitle="Tab View, Stacked Bottom Sheet, Bottom Toast"
+            title={t('settings.labTitle')}
+            subtitle={t('settings.labSubtitle')}
             onPress={() => navigation.navigate('TabViewDemo')}
             rightElement={<Text variant="body">›</Text>}
             testID="settings-item-features-lab"
@@ -79,26 +81,36 @@ export const SettingsScreen = ({ navigation }: TabScreenProps<'Settings'>) => {
         <Card variant="outlined" style={styles.section}>
           <ListItem
             title={t('settings.deviceInfo')}
-            subtitle={`Model: ${deviceModel} (${isEmulator ? 'Simulator' : 'Physical'})`}
+            subtitle={t('settings.deviceModel', {
+              model: deviceModel,
+              kind: isEmulator
+                ? t('settings.simulator')
+                : t('settings.physical'),
+            })}
           />
           <ListItem
             title={t('settings.appVersion')}
-            subtitle={`${appVersion} (Build v${AppConstant.appVersion}) • ${Config.APP_NAME}`}
+            subtitle={t('settings.versionLine', {
+              version: appVersion,
+              name: Config.APP_NAME,
+            })}
           />
           <ListItem
-            title="Active Page Tracker"
-            subtitle={`Home Page ID: ${AppConstant.getCurrentHomeScreenPageId() ?? '1'}`}
+            title={t('settings.pageTrackerTitle')}
+            subtitle={t('settings.pageTrackerSubtitle', {
+              id: AppConstant.getCurrentHomeScreenPageId() ?? '1',
+            })}
           />
           <ListItem
-            title="Global App Loader"
-            subtitle="Trigger loader via AppConstant"
+            title={t('settings.loaderTitle')}
+            subtitle={t('settings.loaderSubtitle')}
             rightElement={
               <Button
-                title="Test (2s)"
+                title={t('settings.loaderButton')}
                 size="sm"
                 variant="outline"
                 onPress={() => {
-                  AppConstant.showLoader('Loading via AppConstant...');
+                  AppConstant.showLoader(t('settings.loaderMessage'));
                   setTimeout(() => {
                     AppConstant.hideLoader();
                   }, 2000);
@@ -112,8 +124,8 @@ export const SettingsScreen = ({ navigation }: TabScreenProps<'Settings'>) => {
 
         <Card variant="outlined" style={styles.section}>
           <ListItem
-            title="WhatsApp Support"
-            subtitle="24/7 Priority Helpdesk"
+            title={t('settings.supportTitle')}
+            subtitle={t('settings.supportSubtitle')}
             leftElement={<WhatsAppPremiumIcon width={24} height={24} />}
             rightElement={<Text variant="body">›</Text>}
           />

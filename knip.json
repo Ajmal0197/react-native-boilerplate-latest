@@ -1,12 +1,16 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "project": ["src/**/*.{ts,tsx}", "specs/**/*.{ts,tsx}"],
-  "entry": ["index.js", "reactotron.config.ts"],
+  "entry": ["reactotron.config.ts"],
   "ignoreDependencies": [
-    "reactotron-plugin-zustand",
-    "reactotron-react-native",
-    "reactotron-redux"
+    "@babel/preset-env",
+    "@babel/runtime",
+    "babel-jest"
   ],
-  "ignoreBinaries": ["xed"],
-  "ignoreExportsUsedInFile": true
+  "ignoreBinaries": ["xed", "pod", "adb"],
+  "ignoreExportsUsedInFile": true,
+  "rules": {
+    "duplicates": "off",
+    "exports": "warn"
+  }
 }

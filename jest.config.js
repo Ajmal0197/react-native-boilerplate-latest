@@ -8,8 +8,6 @@ module.exports = {
   ],
   moduleNameMapper: {
     '\\.svg$': '<rootDir>/__tests__/__mocks__/svgMock.js',
-    '^@app/(.*)$': '<rootDir>/src/$1',
-    '^@app$': '<rootDir>/src/index.ts',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
     '^@components$': '<rootDir>/src/components/index.ts',
     '^@features/(.*)$': '<rootDir>/src/features/$1',
@@ -32,8 +30,8 @@ module.exports = {
     '^@assets/(.*)$': '<rootDir>/src/assets/$1',
     '^@native/(.*)$': '<rootDir>/src/native/$1',
     '^@native$': '<rootDir>/src/native/index.ts',
-    '^@types/(.*)$': '<rootDir>/src/types/$1',
-    '^@types$': '<rootDir>/src/types/index.ts',
+    '^@appTypes/(.*)$': '<rootDir>/src/types/$1',
+    '^@appTypes$': '<rootDir>/src/types/index.ts',
     '^@config/(.*)$': '<rootDir>/src/config/$1',
     '^@config$': '<rootDir>/src/config/index.ts',
     '^@test-utils$': '<rootDir>/__tests__/test-utils.tsx',
@@ -47,4 +45,12 @@ module.exports = {
     '!src/**/index.ts',
     '!src/**/__tests__/**',
   ],
+  coverageThreshold: {
+    global: {
+      statements: 80,
+      branches: 60,
+      functions: 75,
+      lines: 80,
+    },
+  },
 };

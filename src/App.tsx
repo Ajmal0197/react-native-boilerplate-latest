@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { StatusBar, StyleSheet as RNStyleSheet, useColorScheme } from 'react-native';
+import { StatusBar } from 'react-native';
 import { BugBubble } from '@lokal-dev/react-native-bugbubble';
 import {
   NavigationContainer,
@@ -16,6 +16,7 @@ import RNToastMessage from 'react-native-toast-message';
 import { Provider } from 'react-redux';
 import {
   StatusBarStyle,
+  StyleSheet,
   UnistylesRuntime,
   useUnistyles,
 } from 'react-native-unistyles';
@@ -24,29 +25,24 @@ import {
 import './theme';
 import './services/i18n';
 
-import { ErrorFallback } from './components/organisms/ErrorFallback';
-import { toastConfig } from './components/organisms/Toast';
-import { Config } from './config/env';
-import { linking } from './navigation/linking';
-import { RootNavigator } from './navigation/RootNavigator';
-import { store } from './store/redux/store';
-import { useAppStore } from './store/zustand/useAppStore';
+import { ErrorFallback } from '@components/organisms/ErrorFallback';
+import { toastConfig } from '@components/organisms/Toast';
+import { Config } from '@config/env';
+import { useIsDark } from '@hooks/useIsDark';
+import { linking } from '@navigation/linking';
+import { RootNavigator } from '@navigation/RootNavigator';
+import { reportError } from '@services/crashReporting';
+import { store } from '@store/redux/store';
+import { logger } from '@utils/logger';
 
+const handleBoundaryError = (error: Error, stackTrace: string) => {
+  logger.error('Unhandled render error', error);
+  reportError(error, { stackTrace });
+};
 
 export const App = () => {
-  const themeMode = useAppStore(state => state.themeMode);
-  const systemColorScheme = useColorScheme();
-  const { theme, rt } = useUnistyles();
-
-  const isDark = useMemo(() => {
-    if (themeMode === 'dark') return true;
-    if (themeMode === 'light') return false;
-    return (
-      systemColorScheme === 'dark' ||
-      rt.themeName === 'dark' ||
-      theme.colors.background === '#000000'
-    );
-  }, [themeMode, systemColorScheme, rt.themeName, theme.colors.background]);
+  const { theme } = useUnistyles();
+  const isDark = useIsDark();
 
   useEffect(() => {
     try {
@@ -78,16 +74,20 @@ export const App = () => {
   }, [isDark, theme]);
 
   return (
-    <GestureHandlerRootView
-      style={[styles.root, { backgroundColor: theme.colors.background }]}
-    >
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <GestureHandlerRootView style={styles.root}>
+      <ErrorBoundary
+        FallbackComponent={ErrorFallback}
+        onError={handleBoundaryError}
+      >
         <SafeAreaProvider>
           <KeyboardProvider>
             <BottomSheetProvider>
               <RootSiblingParent>
                 <Provider store={store}>
-                  <NavigationContainer linking={linking} theme={navigationTheme}>
+                  <NavigationContainer
+                    linking={linking}
+                    theme={navigationTheme}
+                  >
                     <StatusBar
                       barStyle={isDark ? 'light-content' : 'dark-content'}
                       animated
@@ -106,10 +106,11 @@ export const App = () => {
   );
 };
 
-const styles = RNStyleSheet.create({
+const styles = StyleSheet.create(theme => ({
   root: {
     flex: 1,
+    backgroundColor: theme.colors.background,
   },
-});
+}));
 
 export default App;

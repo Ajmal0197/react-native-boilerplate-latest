@@ -23,10 +23,13 @@
 
 <p align="center">
   <img src="./docs/assets/demo.gif" alt="App Walkthrough Demo" width="280" style="border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
-  <br />
-  <sub>📱 <b>iOS Simulator Demo</b> — High-speed list rendering, Unistyles dynamic theming, and multi-environment setup.</sub>
-  <br />
-  <sub><a href="./docs/assets/demo.webm">▶️ Watch Demo Video (demo.webm)</a></sub>
+  <br /><br />
+  <sub>📱 <b>Full App Walkthrough Demo</b></sub><br />
+  <sub>High-speed list rendering • Unistyles runtime dark theme & status bar sync • Features & UI Lab with Swmansion Bottom Sheets (Stacked & Keyboard-handled with smart backdrop dismiss) • Native HUD bottom toasts & Global API cancellation.</sub>
+  <br /><br />
+  <sub>
+    <a href="./docs/assets/demo.mov">▶️ <b>Watch Demo Video (demo.mov)</b></a>
+  </sub>
 </p>
 
 ---
@@ -35,7 +38,7 @@
 
 Looking for native module implementation tutorials (TurboModules & Fabric), Android/iOS build internals, or deep architectural breakdowns?
 
-👉 **[Read the Full Documentation Guide (Documentation.md)](./Documentation.md)**
+👉 **[Read the Full Documentation Guide (docs/DOCUMENTATION.md)](./docs/DOCUMENTATION.md)**
 
 ---
 
@@ -128,7 +131,20 @@ yarn build:ios
 
 ### 1. How to Use Environment Variables (`react-native-keys`)
 
-Environment variables and secret keys live in JSON files at the project root:
+Environment variables and secret keys live in JSON files at the project root.
+These files are **git-ignored** (they contain secrets). Create them from the template:
+
+```bash
+cp keys.example.json keys.development.json
+cp keys.example.json keys.staging.json
+cp keys.example.json keys.production.json
+cp keys.example.json keys.json
+```
+
+Then edit `APP_ENV`, `APP_NAME`, `BUNDLE_ID`, `API_BASE_URL` and replace the
+`SECRET_KEY` / `MMKV_ENCRYPTION_KEY` placeholders (the MMKV key must be 16 characters or fewer; e.g. `openssl rand -hex 8`).
+In CI, write these files from your secret store before building. Never commit them.
+
 - `keys.development.json`
 - `keys.staging.json`
 - `keys.production.json`
@@ -153,7 +169,7 @@ const secretKey = Config.secureFor('SECRET_KEY');
 The loader is powered by `react-native-root-siblings`. It renders above all screens and navigation without native `<Modal>` bugs:
 
 ```typescript
-import { AppConstant } from '@config';
+import { AppConstant } from '@services/AppConstant';
 
 // Show loader with an optional message
 AppConstant.showLoader('Please wait...');
@@ -195,7 +211,7 @@ export const MyScreen = () => {
 
 To cancel **all** pending API requests across the entire app at once (e.g. on logout):
 ```typescript
-import { AppConstant } from '@config';
+import { AppConstant } from '@services/AppConstant';
 
 AppConstant.cancelAllRequests();
 ```
@@ -236,7 +252,7 @@ We use `react-native-toast-message` customized into a native HUD capsule anchore
 ```typescript
 import { Toast } from '@components/organisms';
 // Or via AppConstant:
-import { AppConstant } from '@config';
+import { AppConstant } from '@services/AppConstant';
 
 // 1. Error toast (Red accent with Alert icon)
 Toast.error('Unable to connect to the server. Please check your internet connection.');
@@ -399,9 +415,7 @@ const styles = StyleSheet.create(theme => ({
 RN_BoilerplateLatest/
 ├── android/               # 🤖 Native Android configuration & ProGuard rules
 ├── ios/                   # 🍏 Native iOS configuration, Podfile & Xcode schemes
-├── keys.development.json  # 🔑 Development keys & secrets
-├── keys.staging.json      # 🔑 Staging keys & secrets
-├── keys.production.json   # 🔑 Production keys & secrets
+├── keys.*.json            # 🔑 Per-env keys & secrets (git-ignored; copy keys.example.json)
 ├── src/
 │   ├── api/               # 🌐 Axios client, endpoints, and error normalizer
 │   ├── assets/            # 🎨 Vector icons (SVGs) and images
@@ -409,7 +423,7 @@ RN_BoilerplateLatest/
 │   │   ├── atoms/         #    Basic building blocks: Button, Text, Input, Spacer
 │   │   ├── molecules/     #    Combinations: Card, ListItem
 │   │   └── organisms/     #    Header, GlobalLoader, Toast, StackedBottomSheet, KeyboardBottomSheet
-│   ├── config/            # ⚙️ AppConstant, environment wrapper (Config)
+│   ├── config/            # ⚙️ Constants, environment wrapper (Config)
 │   ├── features/          # 📦 Feature-driven modules
 │   │   ├── auth/          #    Login & authentication
 │   │   ├── home/          #    Product/Photo lists, TabViewDemoScreen
@@ -422,8 +436,9 @@ RN_BoilerplateLatest/
 │   ├── store/             # 🧠 Redux Toolkit slices and Zustand stores
 │   ├── theme/             # 🎨 Color tokens, typography, and spacing
 │   └── types/             # 📘 Global TypeScript interfaces & ambient declarations
-├── __tests__/             # 🃏 Jest unit and integration test suites (21 suites, 85 tests)
-├── Documentation.md       # 📑 Detailed native & architecture documentation
+├── __tests__/             # 🃏 Jest unit and integration test suites (33 suites, 128 tests)
+├── CONTRIBUTING.md        # 🤝 Workflow, commit and quality rules
+├── keys.example.json      # 🔑 Template for the git-ignored keys.*.json files
 └── package.json
 ```
 
@@ -440,11 +455,14 @@ RN_BoilerplateLatest/
 | `yarn ios` | Runs iOS with Dev scheme |
 | `yarn ios:staging` | Runs iOS with Staging scheme |
 | `yarn ios:prod` | Runs iOS with Production scheme |
-| `yarn test` | Runs all 21 Jest test suites (85 tests) |
+| `yarn test` | Runs all Jest test suites |
+| `yarn test:coverage` | Runs tests with coverage thresholds enforced |
 | `yarn typecheck` | Checks TypeScript for errors (`tsc --noEmit`) |
 | `yarn lint` | Checks ESLint rules |
 | `yarn lint:fix` | Fixes ESLint and auto-removes unused imports |
 | `yarn format` | Formats the codebase with Prettier |
+| `yarn format:check` | Verifies `src`, `__tests__` and `specs` formatting |
+| `yarn knip:check` | Finds unused files, exports and dependencies |
 | `yarn clean:install` | Deep cleans caches and performs a fresh install |
 
 ---
@@ -453,7 +471,10 @@ RN_BoilerplateLatest/
 
 - **Strict TypeScript**: `noImplicitAny: true` and `strictNullChecks: true`. Zero `any` policy.
 - **ESLint Protection**: Strict React Hooks rules (`rules-of-hooks`, `exhaustive-deps`), no inline style allocations, and automatic unreferenced import pruning on save.
-- **100% Passing Tests**: All 21 test suites (85 tests) passing cleanly across components, hooks, storage, network errors, bottom sheets, and state.
+- **Passing Tests with Coverage Gates**: 33 suites / 128 tests cover components, hooks, auth flows, API client (401 refresh), storage, config and state. Jest enforces global coverage thresholds (`coverageThreshold` in `jest.config.js`).
+- **CI & Git Hooks**: GitHub Actions (`.github/workflows/ci.yml`) runs typecheck, lint, format check, tests and knip. Husky runs lint-staged on commit and commitlint (Conventional Commits) on the message.
+- **Secrets Hygiene**: `keys.*.json` are git-ignored; only `keys.example.json` is committed. Android release signing reads `RELEASE_*` Gradle properties or env vars.
+- **Crash Reporting Hook**: `@services/crashReporting` is a vendor-neutral facade (`setCrashReporter`) wired to the root `ErrorBoundary`.
 - **Release Optimization**: Console statements and debuggers are stripped automatically in production builds via Terser.
 
 ---

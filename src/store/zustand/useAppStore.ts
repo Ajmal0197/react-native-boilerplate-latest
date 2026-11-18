@@ -55,7 +55,7 @@ export const useAppStore = create<AppState>()(
   devtools(
     set => ({
       themeMode: initialTheme,
-      isFirstLaunch: !storage.getBoolean('@first_launch_done'),
+      isFirstLaunch: !storage.getBoolean(STORAGE_KEYS.FIRST_LAUNCH_DONE),
 
       setThemeMode: (mode: ThemeMode) => {
         storage.set(STORAGE_KEYS.THEME_MODE, mode);
@@ -64,7 +64,7 @@ export const useAppStore = create<AppState>()(
       },
 
       setFirstLaunchComplete: () => {
-        storage.setBoolean('@first_launch_done', true);
+        storage.setBoolean(STORAGE_KEYS.FIRST_LAUNCH_DONE, true);
         set({ isFirstLaunch: false });
       },
     }),

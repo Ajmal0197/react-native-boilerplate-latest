@@ -1,7 +1,7 @@
 import React from 'react';
 import { Toast } from '@components/organisms/Toast';
-import { AppConstant } from '@config';
 import { TabViewDemoScreen } from '@features/home/screens/TabViewDemoScreen';
+import { AppConstant } from '@services/AppConstant';
 import { render, screen, fireEvent } from '@test-utils';
 
 jest.spyOn(Toast, 'error');

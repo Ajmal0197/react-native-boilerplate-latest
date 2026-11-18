@@ -61,10 +61,12 @@ describe('HomeScreen (Redux Connected UI)', () => {
 
   it('aborts in-flight request when component unmounts', async () => {
     let capturedSignal: AbortSignal | undefined;
-    (homeApi.getPhotos as jest.Mock).mockImplementationOnce((_params, signal) => {
-      capturedSignal = signal;
-      return new Promise(() => {});
-    });
+    (homeApi.getPhotos as jest.Mock).mockImplementationOnce(
+      (_params, signal) => {
+        capturedSignal = signal;
+        return new Promise(() => {});
+      },
+    );
 
     const { unmount } = await render(
       <HomeScreen navigation={mockNavigation} route={mockRoute} />,

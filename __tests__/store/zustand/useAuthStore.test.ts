@@ -1,9 +1,9 @@
-import { STORAGE_KEYS } from '@app/config/constants';
-import { AppConstant } from '@config/AppConstant';
+import { STORAGE_KEYS } from '@config/constants';
+import { AppConstant } from '@services/AppConstant';
 import { storage } from '@services/storage';
 import { useAuthStore, User } from '@store/zustand/useAuthStore';
 
-describe('useAuthStore (MMKV Persisted)', () => {
+describe('useAuthStore (MMKV slots)', () => {
   const mockUser: User = {
     id: 'user-123',
     name: 'Alex Johnson',
@@ -41,13 +41,7 @@ describe('useAuthStore (MMKV Persisted)', () => {
     expect(storage.getString(STORAGE_KEYS.REFRESH_TOKEN)).toBe(refreshToken);
     expect(storage.getObject<User>(STORAGE_KEYS.USER_DATA)).toEqual(mockUser);
 
-    // Verify Zustand persist storage container
-    const persistedRaw = storage.getString('auth-storage');
-    expect(persistedRaw).toBeDefined();
-    const persisted = JSON.parse(persistedRaw || '{}');
-    expect(persisted.state.token).toBe(token);
-    expect(persisted.state.user).toEqual(mockUser);
-    expect(persisted.state.isAuthenticated).toBe(true);
+    expect(storage.getString('auth-storage')).toBeUndefined();
   });
 
   it('wipes credentials from MMKV upon logout', () => {
@@ -64,12 +58,6 @@ describe('useAuthStore (MMKV Persisted)', () => {
     expect(storage.getString(STORAGE_KEYS.AUTH_TOKEN)).toBeUndefined();
     expect(storage.getString(STORAGE_KEYS.REFRESH_TOKEN)).toBeUndefined();
     expect(storage.getObject(STORAGE_KEYS.USER_DATA)).toBeNull();
-
-    // Verify persisted state reflects unauthenticated status
-    const persistedRaw = storage.getString('auth-storage');
-    const persisted = JSON.parse(persistedRaw || '{}');
-    expect(persisted.state.token).toBeNull();
-    expect(persisted.state.isAuthenticated).toBe(false);
   });
 
   it('updates user data and persists changes to MMKV', () => {
@@ -83,20 +71,12 @@ describe('useAuthStore (MMKV Persisted)', () => {
     // Verify MMKV updated
     const savedUser = storage.getObject<User>(STORAGE_KEYS.USER_DATA);
     expect(savedUser?.name).toBe('Alexander J.');
-
-    const persistedRaw = storage.getString('auth-storage');
-    const persisted = JSON.parse(persistedRaw || '{}');
-    expect(persisted.state.user.name).toBe('Alexander J.');
   });
 
-  it('updates and persists isLoading state', () => {
+  it('updates isLoading state', () => {
     useAuthStore.getState().setLoading(true);
 
     expect(useAuthStore.getState().isLoading).toBe(true);
-
-    const persistedRaw = storage.getString('auth-storage');
-    const persisted = JSON.parse(persistedRaw || '{}');
-    expect(persisted.state.isLoading).toBe(true);
   });
 
   it('resets global app state, active loaders and in-flight requests on logout', () => {

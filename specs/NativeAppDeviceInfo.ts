@@ -1,7 +1,4 @@
-import {
-  TurboModuleRegistry,
-  type TurboModule,
-} from 'react-native';
+import { TurboModuleRegistry, type TurboModule } from 'react-native';
 
 /**
  * TurboModule TypeScript Specification

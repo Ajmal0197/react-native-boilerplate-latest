@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import RNToast, {
   ToastConfig,
   ToastConfigParams,
@@ -17,6 +13,8 @@ import {
   InfoIcon,
   CloseIcon,
 } from '@assets/svgs/Icons';
+import i18n from '@services/i18n';
+import { withAlpha, type AppThemeColors } from '@theme/colors';
 
 export type ToastType = 'error' | 'success' | 'warning' | 'info';
 
@@ -31,31 +29,36 @@ export interface ToastOptions {
   onPress?: () => void;
 }
 
-const TOAST_COLORS = {
-  error: {
-    accent: '#EF4444',
-    badgeBg: 'rgba(239, 68, 68, 0.15)',
-    border: 'rgba(239, 68, 68, 0.35)',
-    defaultTitle: 'Something Went Wrong',
-  },
-  success: {
-    accent: '#10B981',
-    badgeBg: 'rgba(16, 185, 129, 0.15)',
-    border: 'rgba(16, 185, 129, 0.35)',
-    defaultTitle: 'Success',
-  },
-  warning: {
-    accent: '#F59E0B',
-    badgeBg: 'rgba(245, 158, 11, 0.15)',
-    border: 'rgba(245, 158, 11, 0.35)',
-    defaultTitle: 'Warning',
-  },
-  info: {
-    accent: '#3B82F6',
-    badgeBg: 'rgba(59, 130, 246, 0.15)',
-    border: 'rgba(59, 130, 246, 0.35)',
-    defaultTitle: 'Information',
-  },
+const TOAST_TITLE_KEYS = {
+  error: 'toast.somethingWrong',
+  success: 'toast.success',
+  warning: 'toast.warning',
+  info: 'toast.info',
+} as const;
+
+const TOAST_ACCENT_KEYS = {
+  error: 'error',
+  success: 'success',
+  warning: 'warning',
+  info: 'info',
+} as const;
+
+interface ToastPalette {
+  accent: string;
+  badgeBg: string;
+  border: string;
+}
+
+const getToastPalette = (
+  colors: AppThemeColors,
+  type: ToastType,
+): ToastPalette => {
+  const accent = colors[TOAST_ACCENT_KEYS[type] ?? 'error'];
+  return {
+    accent,
+    badgeBg: withAlpha(accent, 0.15),
+    border: withAlpha(accent, 0.35),
+  };
 };
 
 interface CustomToastCardProps {
@@ -81,8 +84,10 @@ export const CustomToastCard: React.FC<CustomToastCardProps> = ({
   onHide,
 }) => {
   const { theme } = useUnistyles();
-  const config = TOAST_COLORS[type] || TOAST_COLORS.error;
-  const displayTitle = text1 || config.defaultTitle;
+  const { t } = useTranslation();
+  const config = getToastPalette(theme.colors, type);
+  const displayTitle =
+    text1 || t(TOAST_TITLE_KEYS[type] ?? TOAST_TITLE_KEYS.error);
 
   const renderIcon = () => {
     switch (type) {
@@ -203,7 +208,7 @@ export const toastConfig: ToastConfig = {
   ),
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(theme => ({
   wrapper: {
     width: '92%',
     maxWidth: 480,
@@ -213,7 +218,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 18,
     borderWidth: 1,
-    shadowColor: '#000',
+    shadowColor: theme.colors.shadow,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.18,
     shadowRadius: 14,
@@ -254,7 +259,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     alignSelf: 'center',
   },
-});
+}));
 
 /**
  * Toast Static Controller
@@ -269,8 +274,8 @@ export class Toast {
    */
   static show(options: ToastOptions): void {
     const type = options.type || 'error';
-    const config = TOAST_COLORS[type] || TOAST_COLORS.error;
-    const title = options.title ?? config.defaultTitle;
+    const title =
+      options.title ?? i18n.t(TOAST_TITLE_KEYS[type] ?? TOAST_TITLE_KEYS.error);
 
     RNToast.show({
       type,
@@ -280,7 +285,8 @@ export class Toast {
       visibilityTime: options.duration || 3500,
       autoHide: true,
       // Default bottom offset safely clearing Android on-screen navigation bar (~48-60dp)
-      bottomOffset: options.bottomOffset ?? (Platform.OS === 'android' ? 56 : 40),
+      bottomOffset:
+        options.bottomOffset ?? (Platform.OS === 'android' ? 56 : 40),
       onPress: options.onPress,
       onHide: options.onDismiss,
     });
@@ -291,7 +297,7 @@ export class Toast {
    */
   static error(
     message: string,
-    title: string = 'Network Error',
+    title: string = i18n.t('toast.networkError'),
     duration: number = 4000,
   ): void {
     this.show({ type: 'error', title, message, duration });
@@ -302,7 +308,7 @@ export class Toast {
    */
   static success(
     message: string,
-    title: string = 'Success',
+    title: string = i18n.t('toast.success'),
     duration: number = 3000,
   ): void {
     this.show({ type: 'success', title, message, duration });
@@ -313,7 +319,7 @@ export class Toast {
    */
   static warning(
     message: string,
-    title: string = 'Warning',
+    title: string = i18n.t('toast.warning'),
     duration: number = 3500,
   ): void {
     this.show({ type: 'warning', title, message, duration });
@@ -324,7 +330,7 @@ export class Toast {
    */
   static info(
     message: string,
-    title: string = 'Information',
+    title: string = i18n.t('toast.info'),
     duration: number = 3000,
   ): void {
     this.show({ type: 'info', title, message, duration });

@@ -4,7 +4,7 @@ import {
   View,
   TextInputProps as RNTextInputProps,
 } from 'react-native';
-import { StyleSheet } from 'react-native-unistyles';
+import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import { Text } from './Text';
 
 export interface InputProps extends RNTextInputProps {
@@ -23,6 +23,8 @@ export const Input: React.FC<InputProps> = ({
   style,
   ...props
 }) => {
+  const { theme } = useUnistyles();
+
   return (
     <View style={styles.container}>
       {label && (
@@ -33,7 +35,9 @@ export const Input: React.FC<InputProps> = ({
 
       <RNTextInput
         style={[styles.input, Boolean(error) && styles.inputError, style]}
-        placeholderTextColor="#9CA3AF"
+        placeholderTextColor={theme.colors.textMuted}
+        accessibilityLabel={label ?? props.placeholder}
+        accessibilityHint={error ?? helperText}
         {...props}
       />
 

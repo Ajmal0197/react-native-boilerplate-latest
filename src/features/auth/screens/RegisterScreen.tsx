@@ -9,6 +9,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import { Text, Input, Button, Spacer } from '@components/atoms';
 import { Card } from '@components/molecules';
 import { useAuthStore } from '@store/zustand/useAuthStore';
+import { withAlpha } from '@theme/colors';
 import { authApi } from '../api/authApi';
 import { registerSchema, RegisterFormData } from '../validation/registerSchema';
 
@@ -51,7 +52,7 @@ export const RegisterScreen = ({ navigation }: AuthScreenProps<'Register'>) => {
           {t('auth.register.title')}
         </Text>
         <Spacer size="xs" />
-        <Text variant="body" color="#6B7280">
+        <Text variant="body" tone="textSecondary">
           {t('auth.register.subtitle')}
         </Text>
       </View>
@@ -59,7 +60,7 @@ export const RegisterScreen = ({ navigation }: AuthScreenProps<'Register'>) => {
       <Card variant="elevated" style={styles.card}>
         {errorMessage && (
           <View style={styles.errorBanner}>
-            <Text variant="caption" color="#FF3B30">
+            <Text variant="caption" tone="error">
               {errorMessage}
             </Text>
           </View>
@@ -148,7 +149,7 @@ export const RegisterScreen = ({ navigation }: AuthScreenProps<'Register'>) => {
       <View style={styles.footer}>
         <Text variant="body">{t('auth.register.alreadyHaveAccount')} </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text variant="body" weight="bold" color="#0066FF">
+          <Text variant="body" weight="bold" tone="primary">
             {t('auth.register.signInLink')}
           </Text>
         </TouchableOpacity>
@@ -171,7 +172,7 @@ const styles = StyleSheet.create(theme => ({
     padding: theme.spacing.lg,
   },
   errorBanner: {
-    backgroundColor: 'rgba(255, 59, 48, 0.1)',
+    backgroundColor: withAlpha(theme.colors.error, 0.1),
     padding: theme.spacing.sm,
     borderRadius: theme.borderRadius.sm,
     marginBottom: theme.spacing.md,

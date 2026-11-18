@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 import { Text } from '@components/atoms/Text';
@@ -23,15 +24,21 @@ export const Header: React.FC<HeaderProps> = ({
   onBackPress,
 }) => {
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.bar}>
         <View style={styles.side}>
           {onBackPress ? (
-            <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
-              <Text variant="label" color="#0066FF">
-                ‹ Back
+            <TouchableOpacity
+              onPress={onBackPress}
+              style={styles.backButton}
+              accessibilityRole="button"
+              accessibilityLabel={t('common.back')}
+            >
+              <Text variant="label" tone="primary">
+                {`‹ ${t('common.back')}`}
               </Text>
             </TouchableOpacity>
           ) : (
@@ -40,7 +47,13 @@ export const Header: React.FC<HeaderProps> = ({
         </View>
 
         <View style={styles.center}>
-          <Text variant="title" weight="bold" numberOfLines={1} center>
+          <Text
+            variant="title"
+            weight="bold"
+            numberOfLines={1}
+            center
+            accessibilityRole="header"
+          >
             {title}
           </Text>
           {subtitle && (

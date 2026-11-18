@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, ActivityIndicator, BackHandler } from 'react-native';
 import RootSiblings from 'react-native-root-siblings';
-import { StyleSheet } from 'react-native-unistyles';
+import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import { Spacer, Text } from '@components/atoms';
 
 export interface LoadingOverlayProps {
@@ -13,6 +13,8 @@ export interface LoadingOverlayProps {
  * Intercepts and blocks the hardware back button while visible.
  */
 export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ message }) => {
+  const { theme } = useUnistyles();
+
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
@@ -26,7 +28,7 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ message }) => {
       <View style={styles.card} testID="global-loader-card">
         <ActivityIndicator
           size="large"
-          color="#0066FF"
+          color={theme.colors.primary}
           testID="global-loader-spinner"
         />
         {message ? (
@@ -54,7 +56,7 @@ const styles = StyleSheet.create(theme => ({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    backgroundColor: theme.colors.overlay,
     justifyContent: 'center',
     alignItems: 'center',
     padding: theme.spacing.lg,
@@ -69,7 +71,7 @@ const styles = StyleSheet.create(theme => ({
     maxWidth: 280,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
+    shadowColor: theme.colors.shadow,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
     shadowRadius: 12,

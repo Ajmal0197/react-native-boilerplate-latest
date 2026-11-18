@@ -1,11 +1,7 @@
 import type { RootStackScreenProps } from '@navigation/types';
 import React, { useState, useRef } from 'react';
-import {
-  View,
-  ScrollView,
-  useWindowDimensions,
-  Platform,
-} from 'react-native';
+import { View, ScrollView, useWindowDimensions, Platform } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   TabView,
@@ -24,7 +20,7 @@ import {
   KeyboardBottomSheet,
   KeyboardBottomSheetRef,
 } from '@components/organisms';
-import { AppConstant } from '@config';
+import { AppConstant } from '@services/AppConstant';
 
 export const TabViewDemoScreen = ({
   navigation,
@@ -32,12 +28,13 @@ export const TabViewDemoScreen = ({
   const layout = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const { theme } = useUnistyles();
+  const { t } = useTranslation();
 
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: 'sheets', title: 'Bottom Sheets' },
-    { key: 'toast', title: 'Toast & Network' },
-    { key: 'overview', title: 'Architecture' },
+    { key: 'sheets', title: t('featuresLab.tabSheets') },
+    { key: 'toast', title: t('featuresLab.tabToast') },
+    { key: 'overview', title: t('featuresLab.tabOverview') },
   ]);
 
   const stackedSheetRef = useRef<StackedBottomSheetRef>(null);
@@ -54,11 +51,11 @@ export const TabViewDemoScreen = ({
       testID="tab-content-bottom-sheets"
     >
       <Text variant="title" weight="bold">
-        Bottom Sheet Modals
+        {t('featuresLab.sheetsTitle')}
       </Text>
       <Spacer size="xs" />
       <Text variant="caption" color={theme.colors.textSecondary}>
-        Industry-standard bottom sheets powered by @swmansion/react-native-bottom-sheet.
+        {t('featuresLab.sheetsSubtitle')}
       </Text>
 
       <Spacer size="md" />
@@ -66,21 +63,23 @@ export const TabViewDemoScreen = ({
       {/* Android On-Screen Navigation Card */}
       <View style={styles.card} testID="android-nav-info-card">
         <Text variant="body" weight="bold">
-          Android Soft Navigation Handling
+          {t('featuresLab.androidNavTitle')}
         </Text>
         <Spacer size="xs" />
         <Text variant="caption" color={theme.colors.textSecondary}>
-          Detected Bottom Inset:{' '}
+          {t('featuresLab.detectedInset')}{' '}
           <Text variant="caption" weight="bold" color={theme.colors.primary}>
             {insets.bottom}dp
           </Text>{' '}
-          ({Platform.OS === 'android' ? 'Android Device' : 'iOS Device'})
+          (
+          {Platform.OS === 'android'
+            ? t('featuresLab.androidDevice')
+            : t('featuresLab.iosDevice')}
+          )
         </Text>
         <Spacer size="xs" />
         <Text variant="caption" color={theme.colors.textSecondary}>
-          On Android devices with 3-button or 2-button soft navigation, the bottom
-          sheet and bottom toast automatically inject dynamic bottom margins so
-          actions are never obscured.
+          {t('featuresLab.androidNavBody')}
         </Text>
       </View>
 
@@ -89,16 +88,15 @@ export const TabViewDemoScreen = ({
       {/* Stacked Sheet Trigger */}
       <View style={styles.card}>
         <Text variant="body" weight="bold">
-          1. Stacked Bottom Sheet
+          {t('featuresLab.stackedTitle')}
         </Text>
         <Spacer size="xs" />
         <Text variant="caption" color={theme.colors.textSecondary}>
-          Opens a modal bottom sheet which can trigger a second modal sheet stacked
-          on top, with layered backdrops and gestures.
+          {t('featuresLab.stackedBody')}
         </Text>
         <Spacer size="sm" />
         <Button
-          title="Launch Stacked Sheets"
+          title={t('featuresLab.stackedButton')}
           onPress={() => stackedSheetRef.current?.present()}
           testID="btn-trigger-stacked-sheet"
         />
@@ -109,16 +107,15 @@ export const TabViewDemoScreen = ({
       {/* Keyboard Handled Sheet Trigger */}
       <View style={styles.card}>
         <Text variant="body" weight="bold">
-          2. Keyboard-Handled Sheet
+          {t('featuresLab.keyboardTitle')}
         </Text>
         <Spacer size="xs" />
         <Text variant="caption" color={theme.colors.textSecondary}>
-          Features BottomSheetTextInput with auto-expanding interactive keyboard
-          avoidance without clipping buttons.
+          {t('featuresLab.keyboardBody')}
         </Text>
         <Spacer size="sm" />
         <Button
-          title="Launch Keyboard Sheet"
+          title={t('featuresLab.keyboardButton')}
           variant="secondary"
           onPress={() => keyboardSheetRef.current?.present()}
           testID="btn-trigger-keyboard-sheet"
@@ -138,45 +135,40 @@ export const TabViewDemoScreen = ({
       testID="tab-content-toast-lab"
     >
       <Text variant="title" weight="bold">
-        Native Bottom Toast Lab
+        {t('featuresLab.toastTitle')}
       </Text>
       <Spacer size="xs" />
       <Text variant="caption" color={theme.colors.textSecondary}>
-        Powered by react-native-toast-message with custom native HUD capsule
-        styling and soft navigation clearance.
+        {t('featuresLab.toastSubtitle')}
       </Text>
 
       <Spacer size="md" />
 
       <View style={styles.card}>
         <Text variant="body" weight="bold">
-          Simulate Network & API Errors
+          {t('featuresLab.simulateTitle')}
         </Text>
         <Spacer size="xs" />
         <Text variant="caption" color={theme.colors.textSecondary}>
-          These trigger the exact toast format presented on ERR_NETWORK or 5xx server
-          responses.
+          {t('featuresLab.simulateBody')}
         </Text>
         <Spacer size="sm" />
         <Button
-          title="Simulate Network Error (Bottom Toast)"
+          title={t('featuresLab.networkErrorButton')}
           variant="danger"
           onPress={() =>
-            Toast.error(
-              'Unable to connect to the server. Please check your internet connection.',
-              'Network Error',
-            )
+            Toast.error(t('apiErrors.network'), t('toast.networkError'))
           }
           testID="btn-toast-network-error"
         />
         <Spacer size="xs" />
         <Button
-          title="Simulate 500 Server Error"
+          title={t('featuresLab.serverErrorButton')}
           variant="outline"
           onPress={() =>
             Toast.error(
-              'Internal Server Error (500). Please try again later.',
-              'Server Glitch',
+              t('featuresLab.serverErrorMessage'),
+              t('featuresLab.serverErrorTitle'),
             )
           }
           testID="btn-toast-server-error"
@@ -187,27 +179,27 @@ export const TabViewDemoScreen = ({
 
       <View style={styles.card}>
         <Text variant="body" weight="bold">
-          Success & Warning Notifications
+          {t('featuresLab.successWarningTitle')}
         </Text>
         <Spacer size="sm" />
         <Button
-          title="Show Success Toast"
+          title={t('featuresLab.successButton')}
           onPress={() =>
             Toast.success(
-              'Data synchronized with remote server.',
-              'Sync Complete',
+              t('featuresLab.successMessage'),
+              t('featuresLab.successTitle'),
             )
           }
           testID="btn-toast-success"
         />
         <Spacer size="xs" />
         <Button
-          title="Show Warning Toast"
+          title={t('featuresLab.warningButton')}
           variant="secondary"
           onPress={() =>
             Toast.warning(
-              'Network bandwidth is low. Image sync paused.',
-              'Slow Connection',
+              t('featuresLab.warningMessage'),
+              t('featuresLab.warningTitle'),
             )
           }
           testID="btn-toast-warning"
@@ -218,21 +210,21 @@ export const TabViewDemoScreen = ({
 
       <View style={styles.card}>
         <Text variant="body" weight="bold">
-          Global API Cancellation
+          {t('featuresLab.cancelTitle')}
         </Text>
         <Spacer size="xs" />
         <Text variant="caption" color={theme.colors.textSecondary}>
-          Cancels all pending HTTP requests across the application.
+          {t('featuresLab.cancelBody')}
         </Text>
         <Spacer size="sm" />
         <Button
-          title="Cancel All Pending Requests"
+          title={t('featuresLab.cancelButton')}
           variant="outline"
           onPress={() => {
             AppConstant.cancelAllRequests();
             Toast.info(
-              'All in-flight requests were aborted.',
-              'Requests Aborted',
+              t('featuresLab.cancelMessage'),
+              t('featuresLab.cancelToastTitle'),
             );
           }}
           testID="btn-cancel-all-requests"
@@ -252,41 +244,34 @@ export const TabViewDemoScreen = ({
       testID="tab-content-overview"
     >
       <Text variant="title" weight="bold">
-        Verified Production Stack
+        {t('featuresLab.overviewTitle')}
       </Text>
       <Spacer size="xs" />
       <Text variant="caption" color={theme.colors.textSecondary}>
-        All components adhere to clean architecture, zero-jank New Architecture
-        standards, and complete unit test coverage.
+        {t('featuresLab.overviewSubtitle')}
       </Text>
 
       <Spacer size="md" />
 
       {[
-        {
-          name: 'react-native-tab-view',
-          desc: 'High performance tabs powered by pager-view with smooth swipe physics.',
-        },
+        { name: 'react-native-tab-view', desc: t('featuresLab.stackTabView') },
         {
           name: '@swmansion/react-native-bottom-sheet',
-          desc: 'Official Software Mansion modal sheets with stacking and keyboard avoidance.',
+          desc: t('featuresLab.stackBottomSheet'),
         },
         {
           name: 'react-native-toast-message',
-          desc: 'Native HUD capsule bottom toast with Android navigation bar safety.',
+          desc: t('featuresLab.stackToast'),
         },
         {
           name: 'GlobalLoader & AppConstant',
-          desc: 'Reference-counted imperative loader and API cancellation controller.',
+          desc: t('featuresLab.stackLoader'),
         },
         {
           name: 'react-native-unistyles',
-          desc: 'Ultra-fast stylesheet engine with dynamic runtime theme support.',
+          desc: t('featuresLab.stackUnistyles'),
         },
-        {
-          name: 'MMKV & Redux Toolkit',
-          desc: 'High speed storage and predictable state orchestration.',
-        },
+        { name: 'MMKV & Redux Toolkit', desc: t('featuresLab.stackStorage') },
       ].map((item, i) => (
         <View key={i} style={styles.stackItem}>
           <Text variant="body" weight="bold" color={theme.colors.primary}>
@@ -324,7 +309,7 @@ export const TabViewDemoScreen = ({
   return (
     <View style={styles.container}>
       <Header
-        title="Features Lab"
+        title={t('featuresLab.title')}
         onBackPress={() => navigation.goBack()}
       />
 

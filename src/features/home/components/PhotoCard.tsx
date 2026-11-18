@@ -1,6 +1,7 @@
 import type { PhotoItem } from '../types/home.types';
 import React from 'react';
 import { View, Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { Text, Spacer } from '@components/atoms';
@@ -12,6 +13,7 @@ export interface PhotoCardProps {
 }
 
 export const PhotoCard: React.FC<PhotoCardProps> = ({ item, onPress }) => {
+  const { t } = useTranslation();
   const imageUri =
     item.thumbnailUrl ||
     item.url ||
@@ -34,13 +36,13 @@ export const PhotoCard: React.FC<PhotoCardProps> = ({ item, onPress }) => {
           <View style={styles.badgeRow}>
             {item.albumId != null && (
               <View style={styles.albumBadge}>
-                <Text variant="caption" weight="bold" color="#2563EB">
-                  Album #{item.albumId}
+                <Text variant="caption" weight="bold" tone="primary">
+                  {t('home.albumBadge', { id: item.albumId })}
                 </Text>
               </View>
             )}
             <View style={styles.idBadge}>
-              <Text variant="caption" color="#6B7280">
+              <Text variant="caption" tone="textSecondary">
                 #{item.id}
               </Text>
             </View>
@@ -82,7 +84,7 @@ const styles = StyleSheet.create(theme => ({
     alignItems: 'center',
   },
   albumBadge: {
-    backgroundColor: '#DBEAFE',
+    backgroundColor: theme.colors.primaryLight,
     paddingHorizontal: theme.spacing.xs,
     paddingVertical: 2,
     borderRadius: theme.borderRadius.sm,

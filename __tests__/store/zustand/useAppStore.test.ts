@@ -49,7 +49,7 @@ describe('useAppStore', () => {
 
   it('marks first launch as complete', () => {
     useAppStore.getState().setFirstLaunchComplete();
-    expect(storage.getBoolean('@first_launch_done')).toBe(true);
+    expect(storage.getBoolean(STORAGE_KEYS.FIRST_LAUNCH_DONE)).toBe(true);
     expect(useAppStore.getState().isFirstLaunch).toBe(false);
   });
 });

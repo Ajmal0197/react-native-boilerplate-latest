@@ -4,7 +4,7 @@ import Svg, { Path, Circle } from 'react-native-svg';
 
 export const HomeIcon: React.FC<IconProps> = ({
   size = 24,
-  color = '#000',
+  color = 'currentColor',
   ...props
 }) => (
   <Svg
@@ -25,7 +25,7 @@ export const HomeIcon: React.FC<IconProps> = ({
 
 export const BellIcon: React.FC<IconProps> = ({
   size = 24,
-  color = '#000',
+  color = 'currentColor',
   ...props
 }) => (
   <Svg
@@ -46,7 +46,7 @@ export const BellIcon: React.FC<IconProps> = ({
 
 export const SettingsIcon: React.FC<IconProps> = ({
   size = 24,
-  color = '#000',
+  color = 'currentColor',
   ...props
 }) => (
   <Svg
@@ -67,7 +67,7 @@ export const SettingsIcon: React.FC<IconProps> = ({
 
 export const CheckIcon: React.FC<IconProps> = ({
   size = 24,
-  color = '#000',
+  color = 'currentColor',
   ...props
 }) => (
   <Svg
@@ -87,7 +87,7 @@ export const CheckIcon: React.FC<IconProps> = ({
 
 export const AlertCircleIcon: React.FC<IconProps> = ({
   size = 24,
-  color = '#000',
+  color = 'currentColor',
   ...props
 }) => (
   <Svg
@@ -109,7 +109,7 @@ export const AlertCircleIcon: React.FC<IconProps> = ({
 
 export const AlertTriangleIcon: React.FC<IconProps> = ({
   size = 24,
-  color = '#000',
+  color = 'currentColor',
   ...props
 }) => (
   <Svg
@@ -131,7 +131,7 @@ export const AlertTriangleIcon: React.FC<IconProps> = ({
 
 export const InfoIcon: React.FC<IconProps> = ({
   size = 24,
-  color = '#000',
+  color = 'currentColor',
   ...props
 }) => (
   <Svg
@@ -153,7 +153,7 @@ export const InfoIcon: React.FC<IconProps> = ({
 
 export const CloseIcon: React.FC<IconProps> = ({
   size = 24,
-  color = '#000',
+  color = 'currentColor',
   ...props
 }) => (
   <Svg
@@ -171,4 +171,3 @@ export const CloseIcon: React.FC<IconProps> = ({
     <Path d="M6 6l12 12" />
   </Svg>
 );
-

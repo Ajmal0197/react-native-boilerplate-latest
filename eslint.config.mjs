@@ -58,7 +58,7 @@ export default [
       'react-native/no-unused-styles': 'warn',
       'react-native/split-platform-components': 'error',
       'react-native/no-inline-styles': 'warn',
-      'react-native/no-color-literals': 'off',
+      'react-native/no-color-literals': 'warn',
       'react-native/no-single-element-style-arrays': 'error',
 
       // React Hooks rules
@@ -88,10 +88,28 @@ export default [
 
       // TypeScript rules
       '@typescript-eslint/no-unused-vars': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-expressions': 'error',
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@react-native-async-storage/async-storage',
+              message: 'Use MMKV via `storage` from @services/storage.',
+            },
+          ],
+          patterns: [
+            {
+              group: ['../../**'],
+              allowTypeImports: true,
+              message: 'Use configured path aliases (e.g. @components, @services) instead of deep relative imports.',
+            },
+          ],
+        },
+      ],
 
       // General rules
       'no-console': ['warn', { allow: ['warn', 'error'] }],
@@ -137,7 +155,7 @@ export default [
         node: true,
       },
       'import/internal-regex':
-        '^@(api|assets|components|config|constants|features|hooks|locales|native|navigation|services|store|theme|types|utils)(/|$)',
+        '^@(api|assets|components|config|constants|features|hooks|locales|native|navigation|services|store|theme|appTypes|utils)(/|$)',
     },
   },
 

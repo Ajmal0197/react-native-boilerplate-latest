@@ -1,4 +1,4 @@
-/* eslint-disable no-var, @typescript-eslint/no-explicit-any */
+/* eslint-disable no-var */
 declare var global: typeof globalThis;
 
 declare module 'react-native-keys' {
@@ -10,12 +10,13 @@ declare module 'react-native-keys' {
     BUNDLE_ID: string;
     PACKAGE_ID: string;
     TIMEOUT_MS: string;
+    USE_MOCK_API?: string;
     secureFor(
       key: 'API_BASE_URL' | 'SECRET_KEY' | 'MMKV_ENCRYPTION_KEY' | string,
     ): string;
     publicFor(key: string): string;
     publicKeys(): Record<string, string>;
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   const Keys: KeysStatic;

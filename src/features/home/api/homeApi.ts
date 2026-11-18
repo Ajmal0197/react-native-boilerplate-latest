@@ -1,6 +1,6 @@
 import type { PhotoItem, FetchPhotosParams } from '../types/home.types';
 import { apiClient } from '@api/client';
-import { API_ENDPOINTS } from '@config/constants';
+import { API_ENDPOINTS } from '@api/endpoints';
 
 export const homeApi = {
   /**

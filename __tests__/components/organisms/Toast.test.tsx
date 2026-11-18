@@ -5,7 +5,7 @@ import {
   CustomToastCard,
   toastConfig,
 } from '@components/organisms/Toast';
-import { AppConstant } from '@config/AppConstant';
+import { AppConstant } from '@services/AppConstant';
 import { render, screen, fireEvent } from '@test-utils';
 
 describe('Toast and CustomToastCard', () => {
@@ -88,11 +88,7 @@ describe('Toast and CustomToastCard', () => {
     it('triggers onPress or onHide when card body is pressed', async () => {
       const onPress = jest.fn();
       await render(
-        <CustomToastCard
-          type="info"
-          text2="Tap card body"
-          onPress={onPress}
-        />,
+        <CustomToastCard type="info" text2="Tap card body" onPress={onPress} />,
       );
 
       fireEvent.press(screen.getByTestId('toast-card'));

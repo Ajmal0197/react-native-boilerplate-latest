@@ -9,6 +9,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import { Text, Input, Button, Spacer } from '@components/atoms';
 import { Card } from '@components/molecules';
 import { useAuthStore } from '@store/zustand/useAuthStore';
+import { withAlpha } from '@theme/colors';
 import { authApi } from '../api/authApi';
 import { loginSchema, LoginFormData } from '../validation/loginSchema';
 
@@ -49,7 +50,7 @@ export const LoginScreen = ({ navigation }: AuthScreenProps<'Login'>) => {
           {t('auth.login.title')}
         </Text>
         <Spacer size="xs" />
-        <Text variant="body" color="#6B7280">
+        <Text variant="body" tone="textSecondary">
           {t('auth.login.subtitle')}
         </Text>
       </View>
@@ -57,7 +58,7 @@ export const LoginScreen = ({ navigation }: AuthScreenProps<'Login'>) => {
       <Card variant="elevated" style={styles.card}>
         {errorMessage && (
           <View style={styles.errorBanner}>
-            <Text variant="caption" color="#FF3B30">
+            <Text variant="caption" tone="error">
               {errorMessage}
             </Text>
           </View>
@@ -114,7 +115,7 @@ export const LoginScreen = ({ navigation }: AuthScreenProps<'Login'>) => {
       <View style={styles.footer}>
         <Text variant="body">{t('auth.login.noAccount')} </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-          <Text variant="body" weight="bold" color="#0066FF">
+          <Text variant="body" weight="bold" tone="primary">
             {t('auth.login.signUpLink')}
           </Text>
         </TouchableOpacity>
@@ -137,7 +138,7 @@ const styles = StyleSheet.create(theme => ({
     padding: theme.spacing.lg,
   },
   errorBanner: {
-    backgroundColor: 'rgba(255, 59, 48, 0.1)',
+    backgroundColor: withAlpha(theme.colors.error, 0.1),
     padding: theme.spacing.sm,
     borderRadius: theme.borderRadius.sm,
     marginBottom: theme.spacing.md,

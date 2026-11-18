@@ -2,7 +2,8 @@ import type { PhotoItem } from '../types/home.types';
 import React from 'react';
 import { View, RefreshControl, ActivityIndicator } from 'react-native';
 import { LegendList } from '@legendapp/list/react-native';
-import { StyleSheet } from 'react-native-unistyles';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { Text } from '@components/atoms';
 import { PhotoCard } from './PhotoCard';
@@ -28,6 +29,9 @@ export const PhotoList: React.FC<PhotoListProps> = ({
   onLoadMore,
   onPhotoPress,
 }) => {
+  const { t } = useTranslation();
+  const { theme } = useUnistyles();
+
   const renderItem = ({ item }: { item: PhotoItem }) => (
     <PhotoCard item={item} onPress={onPhotoPress} />
   );
@@ -38,7 +42,7 @@ export const PhotoList: React.FC<PhotoListProps> = ({
     }
     return (
       <View style={styles.footerLoader}>
-        <ActivityIndicator size="small" color="#2563EB" />
+        <ActivityIndicator size="small" color={theme.colors.primary} />
       </View>
     );
   };
@@ -65,8 +69,8 @@ export const PhotoList: React.FC<PhotoListProps> = ({
       ListEmptyComponent={
         !isLoading ? (
           <View style={styles.emptyContainer}>
-            <Text variant="body" color="#9CA3AF" center>
-              No photos found
+            <Text variant="body" tone="textMuted" center>
+              {t('home.noPhotos')}
             </Text>
           </View>
         ) : null

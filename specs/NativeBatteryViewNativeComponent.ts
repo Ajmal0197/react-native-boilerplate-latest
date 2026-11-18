@@ -3,7 +3,10 @@ import {
   type HostComponent,
   type ViewProps,
 } from 'react-native';
-import type { Double, WithDefault } from 'react-native/Libraries/Types/CodegenTypes';
+import type {
+  Double,
+  WithDefault,
+} from 'react-native/Libraries/Types/CodegenTypes';
 
 /**
  * Fabric Component TypeScript Specification

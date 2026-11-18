@@ -1,6 +1,17 @@
-import React, { useState, forwardRef, useImperativeHandle, useCallback } from 'react';
-import { View, Text as RNText, Platform, StyleSheet as RNStyleSheet } from 'react-native';
+import React, {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useCallback,
+} from 'react';
+import {
+  View,
+  Text as RNText,
+  Platform,
+  StyleSheet as RNStyleSheet,
+} from 'react-native';
 import { ModalBottomSheet } from '@swmansion/react-native-bottom-sheet';
+import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import { Button, Spacer, Text } from '@components/atoms';
@@ -19,149 +30,144 @@ export interface StackedBottomSheetRef {
  * Fully accounts for Android on-screen soft navigation bars (3-button / gesture bar)
  * via dynamic bottom insets.
  */
-export const StackedBottomSheet = forwardRef<StackedBottomSheetRef>((_, ref) => {
-  const { theme } = useUnistyles();
-  const insets = useSafeAreaInsets();
+export const StackedBottomSheet = forwardRef<StackedBottomSheetRef>(
+  (_, ref) => {
+    const { theme } = useUnistyles();
+    const { t } = useTranslation();
+    const insets = useSafeAreaInsets();
 
-  const [firstIndex, setFirstIndex] = useState(0);
-  const [secondIndex, setSecondIndex] = useState(0);
+    const [firstIndex, setFirstIndex] = useState(0);
+    const [secondIndex, setSecondIndex] = useState(0);
 
-  // Safe Android on-screen navigation clearance
-  const bottomInset = Math.max(
-    insets.bottom,
-    Platform.OS === 'android' ? 16 : 10,
-  ) + 12;
+    // Safe Android on-screen navigation clearance
+    const bottomInset =
+      Math.max(insets.bottom, Platform.OS === 'android' ? 16 : 10) + 12;
 
-  useImperativeHandle(ref, () => ({
-    present: () => {
-      setFirstIndex(1);
-    },
-    dismiss: () => {
+    useImperativeHandle(ref, () => ({
+      present: () => {
+        setFirstIndex(1);
+      },
+      dismiss: () => {
+        setSecondIndex(0);
+        setFirstIndex(0);
+      },
+    }));
+
+    const handleOpenSecondSheet = useCallback(() => {
+      setSecondIndex(1);
+    }, []);
+
+    const handleDismissSecondSheet = useCallback(() => {
+      setSecondIndex(0);
+    }, []);
+
+    const handleDismissAll = useCallback(() => {
       setSecondIndex(0);
       setFirstIndex(0);
-    },
-  }));
+    }, []);
 
-  const handleOpenSecondSheet = useCallback(() => {
-    setSecondIndex(1);
-  }, []);
-
-  const handleDismissSecondSheet = useCallback(() => {
-    setSecondIndex(0);
-  }, []);
-
-  const handleDismissAll = useCallback(() => {
-    setSecondIndex(0);
-    setFirstIndex(0);
-  }, []);
-
-  return (
-    <>
-      {/* ─── Level 1 Modal Sheet ────────────────────────────────────────────── */}
-      <ModalBottomSheet
-        index={firstIndex}
-        onIndexChange={setFirstIndex}
-        detents={[0, '55%', '85%']}
-        scrimColor="rgba(0, 0, 0, 0.45)"
-        onCloseRequest={() => setFirstIndex(0)}
-        surface={
-          <View
-            style={[RNStyleSheet.absoluteFill, styles.surface]}
-          />
-        }
-      >
-        <View style={[styles.sheetContent, { paddingBottom: bottomInset }]}>
-          <View style={styles.handleContainer}>
-            <View style={styles.handleIndicator} />
-          </View>
-          <Spacer size="xs" />
-
-          <Text variant="title" weight="bold">
-            Modal Sheet (Level 1)
-          </Text>
-          <Spacer size="xs" />
-          <Text variant="body" color={theme.colors.textSecondary}>
-            This is the parent modal sheet powered by @swmansion/react-native-bottom-sheet.
-            You can stack another modal sheet directly on top of it with layered dimming.
-          </Text>
-
-          <Spacer size="sm" />
-          <View style={styles.badgeRow}>
-            <View style={styles.badge}>
-              <RNText style={[styles.badgeText, { color: theme.colors.primary }]}>
-                Soft Nav Safe ({bottomInset}dp)
-              </RNText>
+    return (
+      <>
+        {/* ─── Level 1 Modal Sheet ────────────────────────────────────────────── */}
+        <ModalBottomSheet
+          index={firstIndex}
+          onIndexChange={setFirstIndex}
+          detents={[0, '55%', '85%']}
+          scrimColor={theme.colors.overlay}
+          onCloseRequest={() => setFirstIndex(0)}
+          surface={<View style={[RNStyleSheet.absoluteFill, styles.surface]} />}
+        >
+          <View style={[styles.sheetContent, { paddingBottom: bottomInset }]}>
+            <View style={styles.handleContainer}>
+              <View style={styles.handleIndicator} />
             </View>
-            <View style={styles.badge}>
-              <RNText style={[styles.badgeText, { color: theme.colors.success }]}>
-                @swmansion Engine
-              </RNText>
+            <Spacer size="xs" />
+
+            <Text variant="title" weight="bold">
+              {t('stackedSheet.level1Title')}
+            </Text>
+            <Spacer size="xs" />
+            <Text variant="body" color={theme.colors.textSecondary}>
+              {t('stackedSheet.level1Body')}
+            </Text>
+
+            <Spacer size="sm" />
+            <View style={styles.badgeRow}>
+              <View style={styles.badge}>
+                <RNText
+                  style={[styles.badgeText, { color: theme.colors.primary }]}
+                >
+                  {t('stackedSheet.softNavSafe', { inset: bottomInset })}
+                </RNText>
+              </View>
+              <View style={styles.badge}>
+                <RNText
+                  style={[styles.badgeText, { color: theme.colors.success }]}
+                >
+                  {t('stackedSheet.engine')}
+                </RNText>
+              </View>
             </View>
+
+            <Spacer size="md" />
+            <Button
+              title={t('stackedSheet.openSecond')}
+              onPress={handleOpenSecondSheet}
+              testID="btn-open-stacked-sheet-2"
+            />
+            <Spacer size="sm" />
+            <Button
+              title={t('stackedSheet.close')}
+              variant="outline"
+              onPress={() => setFirstIndex(0)}
+              testID="btn-close-sheet-1"
+            />
           </View>
+        </ModalBottomSheet>
 
-          <Spacer size="md" />
-          <Button
-            title="Open Stacked Sheet 2"
-            onPress={handleOpenSecondSheet}
-            testID="btn-open-stacked-sheet-2"
-          />
-          <Spacer size="sm" />
-          <Button
-            title="Close Sheet"
-            variant="outline"
-            onPress={() => setFirstIndex(0)}
-            testID="btn-close-sheet-1"
-          />
-        </View>
-      </ModalBottomSheet>
+        {/* ─── Level 2 Stacked Modal Sheet ────────────────────────────────────── */}
+        <ModalBottomSheet
+          index={secondIndex}
+          onIndexChange={setSecondIndex}
+          detents={[0, '42%', '70%']}
+          scrimColor={theme.colors.overlay}
+          onCloseRequest={() => setSecondIndex(0)}
+          surface={<View style={[RNStyleSheet.absoluteFill, styles.surface]} />}
+        >
+          <View style={[styles.sheetContent, { paddingBottom: bottomInset }]}>
+            <View style={styles.handleContainer}>
+              <View style={styles.handleIndicator} />
+            </View>
+            <Spacer size="xs" />
 
-      {/* ─── Level 2 Stacked Modal Sheet ────────────────────────────────────── */}
-      <ModalBottomSheet
-        index={secondIndex}
-        onIndexChange={setSecondIndex}
-        detents={[0, '42%', '70%']}
-        scrimColor="rgba(0, 0, 0, 0.55)"
-        onCloseRequest={() => setSecondIndex(0)}
-        surface={
-          <View
-            style={[RNStyleSheet.absoluteFill, styles.surface]}
-          />
-        }
-      >
-        <View style={[styles.sheetContent, { paddingBottom: bottomInset }]}>
-          <View style={styles.handleContainer}>
-            <View style={styles.handleIndicator} />
+            <Text variant="title" weight="bold">
+              {t('stackedSheet.level2Title')}
+            </Text>
+            <Spacer size="xs" />
+            <Text variant="body" color={theme.colors.textSecondary}>
+              {t('stackedSheet.level2Body')}
+            </Text>
+
+            <Spacer size="md" />
+            <Button
+              title={t('stackedSheet.dismissThis')}
+              variant="secondary"
+              onPress={handleDismissSecondSheet}
+              testID="btn-dismiss-sheet-2"
+            />
+            <Spacer size="sm" />
+            <Button
+              title={t('stackedSheet.dismissAll')}
+              variant="outline"
+              onPress={handleDismissAll}
+              testID="btn-dismiss-all-sheets"
+            />
           </View>
-          <Spacer size="xs" />
-
-          <Text variant="title" weight="bold">
-            Stacked Sheet (Level 2)
-          </Text>
-          <Spacer size="xs" />
-          <Text variant="body" color={theme.colors.textSecondary}>
-            Stacked on top of Level 1. Notice the layered backdrop scrim and fluid
-            native gestures on both iOS and Android.
-          </Text>
-
-          <Spacer size="md" />
-          <Button
-            title="Dismiss This Sheet"
-            variant="secondary"
-            onPress={handleDismissSecondSheet}
-            testID="btn-dismiss-sheet-2"
-          />
-          <Spacer size="sm" />
-          <Button
-            title="Dismiss All Sheets"
-            variant="outline"
-            onPress={handleDismissAll}
-            testID="btn-dismiss-all-sheets"
-          />
-        </View>
-      </ModalBottomSheet>
-    </>
-  );
-});
+        </ModalBottomSheet>
+      </>
+    );
+  },
+);
 
 StackedBottomSheet.displayName = 'StackedBottomSheet';
 

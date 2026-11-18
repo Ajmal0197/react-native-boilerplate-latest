@@ -7,23 +7,25 @@ type DeepPartial<T> = {
 
 /**
  * Factory for creating an isolated Redux store instance.
- * Ideal for unit and integration testing with custom preloaded state.
+ * Keeps RTK's default middleware (serializability and immutability checks
+ * run in development) so non-serializable state is caught early.
  */
-export const createTestStore = (preloadedState?: DeepPartial<RootState>) =>
+export const createStore = (preloadedState?: DeepPartial<RootState>) =>
   configureStore({
     reducer: rootReducer,
     preloadedState: preloadedState as unknown as RootState,
-    middleware: getDefaultMiddleware =>
-      getDefaultMiddleware({
-        serializableCheck: false,
-      }),
   });
+
+/**
+ * Isolated store factory for unit and integration tests with custom preloaded state.
+ */
+export const createTestStore = createStore;
 
 /**
  * Redux Toolkit Central App Store
  */
-export const store = createTestStore();
+export const store = createStore();
 
 export type { RootState };
-export type AppStore = ReturnType<typeof createTestStore>;
+export type AppStore = ReturnType<typeof createStore>;
 export type AppDispatch = typeof store.dispatch;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native-unistyles';
 import { Button } from '@components/atoms/Button';
 import { Spacer } from '@components/atoms/Spacer';
@@ -17,22 +18,28 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
   error,
   resetError,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       <Text variant="display">⚠️</Text>
       <Spacer size="md" />
 
       <Text variant="title" weight="bold" center>
-        Oops! Something went wrong.
+        {t('errorFallback.title')}
       </Text>
       <Spacer size="xs" />
 
       <Text variant="caption" center style={styles.errorMessage}>
-        {error.message || 'An unexpected error occurred.'}
+        {error.message || t('errorFallback.fallbackMessage')}
       </Text>
       <Spacer size="xl" />
 
-      <Button title="Try Again" onPress={resetError} style={styles.button} />
+      <Button
+        title={t('common.tryAgain')}
+        onPress={resetError}
+        style={styles.button}
+      />
     </View>
   );
 };

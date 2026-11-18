@@ -167,7 +167,9 @@ jest.mock('react-native-tab-view', () => {
       return React.createElement(
         View,
         { testID: 'mock-tab-view' },
-        renderTabBar ? renderTabBar({ navigationState, jumpTo: jest.fn() }) : null,
+        renderTabBar
+          ? renderTabBar({ navigationState, jumpTo: jest.fn() })
+          : null,
         // Render all tab scenes in test environment for seamless interaction
         navigationState.routes.map((route: any) =>
           React.createElement(
@@ -196,7 +198,6 @@ jest.mock('react-native-tab-view', () => {
   };
 });
 
-
 // Mock react-native-gesture-handler
 jest.mock('react-native-gesture-handler', () => {
   const React = require('react');
@@ -217,13 +218,13 @@ jest.mock('@swmansion/react-native-bottom-sheet', () => {
   const { View } = require('react-native');
 
   const BottomSheetProvider = ({ children }: any) =>
-    React.createElement(View, { testID: 'mock-bottom-sheet-provider' }, children);
+    React.createElement(
+      View,
+      { testID: 'mock-bottom-sheet-provider' },
+      children,
+    );
 
-  const ModalBottomSheet = ({
-    children,
-    surface,
-    ...props
-  }: any) => {
+  const ModalBottomSheet = ({ children, surface, ...props }: any) => {
     return React.createElement(
       View,
       {
@@ -267,6 +268,3 @@ jest.mock('react-native-toast-message', () => {
     Toast: ToastComponent,
   };
 });
-
-
-

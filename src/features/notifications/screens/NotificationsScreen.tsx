@@ -1,5 +1,5 @@
 import type { TabScreenProps } from '@navigation/types';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native-unistyles';
@@ -7,6 +7,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import { Text, Button, Spacer } from '@components/atoms';
 import { Card } from '@components/molecules';
 import { Header } from '@components/organisms';
+import { withAlpha } from '@theme/colors';
 import {
   triggerInstantNotification,
   triggerScheduledNotification,
@@ -17,28 +18,41 @@ export const NotificationsScreen = (
 ) => {
   const { t } = useTranslation();
   const [scheduledStatus, setScheduledStatus] = useState<string | null>(null);
+  const statusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (statusTimerRef.current) {
+        clearTimeout(statusTimerRef.current);
+      }
+    };
+  }, []);
+
+  const showPermissionAlert = () => {
+    Alert.alert(
+      t('notifications.permissionNeededTitle'),
+      t('notifications.permissionNeededBody'),
+    );
+  };
 
   const handleInstant = async () => {
     try {
       await triggerInstantNotification();
     } catch {
-      Alert.alert(
-        'Permission needed',
-        'Please enable notifications in device settings.',
-      );
+      showPermissionAlert();
     }
   };
 
   const handleScheduled = async () => {
     try {
       await triggerScheduledNotification();
-      setScheduledStatus('Notification scheduled! Expect it in 5 seconds...');
-      setTimeout(() => setScheduledStatus(null), 6000);
+      setScheduledStatus(t('notifications.scheduledStatus'));
+      if (statusTimerRef.current) {
+        clearTimeout(statusTimerRef.current);
+      }
+      statusTimerRef.current = setTimeout(() => setScheduledStatus(null), 6000);
     } catch {
-      Alert.alert(
-        'Permission needed',
-        'Please enable notifications in device settings.',
-      );
+      showPermissionAlert();
     }
   };
 
@@ -49,10 +63,10 @@ export const NotificationsScreen = (
       <View style={styles.content}>
         <Card variant="elevated" style={styles.card}>
           <Text variant="title" weight="bold">
-            Push Notifications with Notifee
+            {t('notifications.cardTitle')}
           </Text>
           <Spacer size="xs" />
-          <Text variant="body" color="#4B5563">
+          <Text variant="body" tone="textSecondary">
             {t('notifications.permissionPrompt')}
           </Text>
 
@@ -73,7 +87,7 @@ export const NotificationsScreen = (
 
           {scheduledStatus && (
             <View style={styles.statusBox}>
-              <Text variant="caption" color="#34C759" center>
+              <Text variant="caption" tone="success" center>
                 {scheduledStatus}
               </Text>
             </View>
@@ -84,18 +98,12 @@ export const NotificationsScreen = (
 
         <Card variant="outlined">
           <Text variant="label" weight="bold">
-            Key Architecture Notes:
+            {t('notifications.notesTitle')}
           </Text>
           <Spacer size="xs" />
-          <Text variant="caption">
-            • Uses Android Notification Channels (Android 8.0+)
-          </Text>
-          <Text variant="caption">
-            • Automatically requests iOS Notification Authorization
-          </Text>
-          <Text variant="caption">
-            • Supports background trigger notifications
-          </Text>
+          <Text variant="caption">{t('notifications.note1')}</Text>
+          <Text variant="caption">{t('notifications.note2')}</Text>
+          <Text variant="caption">{t('notifications.note3')}</Text>
         </Card>
       </View>
     </View>
@@ -116,7 +124,7 @@ const styles = StyleSheet.create(theme => ({
   statusBox: {
     marginTop: theme.spacing.md,
     padding: theme.spacing.sm,
-    backgroundColor: 'rgba(52, 199, 89, 0.1)',
+    backgroundColor: withAlpha(theme.colors.success, 0.1),
     borderRadius: theme.borderRadius.sm,
   },
 }));

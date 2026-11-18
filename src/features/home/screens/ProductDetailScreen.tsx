@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
-import { StyleSheet } from 'react-native-unistyles';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { normalizeApiError } from '@api/errors';
 import { Text, Spacer, Button } from '@components/atoms';
@@ -23,6 +24,8 @@ export const ProductDetailScreen: React.FC<
 > = ({ route, navigation }) => {
   const { productId, title: initialTitle } = route.params;
   const { signal } = useApiCancellation();
+  const { t } = useTranslation();
+  const { theme } = useUnistyles();
 
   const [product, setProduct] = useState<PhotoItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +65,7 @@ export const ProductDetailScreen: React.FC<
   return (
     <View style={styles.container}>
       <Header
-        title="Product Details"
+        title={t('productDetail.title')}
         subtitle={`#${productId}`}
         onBackPress={() => navigation.goBack()}
       />
@@ -85,14 +88,14 @@ export const ProductDetailScreen: React.FC<
           <View style={styles.badgeRow}>
             {product?.albumId != null && (
               <View style={styles.albumBadge}>
-                <Text variant="caption" weight="bold" color="#2563EB">
-                  Album #{product.albumId}
+                <Text variant="caption" weight="bold" tone="primary">
+                  {t('home.albumBadge', { id: product.albumId })}
                 </Text>
               </View>
             )}
             <View style={styles.idBadge}>
-              <Text variant="caption" color="#6B7280">
-                Item #{productId}
+              <Text variant="caption" tone="textSecondary">
+                {t('productDetail.itemBadge', { id: productId })}
               </Text>
             </View>
           </View>
@@ -105,9 +108,8 @@ export const ProductDetailScreen: React.FC<
 
           <Spacer size="sm" />
 
-          <Text variant="body" color="#4B5563">
-            High performance photo item rendered with full details, metadata, and
-            react-native-keys environment variables.
+          <Text variant="body" tone="textSecondary">
+            {t('productDetail.description')}
           </Text>
         </Card>
 
@@ -115,54 +117,54 @@ export const ProductDetailScreen: React.FC<
 
         <Card variant="flat" style={styles.metaCard}>
           <Text variant="label" weight="bold">
-            Metadata
+            {t('productDetail.metadata')}
           </Text>
           <Spacer size="xs" />
           <View style={styles.metaRow}>
-            <Text variant="caption" color="#6B7280">
-              Identifier:
+            <Text variant="caption" tone="textSecondary">
+              {t('productDetail.identifier')}
             </Text>
             <Text variant="caption" weight="medium">
               {productId}
             </Text>
           </View>
           <View style={styles.metaRow}>
-            <Text variant="caption" color="#6B7280">
-              Album ID:
+            <Text variant="caption" tone="textSecondary">
+              {t('productDetail.albumId')}
             </Text>
             <Text variant="caption" weight="medium">
-              {product?.albumId ?? 'N/A'}
+              {product?.albumId ?? t('common.na')}
             </Text>
           </View>
           <View style={styles.metaRow}>
-            <Text variant="caption" color="#6B7280">
-              Status:
+            <Text variant="caption" tone="textSecondary">
+              {t('productDetail.status')}
             </Text>
-            <Text variant="caption" weight="medium" color="#10B981">
-              Active
+            <Text variant="caption" weight="medium" tone="success">
+              {t('productDetail.active')}
             </Text>
           </View>
         </Card>
 
         {isLoading && (
           <View style={styles.loaderContainer}>
-            <ActivityIndicator size="small" color="#2563EB" />
+            <ActivityIndicator size="small" color={theme.colors.primary} />
             <Spacer size="xs" />
-            <Text variant="caption" color="#6B7280">
-              Loading latest details...
+            <Text variant="caption" tone="textSecondary">
+              {t('productDetail.loading')}
             </Text>
           </View>
         )}
 
         {hasError && (
           <View style={styles.errorContainer}>
-            <Text variant="caption" color="#DC2626">
-              {errorMessage || 'Could not refresh live data. Showing cached parameters.'}
+            <Text variant="caption" tone="error">
+              {errorMessage || t('productDetail.loadError')}
             </Text>
             <Spacer size="xs" />
             <TouchableOpacity onPress={fetchDetail}>
-              <Text variant="label" color="#2563EB" weight="bold">
-                Tap to retry
+              <Text variant="label" tone="primary" weight="bold">
+                {t('productDetail.retry')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -171,7 +173,7 @@ export const ProductDetailScreen: React.FC<
         <Spacer size="lg" />
 
         <Button
-          title="Back to Products"
+          title={t('productDetail.back')}
           variant="secondary"
           onPress={() => navigation.goBack()}
         />
@@ -207,7 +209,7 @@ const styles = StyleSheet.create(theme => ({
     alignItems: 'center',
   },
   albumBadge: {
-    backgroundColor: '#DBEAFE',
+    backgroundColor: theme.colors.primaryLight,
     paddingHorizontal: theme.spacing.xs,
     paddingVertical: 2,
     borderRadius: theme.borderRadius.sm,
