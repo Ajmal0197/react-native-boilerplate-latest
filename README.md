@@ -48,26 +48,26 @@ Non-production builds also mount `BugBubble` (`@lokal-dev/react-native-bugbubble
 
 ## What is included
 
-| Job                 | What we use                                                                                                                        | Where to look                                              |
-| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------- |
-| UI styling          | Unistyles v3. Styles read `theme.colors` and `theme.spacing`. Light, dark, and system theme.                                       | `src/theme/`                                               |
-| Navigation          | React Navigation 7. Native stack + bottom tabs. Typed params. Deep links.                                                          | `src/navigation/`                                          |
-| Server state        | Redux Toolkit. The photo list is the sample slice.                                                                                 | `src/store/redux/`, `src/features/home/store/`             |
-| UI and auth state   | Zustand. Auth session and theme mode.                                                                                              | `src/store/zustand/`                                       |
-| HTTP                | Axios. One client, typed endpoints, `normalizeApiError`, silent flag, 401 refresh that logs out on failure.                        | `src/api/`                                                 |
-| Forms               | React Hook Form + Yup. Messages come from i18n.                                                                                    | `src/features/auth/validation/`                            |
-| Copy                | i18next. English, Spanish, Arabic. No raw strings in JSX.                                                                          | `src/locales/`                                             |
-| Key-value storage   | MMKV through `@services/storage`. AsyncStorage is not used.                                                                        | `src/services/storage.ts`                                  |
-| Secrets and env     | `react-native-keys`. Separate files for development, staging, and production.                                                      | `keys.example.json`, `src/config/env.ts`                   |
-| Lists               | `@legendapp/list` (`LegendList`) for the photo feed.                                                                               | `src/features/home/components/PhotoList.tsx`               |
-| Sheets and keyboard | Software Mansion bottom sheet + `react-native-keyboard-controller`.                                                                | `src/components/organisms/`                                |
-| Toasts and loader   | `react-native-toast-message` and a root-sibling loader. Call them from anywhere.                                                   | `src/components/organisms/`, `src/services/AppConstant.ts` |
-| Notifications       | Notifee.                                                                                                                           | `src/features/notifications/`                              |
-| Native modules      | Codegen specs: device info and a sample battery view.                                                                              | `specs/`, `src/native/`                                    |
-| Crash reports       | A small facade. Plug in Sentry or Crashlytics with `setCrashReporter`. Until then it is a no-op. Wired to the root error boundary. | `src/services/crashReporting.ts`                           |
-| Tests               | Jest and React Native Testing Library. 33 suites, 128 tests. Coverage thresholds are enforced.                                     | `__tests__/`, `jest.config.js`                             |
-| Code quality scan   | Local SonarQube community server. Host scanner via `@sonar/scan`.                                                                  | `docker-compose.yml`, `sonar-project.properties`           |
-| CI and git hooks    | GitHub Actions, Husky, lint-staged, commitlint (Conventional Commits).                                                             | `.github/workflows/ci.yml`, `.husky/`                      |
+| Job                 | What we use                                                                                                                        | Where to look                                                            |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------- |
+| UI styling          | Unistyles v3. Styles read `theme.colors` and `theme.spacing`. Light, dark, and system theme.                                       | `src/theme/`                                                             |
+| Navigation          | React Navigation 7. Native stack + bottom tabs. Typed params. Deep links.                                                          | `src/navigation/`                                                        |
+| Server state        | Redux Toolkit. The photo list is the sample slice.                                                                                 | `src/store/redux/`, `src/features/home/store/`                           |
+| UI and auth state   | Zustand. Auth session and theme mode.                                                                                              | `src/store/zustand/`                                                     |
+| HTTP                | Axios. One client, typed endpoints, `normalizeApiError`, silent flag, 401 refresh that logs out on failure.                        | `src/api/`                                                               |
+| Forms               | React Hook Form + Yup. Messages come from i18n.                                                                                    | `src/features/auth/validation/`                                          |
+| Copy                | i18next. English, Spanish, Arabic. No raw strings in JSX.                                                                          | `src/locales/`                                                           |
+| Key-value storage   | MMKV through `@services/storage`. AsyncStorage is not used.                                                                        | `src/services/storage.ts`                                                |
+| Secrets and env     | `react-native-keys`. Separate files for development, staging, and production.                                                      | `keys.example.json`, `src/config/env.ts`                                 |
+| Lists               | `@legendapp/list` (`LegendList`) for the photo feed.                                                                               | `src/features/home/components/PhotoList.tsx`                             |
+| Sheets and keyboard | Software Mansion bottom sheet + `react-native-keyboard-controller`.                                                                | `src/components/organisms/`                                              |
+| Toasts and loader   | `react-native-toast-message` and a root-sibling loader. Call them from anywhere.                                                   | `src/components/organisms/`, `src/services/AppConstant.ts`               |
+| Notifications       | Notifee.                                                                                                                           | `src/features/notifications/`                                            |
+| Native modules      | Codegen specs: device info and a sample battery view.                                                                              | `specs/`, `src/native/`                                                  |
+| Crash reports       | A small facade. Plug in Sentry or Crashlytics with `setCrashReporter`. Until then it is a no-op. Wired to the root error boundary. | `src/services/crashReporting.ts`                                         |
+| Tests               | Jest and React Native Testing Library. 33 suites, 128 tests. Coverage thresholds are enforced.                                     | `__tests__/`, `jest.config.js`                                           |
+| Code quality scan   | Local SonarQube community server. Host scanner via `@sonar/scan`.                                                                  | `docker-compose.yml`, `sonar-project.properties`                         |
+| CI and git hooks    | One script for every host. GitHub Actions and GitLab CI both call it. Husky, lint-staged, commitlint (Conventional Commits).       | `scripts/ci.sh`, `.github/workflows/ci.yml`, `.gitlab-ci.yml`, `.husky/` |
 
 ---
 
@@ -192,6 +192,8 @@ A release build with no `API_BASE_URL` throws at startup. Debug builds fall back
 | `yarn test:coverage`                  | Jest with coverage thresholds                 |
 | `yarn knip:check`                     | Unused files, exports, and dependencies       |
 | `yarn check`                          | typecheck, lint, format, coverage, knip       |
+| `yarn ci`                             | Same gates as CI, plus a locked install       |
+| `yarn ci audit`                       | Production dependency audit                   |
 | `yarn sonar:start`                    | Start the local SonarQube server              |
 | `yarn sonar:open`                     | Open the project dashboard in the browser     |
 | `yarn sonar`                          | Run tests with coverage, then scan and upload |
@@ -302,7 +304,7 @@ setCrashReporter({
 - Forms use React Hook Form and Yup.
 - New native modules are TurboModules or Fabric components, with a spec in `specs/`.
 - Commits follow [Conventional Commits](https://www.conventionalcommits.org). Husky runs lint-staged and commitlint.
-- CI (`.github/workflows/ci.yml`) runs typecheck, lint, format, tests with coverage, and knip.
+- CI runs `scripts/ci.sh`: typecheck, lint, format, tests with coverage, and knip. GitHub Actions (`.github/workflows/ci.yml`) and GitLab CI (`.gitlab-ci.yml`) both call that script. Jenkins, Bitbucket, CircleCI, or Azure Pipelines run `bash scripts/ci.sh` on Node 22. `bash scripts/ci.sh audit` is the dependency audit and is allowed to fail.
 
 ---
 

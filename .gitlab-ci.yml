@@ -1,0 +1,30 @@
+# Same checks as .github/workflows/ci.yml. Steps live in scripts/ci.sh.
+
+image: node:22
+
+variables:
+  COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+  YARN_CACHE_FOLDER: '$CI_PROJECT_DIR/.yarn/cache'
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+default:
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - .yarn/cache
+      - node_modules
+
+quality:
+  script:
+    - bash scripts/ci.sh
+
+audit:
+  allow_failure: true
+  script:
+    - bash scripts/ci.sh audit

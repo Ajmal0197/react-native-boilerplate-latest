@@ -14,17 +14,13 @@ cp keys.example.json keys.development.json   # repeat for staging / production /
 
 1. Branch from `main`: `feat/<summary>`, `fix/<summary>` or `chore/<summary>`.
 2. Keep changes small and focused; add or update tests for any behavior change.
-3. Run the quality gates locally before pushing:
+3. Run the same gates CI runs, before pushing:
 
    ```bash
-   yarn typecheck
-   yarn lint
-   yarn format:check
-   yarn test:coverage
-   yarn knip:check
+   yarn ci
    ```
 
-4. Open a PR. CI runs the same gates and must be green.
+4. Open a pull request (GitHub) or merge request (GitLab). Both run `scripts/ci.sh` and must be green. Any other CI host runs that same script.
 
 ## Commit messages
 

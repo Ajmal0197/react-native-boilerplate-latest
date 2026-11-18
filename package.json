@@ -30,6 +30,7 @@
     "test:coverage": "jest --coverage",
     "knip:check": "knip",
     "check": "yarn typecheck && yarn lint && yarn format:check && yarn test:coverage && yarn knip:check",
+    "ci": "bash scripts/ci.sh",
     "sonar": "yarn test:coverage && sonar-scanner",
     "sonar:start": "docker-compose up -d",
     "sonar:stop": "docker-compose stop",

@@ -33,40 +33,8 @@ jobs:
           node-version-file: .nvmrc
           cache: yarn
 
-      # setup-node puts a new Node on PATH. Activate Yarn 3.6.4 on that Node
-      # before install. The earlier `corepack enable` only covers the cache probe.
-      - name: Activate pinned Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@3.6.4 --activate
-          echo "node $(node -v)"
-          echo "yarn $(yarn -v)"
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      # Environment key files are git-ignored. Native builds must write real
-      # values from the secret store; checks below only need the template.
-      - name: Create placeholder key files
-        run: |
-          for f in keys.json keys.development.json keys.staging.json keys.production.json; do
-            cp keys.example.json "$f"
-          done
-
-      - name: Typecheck
-        run: yarn typecheck
-
-      - name: Lint
-        run: yarn lint
-
-      - name: Format check
-        run: yarn format:check
-
-      - name: Unit tests
-        run: yarn test --coverage --ci
-
-      - name: Unused code and dependencies
-        run: yarn knip:check
+      - name: Quality gates
+        run: bash scripts/ci.sh
 
   audit:
     name: Dependency audit
@@ -78,11 +46,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Activate pinned Yarn
-        run: |
-          corepack enable
-          corepack prepare yarn@3.6.4 --activate
-          echo "node $(node -v)"
-          echo "yarn $(yarn -v)"
       - name: Audit production dependencies
-        run: yarn npm audit --environment production
+        run: bash scripts/ci.sh audit
