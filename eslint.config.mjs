@@ -63,12 +63,15 @@ export default [
 
       // React Hooks rules
       'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'off',
+      'react-hooks/exhaustive-deps': 'warn',
 
       // React rules
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       'react/display-name': 'off',
+      'react/self-closing-comp': ['warn', { component: true, html: true }],
+      'react/jsx-curly-brace-presence': ['warn', { props: 'never', children: 'never' }],
+      'react/jsx-no-useless-fragment': 'warn',
 
       // Unused imports detection with auto-fix
       'unused-imports/no-unused-imports': 'error',
@@ -93,13 +96,16 @@ export default [
       // General rules
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-debugger': 'error',
+      'no-alert': 'error',
       'no-unused-vars': 'off',
       'prefer-const': 'error',
       'no-var': 'error',
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
       'object-shorthand': 'error',
       'prefer-template': 'error',
       'no-duplicate-imports': 'error',
       'no-void': ['error', { allowAsStatement: true }],
+      'max-lines': ['warn', { max: 400, skipBlankLines: true, skipComments: true }],
 
       // Import order
       'import/order': [

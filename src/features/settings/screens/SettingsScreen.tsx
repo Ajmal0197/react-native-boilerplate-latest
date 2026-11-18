@@ -4,9 +4,11 @@ import { View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native-unistyles';
 
+import { WhatsAppPremiumIcon } from '@assets/svgs';
 import { Text, Button, Spacer } from '@components/atoms';
 import { ListItem, Card } from '@components/molecules';
 import { Header } from '@components/organisms';
+import { AppConstant } from '@config';
 import { Config } from '@config/env';
 import { NativeDeviceInfo } from '@native/NativeDeviceInfo';
 import { useAppStore } from '@store/zustand/useAppStore';
@@ -74,7 +76,22 @@ export const SettingsScreen = ({ navigation }: TabScreenProps<'Settings'>) => {
           />
           <ListItem
             title={t('settings.appVersion')}
-            subtitle={`${appVersion} • ${Config.APP_NAME}`}
+            subtitle={`${appVersion} (Build v${AppConstant.appVersion}) • ${Config.APP_NAME}`}
+          />
+          <ListItem
+            title="Active Page Tracker"
+            subtitle={`Home Page ID: ${AppConstant.getCurrentHomeScreenPageId() ?? '1'}`}
+          />
+        </Card>
+
+        <Spacer size="md" />
+
+        <Card variant="outlined" style={styles.section}>
+          <ListItem
+            title="WhatsApp Support"
+            subtitle="24/7 Priority Helpdesk"
+            leftElement={<WhatsAppPremiumIcon width={24} height={24} />}
+            rightElement={<Text variant="body">›</Text>}
           />
         </Card>
 

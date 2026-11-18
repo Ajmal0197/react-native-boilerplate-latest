@@ -13,7 +13,7 @@
   <a href="https://react.dev"><img src="https://img.shields.io/badge/React-19.3.0-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19" /></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript Strict" /></a>
   <a href="https://reactnative.dev/docs/the-new-architecture/landing-page"><img src="https://img.shields.io/badge/New%20Architecture-Enabled-success?style=for-the-badge" alt="New Architecture" /></a>
-  <a href="https://jestjs.io/"><img src="https://img.shields.io/badge/Tests-12%2F12%20Passed-brightgreen?style=for-the-badge&logo=jest" alt="Tests" /></a>
+  <a href="https://jestjs.io/"><img src="https://img.shields.io/badge/Tests-13%2F13%20Passed-brightgreen?style=for-the-badge&logo=jest" alt="Tests" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License" /></a>
 </p>
 
@@ -51,7 +51,7 @@ Looking for the exhaustive technical guide, deep-dive architecture notes, native
 - 🌐 **Multi-Environment Ready**: Out-of-the-box support for **Development**, **Staging**, and **Production** environments (`react-native-config`) with dynamic app display names and bundle IDs.
 - 🌍 **Internationalization (i18n) & RTL**: Multi-language support (English, Arabic, Spanish) with automatic RTL layout switching and application restart.
 - 🛡️ **Production Minification & Obfuscation**: Android R8/ProGuard rules configured for all libraries, Hermes bytecode compilation, and Terser console stripping in release mode.
-- 🃏 **100% Test Coverage Ready**: Pre-configured Jest & React Native Testing Library suite with 12 test suites (35 tests) passing.
+- 🃏 **100% Test Coverage Ready**: Pre-configured Jest & React Native Testing Library suite with 13 test suites (39 tests) passing.
 
 ---
 
@@ -225,9 +225,50 @@ RN_BoilerplateLatest/
 | **`yarn lint`** | `eslint .` | Run ESLint across project |
 | **`yarn lint:fix`** | `eslint . --fix` | Automatically fix linting issues |
 | **`yarn format`** | `prettier --write .` | Format all files with Prettier |
-| **`yarn test`** | `jest` | Run all 10 test suites (28 tests) |
+| **`yarn test`** | `jest` | Run all 13 test suites (39 tests) |
 | **`yarn test:coverage`** | `jest --coverage` | Run tests with coverage summary |
 | **`yarn knip:check`** | `knip` | Detect unused files, exports & dependencies |
+
+---
+
+## 🛡️ Code Quality & Engineering Practices
+
+This boilerplate enforces enterprise-grade code health, strict typing, and defensive design patterns:
+
+### 1. ESLint & Static Analysis Rules (`eslint.config.mjs`)
+- 🪝 **Strict React Hooks Validation**:
+  - `react-hooks/rules-of-hooks: error`: Calling hooks conditionally, inside nested loops, or outside React components throws immediate lint errors.
+  - `react-hooks/exhaustive-deps: warn`: Enforces declaring all dependencies in `useEffect`, `useCallback`, and `useMemo` to prevent stale closures.
+- 📱 **React & React Native Best Practices**:
+  - `react-native/no-inline-styles: warn`: Flags inline style objects to prevent object re-allocation per render.
+  - `react-native/no-unused-styles: warn`: Detects leftover unreferenced style definitions.
+  - `react-native/no-single-element-style-arrays: error`: Flags redundant single-item arrays like `style={[styles.box]}`.
+  - `react/self-closing-comp: warn`: Enforces self-closing tags `<View />` instead of `<View></View>`.
+  - `react/jsx-no-useless-fragment: warn`: Eliminates redundant `<>...</>` wrappers that clutter the fiber tree.
+  - `eqeqeq: error`: Enforces strict type equality (`===` / `!==`).
+  - `max-lines: warn (400 lines)`: Soft warning discouraging monolithic files and prompting component/hook decomposition.
+- 🧹 **Automatic Dead Import Stripping**: Uses `eslint-plugin-unused-imports` to detect and auto-remove unreferenced imports on save (`yarn lint:fix`).
+- 🗂️ **Deterministic Import Sorting**: Enforces `import/order` with strict grouping (`type` ➔ `react` ➔ `react-native` ➔ external libraries ➔ `@/` path aliases ➔ relative files) and case-insensitive alphabetization.
+
+### 2. Strict TypeScript Architecture
+- Configured with `strict: true`, `noImplicitAny: true`, and `strictNullChecks: true`.
+- Zero `any` policy across core modules, custom TurboModules, navigation route parameter contracts (`RootStackParamList`), and state slices.
+- Verified in CI with `yarn typecheck` (`tsc --noEmit`).
+
+### 3. Atomic Design & Anti-Monolith Philosophy
+- UI is strictly decoupled into **Atoms** (Button, Text, Input), **Molecules** (Card, ListItem), and **Organisms** (Header, ErrorFallback).
+- Screens stay lightweight and delegate domain logic to custom hooks (`@hooks/`) and feature-specific slices (`@features/`), avoiding 1,000+ line bloated component files.
+
+### 4. Dead Code & Unused Export Detection (Knip)
+- Integrated with [`knip`](https://knip.dev) (`yarn knip:check`) to automatically detect unused npm packages, dead exports, dangling types, and orphaned assets before merging to production.
+
+### 5. Automated Testing & Regression Shield
+- **12 Test Suites (35 Tests)** pre-configured with Jest and React Native Testing Library.
+- Covers Redux Toolkit reducers, asynchronous thunks, Zustand store persistence, custom React hooks (`useDebounce`), Atomic UI components, and end-to-end screen navigation.
+
+### 6. Production Hardening & Sanitization
+- **Console & Debugger Stripping**: Production release builds strip `console.log` and `debugger` statements via Terser in Metro bundler.
+- **Android R8 & ProGuard**: Configured with library-specific keep rules for Unistyles, MMKV, and TurboModules, with resource shrinking enabled.
 
 ---
 

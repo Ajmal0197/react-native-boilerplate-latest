@@ -1,0 +1,15 @@
+---
+description: Callstack React Native performance optimization patterns (FPS, memory leaks, TTI, bundle size).
+globs: 
+alwaysApply: false
+---
+
+# Callstack React Native Performance Guidelines
+
+Reference file: `.agents/skills/react-native-best-practices/SKILL.md`
+
+Use this rule when:
+- Investigating UI frame drops or jank
+- Debugging JS or native memory leaks
+- Analyzing bundle size or Hermes bytecode
+- Profiling startup time (TTI)

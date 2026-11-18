@@ -7,6 +7,7 @@ module.exports = {
     '**/?(*.)+(spec|test).[jt]s?(x)',
   ],
   moduleNameMapper: {
+    '\\.svg$': '<rootDir>/__tests__/__mocks__/svgMock.js',
     '^@app/(.*)$': '<rootDir>/src/$1',
     '^@app$': '<rootDir>/src/index.ts',
     '^@components/(.*)$': '<rootDir>/src/components/$1',

@@ -4,8 +4,9 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { Input } from '@components/atoms';
+import { Input, Text } from '@components/atoms';
 import { Header } from '@components/organisms';
+import { AppConstant } from '@config';
 import { useDebounce } from '@hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '@store/redux/hooks';
 import { PhotoList } from '../components/PhotoList';
@@ -19,6 +20,10 @@ export const HomeScreen = ({ navigation }: TabScreenProps<'Home'>) => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedSearch = useDebounce(searchQuery, 250);
+
+  useEffect(() => {
+    AppConstant.setCurrentHomeScreenPageId(page);
+  }, [page]);
 
   useEffect(() => {
     void dispatch(fetchPhotos({ page: 1 }));
@@ -42,7 +47,15 @@ export const HomeScreen = ({ navigation }: TabScreenProps<'Home'>) => {
 
   return (
     <View style={styles.container}>
-      <Header title={t('home.title')} subtitle={t('home.subtitle')} />
+      <Header
+        title={t('home.title')}
+        subtitle={t('home.subtitle')}
+        rightElement={
+          <Text variant="caption" color="#888888">
+            v{AppConstant.appVersion}
+          </Text>
+        }
+      />
 
       <View style={styles.searchContainer}>
         <Input
