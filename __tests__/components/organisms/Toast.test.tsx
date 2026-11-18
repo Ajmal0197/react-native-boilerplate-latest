@@ -81,7 +81,7 @@ describe('Toast and CustomToastCard', () => {
         />,
       );
 
-      fireEvent.press(screen.getByTestId('toast-close-button'));
+      await fireEvent.press(screen.getByTestId('toast-close-button'));
       expect(onHide).toHaveBeenCalledTimes(1);
     });
 
@@ -91,7 +91,7 @@ describe('Toast and CustomToastCard', () => {
         <CustomToastCard type="info" text2="Tap card body" onPress={onPress} />,
       );
 
-      fireEvent.press(screen.getByTestId('toast-card'));
+      await fireEvent.press(screen.getByTestId('toast-card'));
       expect(onPress).toHaveBeenCalledTimes(1);
     });
   });

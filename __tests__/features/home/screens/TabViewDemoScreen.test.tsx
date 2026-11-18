@@ -46,35 +46,34 @@ describe('TabViewDemoScreen', () => {
     expect(screen.getByText(/Android Soft Navigation Handling/i)).toBeTruthy();
 
     // Bottom sheet trigger buttons
-    fireEvent.press(screen.getByTestId('btn-trigger-stacked-sheet'));
-    fireEvent.press(screen.getByTestId('btn-trigger-keyboard-sheet'));
+    await fireEvent.press(screen.getByTestId('btn-trigger-stacked-sheet'));
+    await fireEvent.press(screen.getByTestId('btn-trigger-keyboard-sheet'));
 
-    // Toast triggers
-    fireEvent.press(screen.getByTestId('btn-toast-network-error'));
+    await fireEvent.press(screen.getByTestId('btn-toast-network-error'));
     expect(Toast.error).toHaveBeenCalledWith(
       expect.stringContaining('Unable to connect to the server'),
       'Network Error',
     );
 
-    fireEvent.press(screen.getByTestId('btn-toast-server-error'));
+    await fireEvent.press(screen.getByTestId('btn-toast-server-error'));
     expect(Toast.error).toHaveBeenCalledWith(
       expect.stringContaining('Internal Server Error'),
       'Server Glitch',
     );
 
-    fireEvent.press(screen.getByTestId('btn-toast-success'));
+    await fireEvent.press(screen.getByTestId('btn-toast-success'));
     expect(Toast.success).toHaveBeenCalledWith(
       'Data synchronized with remote server.',
       'Sync Complete',
     );
 
-    fireEvent.press(screen.getByTestId('btn-toast-warning'));
+    await fireEvent.press(screen.getByTestId('btn-toast-warning'));
     expect(Toast.warning).toHaveBeenCalledWith(
       'Network bandwidth is low. Image sync paused.',
       'Slow Connection',
     );
 
-    fireEvent.press(screen.getByTestId('btn-cancel-all-requests'));
+    await fireEvent.press(screen.getByTestId('btn-cancel-all-requests'));
     expect(AppConstant.cancelAllRequests).toHaveBeenCalled();
     expect(Toast.info).toHaveBeenCalledWith(
       'All in-flight requests were aborted.',
@@ -82,7 +81,7 @@ describe('TabViewDemoScreen', () => {
     );
 
     // Go back navigation
-    fireEvent.press(screen.getByText('‹ Back'));
+    await fireEvent.press(screen.getByText('‹ Back'));
     expect(mockNavigation.goBack).toHaveBeenCalledTimes(1);
   });
 });

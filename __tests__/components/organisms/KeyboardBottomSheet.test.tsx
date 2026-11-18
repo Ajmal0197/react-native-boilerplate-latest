@@ -78,25 +78,27 @@ describe('KeyboardBottomSheet', () => {
     expect(screen.getByTestId('sheet-input-comments')).toBeTruthy();
     expect(screen.getByTestId('btn-sheet-cancel')).toBeTruthy();
 
-    fireEvent.press(screen.getByTestId('btn-sheet-cancel'));
+    await fireEvent.press(screen.getByTestId('btn-sheet-cancel'));
 
-    fireEvent.changeText(
+    await fireEvent.changeText(
       screen.getByTestId('sheet-input-subject'),
       'Feature Request',
     );
-    fireEvent.changeText(
+    await fireEvent.changeText(
       screen.getByTestId('sheet-input-comments'),
       'Add dark mode toggle to header',
     );
 
-    fireEvent.press(screen.getByTestId('btn-sheet-submit'));
+    await fireEvent.press(screen.getByTestId('btn-sheet-submit'));
 
     expect(Toast.success).toHaveBeenCalledWith(
       'Saved: Feature Request',
       'Submission Received',
     );
 
-    ref.current?.present();
-    ref.current?.dismiss();
+    await act(async () => {
+      ref.current?.present();
+      ref.current?.dismiss();
+    });
   });
 });

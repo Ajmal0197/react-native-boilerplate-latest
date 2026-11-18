@@ -2,12 +2,8 @@
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "project": ["src/**/*.{ts,tsx}", "specs/**/*.{ts,tsx}"],
   "entry": ["reactotron.config.ts"],
-  "ignoreDependencies": [
-    "@babel/preset-env",
-    "@babel/runtime",
-    "babel-jest"
-  ],
-  "ignoreBinaries": ["xed", "pod", "adb"],
+  "ignoreDependencies": ["@babel/preset-env", "@babel/runtime", "babel-jest"],
+  "ignoreBinaries": ["xed", "pod", "adb", "docker-compose"],
   "ignoreExportsUsedInFile": true,
   "rules": {
     "duplicates": "off",

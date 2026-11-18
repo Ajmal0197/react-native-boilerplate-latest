@@ -112,7 +112,7 @@ describe('ProductDetailScreen', () => {
     });
 
     const backButton = screen.getByText('‹ Back');
-    fireEvent.press(backButton);
+    await fireEvent.press(backButton);
     expect(mockNavigation.goBack).toHaveBeenCalledTimes(1);
   });
 });

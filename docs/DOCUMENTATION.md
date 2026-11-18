@@ -42,8 +42,8 @@ A production-ready, feature-driven **React Native CLI (v0.88+)** boilerplate bui
 | **Optional State**   | [Zustand](https://zustand.docs.pmnd.rs)                                                                        | _(Optional)_ Lightweight store with MMKV persistence for auth and UI flags |
 | **Fast Storage**     | [react-native-mmkv](https://github.com/mrousavy/react-native-mmkv)                                             | JSI memory-mapped key-value storage (30x faster than AsyncStorage)         |
 | **Bottom Sheets**    | [@gorhom/bottom-sheet](https://docs.swmansion.com/react-native-bottom-sheet/) (v5)                             | Gesture-driven stacked modal sheets and interactive keyboard avoidance     |
-| **Tab View**         | [react-native-tab-view](https://github.com/satya164/react-native-tab-view)                                      | Virtualized swipable tabs backed by `react-native-pager-view`               |
-| **Native Toast**     | [react-native-toast-message](https://github.com/calintamas/react-native-toast-message)                          | Bottom-anchored capsule HUD toasts with automatic API error surfacing      |
+| **Tab View**         | [react-native-tab-view](https://github.com/satya164/react-native-tab-view)                                     | Virtualized swipable tabs backed by `react-native-pager-view`              |
+| **Native Toast**     | [react-native-toast-message](https://github.com/calintamas/react-native-toast-message)                         | Bottom-anchored capsule HUD toasts with automatic API error surfacing      |
 | **Localization**     | [i18next](https://www.i18next.com) + [react-native-localize](https://github.com/zoontek/react-native-localize) | 100% type-safe translation keys with RTL layout switching                  |
 | **Forms**            | [React Hook Form](https://react-hook-form.com) + [Yup](https://github.com/jquense/yup)                         | Uncontrolled, lag-free inputs with schema validation                       |
 | **Navigation**       | [React Navigation v7](https://reactnavigation.org)                                                             | Native Stack + Bottom Tabs navigation with deep linking                    |
@@ -52,10 +52,10 @@ A production-ready, feature-driven **React Native CLI (v0.88+)** boilerplate bui
 | **Notifications**    | [@notifee/react-native](https://notifee.app)                                                                   | Local notifications, channels, and background triggers                     |
 | **Animations**       | [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/)                                 | Worklet-based 60/120fps UI thread animations                               |
 | **Network**          | [Axios](https://axios-http.com)                                                                                | Interceptors, Bearer token injection, automatic 401 refresh, and errors    |
-| **Global Loader**    | [react-native-root-siblings](https://github.com/magicismight/react-native-root-siblings)                        | Fullscreen overlay with reference counting, controllable from anywhere     |
-| **Multi-Env Config** | [react-native-keys](https://github.com/numandev1/react-native-keys)                                             | Build-flavor dynamic app name, package ID, and encrypted JSI keys          |
+| **Global Loader**    | [react-native-root-siblings](https://github.com/magicismight/react-native-root-siblings)                       | Fullscreen overlay with reference counting, controllable from anywhere     |
+| **Multi-Env Config** | [react-native-keys](https://github.com/numandev1/react-native-keys)                                            | Build-flavor dynamic app name, package ID, and encrypted JSI keys          |
 | **Security / Build** | R8 / ProGuard + Terser + Hermes                                                                                | Bytecode compilation, dead code stripping, and identifier mangling         |
-| **Testing**          | [Jest](https://jestjs.io) + RNTL                                                                               | 21 consolidated test suites (85 tests) covering state, hooks, UI, and APIs  |
+| **Testing**          | [Jest](https://jestjs.io) + RNTL                                                                               | 21 consolidated test suites (85 tests) covering state, hooks, UI, and APIs |
 
 ---
 
@@ -91,6 +91,7 @@ yarn install:all
 
 > [!TIP]
 > If you are having trouble with iOS, reinstall the dependencies by running the official workflow:
+>
 > ```bash
 > cd ios
 > bundle install
@@ -102,10 +103,10 @@ yarn install:all
 
 ```bash
 # Open Android project in Android Studio
-yarn openAS
+yarn open:android
 
 # Open iOS project in Xcode
-yarn openWS
+yarn open:ios
 ```
 
 ### 3. Run the Application
@@ -150,8 +151,8 @@ Preconfigured in `.vscode/settings.json`:
 
 If you are coming from native Android (Kotlin / Jetpack Compose):
 
-| Android Concept                 | React Native Equivalent in this Boilerplate                 | Location in Project                                                                                                                                  |
-| ------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Android Concept                 | React Native Equivalent in this Boilerplate                 | Location in Project                                                                                                                                     |
+| ------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Activity` / `Fragment`         | Screen components wrapped in React Navigation               | [`src/features/*/screens/`](../src/features/)                                                                                                           |
 | Jetpack Compose `@Composable`   | Functional React components with JSX                        | [`src/components/atoms/`](../src/components/atoms/)                                                                                                     |
 | `ViewModel` + `StateFlow`       | Redux Toolkit slice or Zustand store                        | [`src/store/`](../src/store/)                                                                                                                           |
@@ -167,8 +168,8 @@ If you are coming from native Android (Kotlin / Jetpack Compose):
 
 If you are coming from native iOS (Swift / SwiftUI / UIKit):
 
-| iOS Concept                       | React Native Equivalent in this Boilerplate                | Location in Project                                                                              |
-| --------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| iOS Concept                       | React Native Equivalent in this Boilerplate                | Location in Project                                                                                 |
+| --------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | `UIViewController`                | Screen components                                          | [`src/features/*/screens/`](../src/features/)                                                       |
 | `UINavigationController`          | `@react-navigation/native-stack`                           | [`src/navigation/`](../src/navigation/)                                                             |
 | `UITabBarController`              | `@react-navigation/bottom-tabs`                            | [`src/navigation/AppNavigator.tsx`](../src/navigation/AppNavigator.tsx)                             |
@@ -186,11 +187,11 @@ The project uses [`react-native-keys`](https://github.com/numandev1/react-native
 
 ### Environment Files
 
-| Environment | Config File | App Name | Application / Bundle ID |
-| --- | --- | --- | --- |
-| **Development** | [`keys.development.json`](../keys.development.json) | `RNBoilerplate (Dev)` | `com.rn_boilerplate_latest.dev` |
-| **Staging** | [`keys.staging.json`](../keys.staging.json) | `RNBoilerplate (Staging)` | `com.rn_boilerplate_latest.staging` |
-| **Production** | [`keys.production.json`](../keys.production.json) | `RNBoilerplate` | `com.rn_boilerplate_latest` |
+| Environment     | Config File                                         | App Name                  | Application / Bundle ID             |
+| --------------- | --------------------------------------------------- | ------------------------- | ----------------------------------- |
+| **Development** | [`keys.development.json`](../keys.development.json) | `RNBoilerplate (Dev)`     | `com.rn_boilerplate_latest.dev`     |
+| **Staging**     | [`keys.staging.json`](../keys.staging.json)         | `RNBoilerplate (Staging)` | `com.rn_boilerplate_latest.staging` |
+| **Production**  | [`keys.production.json`](../keys.production.json)   | `RNBoilerplate`           | `com.rn_boilerplate_latest`         |
 
 ### Accessing Config in TypeScript
 
@@ -200,11 +201,11 @@ Centralized and strictly typed in [`src/config/env.ts`](../src/config/env.ts):
 import { Config } from '@config/env';
 
 // Access configuration anywhere in the app
-const appName = Config.APP_NAME;         // "RNBoilerplate (Dev)" in development
-const baseUrl = Config.API_BASE_URL;     // "https://jsonplaceholder.typicode.com"
-const env = Config.APP_ENV;              // "development" | "staging" | "production"
-const isDev = Config.ENABLE_DEV_TOOLS;   // boolean
-const timeout = Config.TIMEOUT_MS;       // 15000 (number)
+const appName = Config.APP_NAME; // "RNBoilerplate (Dev)" in development
+const baseUrl = Config.API_BASE_URL; // "https://jsonplaceholder.typicode.com"
+const env = Config.APP_ENV; // "development" | "staging" | "production"
+const isDev = Config.ENABLE_DEV_TOOLS; // boolean
+const timeout = Config.TIMEOUT_MS; // 15000 (number)
 ```
 
 ### Native Dynamic App Name Integration
@@ -591,7 +592,8 @@ import { normalizeApiError } from '@api';
 try {
   const result = await apiClient.get('/endpoint');
 } catch (error) {
-  const { message, isNetworkError, isTimeout, isCanceled } = normalizeApiError(error);
+  const { message, isNetworkError, isTimeout, isCanceled } =
+    normalizeApiError(error);
 
   if (isCanceled) {
     // Silently ignore aborted requests on unmount
@@ -610,19 +612,25 @@ try {
 Powered by `react-native-toast-message`, our toast architecture is customized into a native HUD capsule anchored at the **bottom of the screen** (`position: 'bottom'`).
 
 ### 1. Visual HUD Design & Types
+
 - **Variants**: `error` (crimson), `success` (emerald), `warning` (amber), `info` (azure).
 - **Surface Elevation**: Rendered inside a rounded capsule (18dp corner radius) with subtle border contrast and dual-mode dark/light elevation.
 - **Dismiss Interaction**: Includes an icon badge, title, subtitle message, and touchable close button.
 
 ### 2. Auto-Clearance Above Soft Navigation Bars
+
 Instead of a static bottom margin, the toast calculates its `bottomOffset` dynamically:
+
 ```typescript
-bottomOffset: Math.max(insets.bottom, Platform.OS === 'android' ? 16 : 10) + 16
+bottomOffset: Math.max(insets.bottom, Platform.OS === 'android' ? 16 : 10) + 16;
 ```
+
 This guarantees the toast sits gracefully above the Android 3-button bar or iOS home bar.
 
 ### 3. Imperative Static API
+
 Use `Toast` from `@components/organisms` anywhere in UI components, sagas, thunks, or helper classes:
+
 ```typescript
 import { Toast } from '@components/organisms';
 
@@ -634,13 +642,16 @@ Toast.hide();
 ```
 
 ### 4. Global Interceptor Integration (`src/api/client.ts`)
+
 Zero-boilerplate error notification: When any network error (`ERR_NETWORK`) or 5xx server failure occurs, the response interceptor automatically triggers:
+
 ```typescript
 Toast.error(
   'Unable to connect to the server. Please check your internet connection.',
   'Network Error',
 );
 ```
+
 Pass `{ silent: true }` in Axios request config to disable automatic error toasts for background ping requests.
 
 ---
@@ -650,13 +661,18 @@ Pass `{ silent: true }` in Axios request config to disable automatic error toast
 Implemented using `@swmansion/react-native-bottom-sheet` (Software Mansion's official bottom sheet) inside `<BottomSheetProvider>`.
 
 ### 1. Dual-Level Stacked Bottom Sheets (`StackedBottomSheet.tsx`)
+
 Enables opening a modal sheet on top of another modal sheet with layered dimming backdrops:
+
 - **Level 1 Sheet**: Snap points configured with `detents={[0, '55%', '85%']}`.
 - **Level 2 Stacked Sheet**: Snap points configured with `detents={[0, '42%', '70%']}`, presented over Level 1.
 - Both sheets share smooth dismiss gestures, pan-down-to-close physics, layered scrims, and independent ref controllers (`StackedBottomSheetRef`).
 
 ```typescript
-import { StackedBottomSheet, StackedBottomSheetRef } from '@components/organisms';
+import {
+  StackedBottomSheet,
+  StackedBottomSheetRef,
+} from '@components/organisms';
 
 const sheetRef = useRef<StackedBottomSheetRef>(null);
 
@@ -665,14 +681,19 @@ sheetRef.current?.present();
 ```
 
 ### 2. Keyboard-Handled Bottom Sheet (`KeyboardBottomSheet.tsx`)
+
 Prevents inputs from being obscured by the virtual keyboard:
+
 - Utilizes `ModalBottomSheet` with `detents={[0, 'content']}`.
 - Pairs with `KeyboardAwareScrollView` from `react-native-keyboard-controller` (following official Swmansion examples).
 - **Smart Backdrop Interaction**: Powered by `useKeyboardState` from `react-native-keyboard-controller`. Tapping the scrim/backdrop when the soft keyboard is visible dismisses the keyboard (`Keyboard.dismiss()`) while preserving the open sheet. Tapping the backdrop when the keyboard is hidden dismisses the bottom sheet (`setIndex(0)`).
 - Includes interactive dismiss on drag, automatic input scrolling, and safe bottom padding above the Android navigation bar.
 
 ```typescript
-import { KeyboardBottomSheet, KeyboardBottomSheetRef } from '@components/organisms';
+import {
+  KeyboardBottomSheet,
+  KeyboardBottomSheetRef,
+} from '@components/organisms';
 
 const keyboardSheetRef = useRef<KeyboardBottomSheetRef>(null);
 
@@ -685,32 +706,43 @@ keyboardSheetRef.current?.present();
 ## 📱 Android On-Screen Soft Navigation Bar & Notch Architecture
 
 ### 1. Device Notch & Status Bar (Zero Extra Height Guarantee)
+
 To avoid the common "double notch spacing / extra top height" pitfall:
+
 - **No Duplicate Safe Areas**: Screen container views use `{ flex: 1, backgroundColor: theme.colors.background }` with **zero** `paddingTop` and no nested `SafeAreaView`.
 - **Organism Header Ownership**: The [`Header`](../src/components/organisms/Header.tsx) organism is the single authority for top inset clearance, applying `paddingTop: insets.top` above a standard 52dp action bar.
 - **Full Screen Consistency**: Navigation stack routes (`ProductDetail`, `TabViewDemo`, `LanguageSelect`) use native slide transitions (`animation: 'slide_from_right'`), guaranteeing uniform top notch alignment across iOS (Dynamic Island / Notch) and Android.
 
 ### 2. On-Screen Soft Navigation Bar Handling
+
 On Android devices without physical buttons, navigation is handled on-screen:
+
 1. **3-Button Navigation**: Back, Home, Recent Apps (~48-60dp height).
 2. **2-Button Navigation**: Back + Pill (~40dp height).
 3. **Gesture Navigation**: Slim swipe bar (~16-24dp height).
 
 #### The Inset Pitfall
+
 On devices with transparent status/nav bars (`edge-to-edge`), `insets.bottom` may report `0` or small values if the view does not explicitly query the window inset provider or if the user switches navigation modes.
 
 #### Standardized Universal Safe Clearance Formula
+
 Across all bottom-anchored overlays (bottom sheets, toasts, action bars, bottom tabs), we apply:
+
 ```typescript
 const insets = useSafeAreaInsets();
-const bottomInset = Math.max(insets.bottom, Platform.OS === 'android' ? 16 : 10) + 12;
+const bottomInset =
+  Math.max(insets.bottom, Platform.OS === 'android' ? 16 : 10) + 12;
 ```
+
 - **Modal Sheets**: Applied as dynamic content safe padding in `<ModalBottomSheet>`.
 - **Toasts**: Handled via `bottomOffset: Platform.OS === 'android' ? 56 : 40` without redundant card margins.
 - **Scrollable Scenes**: Added to `paddingBottom: insets.bottom + 24`.
 
 ### 3. Provider Nesting Order & Portal Contexts
+
 In [`src/App.tsx`](../src/App.tsx), providers are layered hierarchically:
+
 ```tsx
 <GestureHandlerRootView>
   <ErrorBoundary>
@@ -733,6 +765,7 @@ In [`src/App.tsx`](../src/App.tsx), providers are layered hierarchically:
   </ErrorBoundary>
 </GestureHandlerRootView>
 ```
+
 - **Why `KeyboardProvider` wraps `BottomSheetProvider`**: `ModalBottomSheet` renders overlays into the `BottomSheetProvider` portal host. By wrapping `BottomSheetProvider` inside `KeyboardProvider`, any sheet content mounted in the modal portal (such as `KeyboardBottomSheet` with `KeyboardAwareScrollView`) inherits `KeyboardContext` seamlessly without context missing warnings.
 - **Edge-to-Edge Detection**: With React Native 0.88, edge-to-edge is enabled natively by default. `react-native-keyboard-controller` automatically detects this (`IS_EDGE_TO_EDGE = true`). Explicitly passing `statusBarTranslucent` or `navigationBarTranslucent` is unnecessary and triggers dev warnings (`"statusBarTranslucent and navigationBarTranslucent values are ignored when using react-native-edge-to-edge"`); omitting them allows the library to apply edge-to-edge handling cleanly.
 - **Async Debugger Notifications**: Debugger listener notifications in `BugBubble` are dispatched via `queueMicrotask()`, preventing synchronous `setState` during render in React 19.
@@ -743,11 +776,13 @@ In [`src/App.tsx`](../src/App.tsx), providers are layered hierarchically:
 ## 🧪 Interactive Features Lab — TabViewDemoScreen
 
 Located at [`src/features/home/screens/TabViewDemoScreen.tsx`](../src/features/home/screens/TabViewDemoScreen.tsx), this screen provides an interactive lab to verify all components on a live device:
+
 - **Tab 1: Bottom Sheets**: Live triggers for Dual-Level Stacked Modal Sheets and Keyboard-Handled Modal Sheets.
 - **Tab 2: Toast & Network**: Interactive buttons to simulate network drops, 500 server errors, warning HUDs, and bulk API request cancellation.
 - **Tab 3: Architecture**: Complete matrix of libraries, architectural guarantees, and unit test coverage.
 
 **Direct Navigation Entry Points**:
+
 - **HomeScreen**: Tap the **"Features Lab"** top banner.
 - **SettingsScreen**: Tap **"Features & UI Lab"** in the list.
 
@@ -786,27 +821,27 @@ it('handles button press', async () => {
 
 ## 🛠️ NPM Scripts & Shortcuts
 
-| Script | Command | Description |
-| --- | --- | --- |
-| **`yarn start`** | `react-native start --reset-cache` | Start Metro bundler with cache reset |
-| **`yarn android`** | `react-native run-android --mode=developmentDebug` | Run Android in Development mode |
-| **`yarn android:staging`** | `react-native run-android --mode=stagingDebug` | Run Android in Staging mode |
-| **`yarn android:prod`** | `react-native run-android --mode=productionDebug` | Run Android in Production mode |
-| **`yarn ios`** | `react-native run-ios --scheme RN_Boilerplate_Latest_Dev` | Run iOS in Development mode |
-| **`yarn ios:staging`** | `react-native run-ios --scheme RN_Boilerplate_Latest_Staging` | Run iOS in Staging mode |
-| **`yarn ios:prod`** | `react-native run-ios --scheme RN_Boilerplate_Latest` | Run iOS in Production mode |
-| **`yarn build:android`** | `cd android && ./gradlew assembleProductionRelease && cd ..` | Build Production Release APK |
-| **`yarn build:android:debug`** | `cd android && ./gradlew assembleDevelopmentDebug && cd ..` | Build Development Debug APK |
-| **`yarn bundle:android`** | `cd android && ./gradlew bundleProductionRelease && cd ..` | Build Production Release Bundle (`.aab` for Play Store) |
-| **`yarn build:ios`** | `react-native build-ios --mode Release --scheme RN_Boilerplate_Latest` | Build iOS in Release mode |
-| **`yarn install:all`** | `yarn install && (bundle install \|\| true) && cd ios && (bundle exec pod install \|\| pod install) && cd ..` | Install Node, Ruby, and CocoaPods dependencies |
-| **`yarn openAS`** | `open -a "Android Studio" android` | Open Android project in Android Studio |
-| **`yarn openWS`** | `xed -b ios` | Open iOS workspace in Xcode |
-| **`yarn clean:install`** | `bash scripts/clean-install.sh` | Deep clean caches & fresh dependency install |
-| **`yarn typecheck`** | `tsc --noEmit` | Validate TypeScript types (0 errors) |
-| **`yarn lint`** | `eslint .` | Run ESLint across project |
-| **`yarn lint:fix`** | `eslint . --fix` | Automatically fix linting issues |
-| **`yarn format`** | `prettier --write .` | Format all files with Prettier |
-| **`yarn test`** | `jest` | Run all 21 test suites in `__tests__/` (85 tests) |
-| **`yarn test:coverage`** | `jest --coverage` | Run tests with coverage summary |
-| **`yarn knip:check`** | `knip` | Detect unused files, exports & dependencies |
+| Script                         | Command                                                                                                       | Description                                             |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| **`yarn start`**               | `react-native start --reset-cache`                                                                            | Start Metro bundler with cache reset                    |
+| **`yarn android`**             | `react-native run-android --mode=developmentDebug`                                                            | Run Android in Development mode                         |
+| **`yarn android:staging`**     | `react-native run-android --mode=stagingDebug`                                                                | Run Android in Staging mode                             |
+| **`yarn android:prod`**        | `react-native run-android --mode=productionDebug`                                                             | Run Android in Production mode                          |
+| **`yarn ios`**                 | `react-native run-ios --scheme RN_Boilerplate_Latest_Dev`                                                     | Run iOS in Development mode                             |
+| **`yarn ios:staging`**         | `react-native run-ios --scheme RN_Boilerplate_Latest_Staging`                                                 | Run iOS in Staging mode                                 |
+| **`yarn ios:prod`**            | `react-native run-ios --scheme RN_Boilerplate_Latest`                                                         | Run iOS in Production mode                              |
+| **`yarn build:android`**       | `cd android && ./gradlew assembleProductionRelease && cd ..`                                                  | Build Production Release APK                            |
+| **`yarn build:android:debug`** | `cd android && ./gradlew assembleDevelopmentDebug && cd ..`                                                   | Build Development Debug APK                             |
+| **`yarn bundle:android`**      | `cd android && ./gradlew bundleProductionRelease && cd ..`                                                    | Build Production Release Bundle (`.aab` for Play Store) |
+| **`yarn build:ios`**           | `react-native build-ios --mode Release --scheme RN_Boilerplate_Latest`                                        | Build iOS in Release mode                               |
+| **`yarn install:all`**         | `yarn install && (bundle install \|\| true) && cd ios && (bundle exec pod install \|\| pod install) && cd ..` | Install Node, Ruby, and CocoaPods dependencies          |
+| **`yarn open:android`**        | `open -a "Android Studio" android`                                                                            | Open Android project in Android Studio                  |
+| **`yarn open:ios`**            | `xed -b ios`                                                                                                  | Open iOS workspace in Xcode                             |
+| **`yarn clean:install`**       | `bash scripts/clean-install.sh`                                                                               | Deep clean caches & fresh dependency install            |
+| **`yarn typecheck`**           | `tsc --noEmit`                                                                                                | Validate TypeScript types (0 errors)                    |
+| **`yarn lint`**                | `eslint .`                                                                                                    | Run ESLint across project                               |
+| **`yarn lint:fix`**            | `eslint . --fix`                                                                                              | Automatically fix linting issues                        |
+| **`yarn format`**              | `prettier --write .`                                                                                          | Format all files with Prettier                          |
+| **`yarn test`**                | `jest`                                                                                                        | Run all 21 test suites in `__tests__/` (85 tests)       |
+| **`yarn test:coverage`**       | `jest --coverage`                                                                                             | Run tests with coverage summary                         |
+| **`yarn knip:check`**          | `knip`                                                                                                        | Detect unused files, exports & dependencies             |

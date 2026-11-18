@@ -3,7 +3,7 @@ import {
   StackedBottomSheet,
   StackedBottomSheetRef,
 } from '@components/organisms';
-import { render, screen, fireEvent } from '@test-utils';
+import { render, screen, fireEvent, act } from '@test-utils';
 
 describe('StackedBottomSheet', () => {
   beforeEach(() => {
@@ -18,24 +18,19 @@ describe('StackedBottomSheet', () => {
     expect(screen.getByTestId('btn-open-stacked-sheet-2')).toBeTruthy();
     expect(screen.getByTestId('btn-close-sheet-1')).toBeTruthy();
 
-    // Trigger Level 2
-    fireEvent.press(screen.getByTestId('btn-open-stacked-sheet-2'));
+    await fireEvent.press(screen.getByTestId('btn-open-stacked-sheet-2'));
 
     expect(screen.getByText('Stacked Sheet (Level 2)')).toBeTruthy();
     expect(screen.getByTestId('btn-dismiss-sheet-2')).toBeTruthy();
     expect(screen.getByTestId('btn-dismiss-all-sheets')).toBeTruthy();
 
-    // Dismiss Level 2
-    fireEvent.press(screen.getByTestId('btn-dismiss-sheet-2'));
+    await fireEvent.press(screen.getByTestId('btn-dismiss-sheet-2'));
+    await fireEvent.press(screen.getByTestId('btn-dismiss-all-sheets'));
+    await fireEvent.press(screen.getByTestId('btn-close-sheet-1'));
 
-    // Dismiss All
-    fireEvent.press(screen.getByTestId('btn-dismiss-all-sheets'));
-
-    // Close Level 1
-    fireEvent.press(screen.getByTestId('btn-close-sheet-1'));
-
-    // Imperative ref methods
-    ref.current?.present();
-    ref.current?.dismiss();
+    await act(async () => {
+      ref.current?.present();
+      ref.current?.dismiss();
+    });
   });
 });

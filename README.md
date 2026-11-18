@@ -66,6 +66,7 @@ Non-production builds also mount `BugBubble` (`@lokal-dev/react-native-bugbubble
 | Native modules      | Codegen specs: device info and a sample battery view.                                                                              | `specs/`, `src/native/`                                    |
 | Crash reports       | A small facade. Plug in Sentry or Crashlytics with `setCrashReporter`. Until then it is a no-op. Wired to the root error boundary. | `src/services/crashReporting.ts`                           |
 | Tests               | Jest and React Native Testing Library. 33 suites, 128 tests. Coverage thresholds are enforced.                                     | `__tests__/`, `jest.config.js`                             |
+| Code quality scan   | Local SonarQube community server. Host scanner via `@sonar/scan`.                                                                  | `docker-compose.yml`, `sonar-project.properties`           |
 | CI and git hooks    | GitHub Actions, Husky, lint-staged, commitlint (Conventional Commits).                                                             | `.github/workflows/ci.yml`, `.husky/`                      |
 
 ---
@@ -173,25 +174,30 @@ A release build with no `API_BASE_URL` throws at startup. Debug builds fall back
 
 ## Commands
 
-| Command                               | What it does                               |
-| :------------------------------------ | :----------------------------------------- |
-| `yarn start`                          | Metro, cache cleared                       |
-| `yarn android` / `:staging` / `:prod` | Run an Android flavor                      |
-| `yarn ios` / `:staging` / `:prod`     | Run an iOS scheme                          |
-| `yarn build:android`                  | Production APK                             |
-| `yarn build:android:debug`            | Development debug APK                      |
-| `yarn bundle:android`                 | Production AAB                             |
-| `yarn build:ios`                      | iOS production Release                     |
-| `yarn install:all`                    | `yarn install` plus CocoaPods              |
-| `yarn clean:install`                  | Wipe caches and reinstall                  |
-| `yarn typecheck`                      | `tsc --noEmit`                             |
-| `yarn lint` / `yarn lint:fix`         | ESLint                                     |
-| `yarn format` / `yarn format:check`   | Prettier                                   |
-| `yarn test`                           | Jest                                       |
-| `yarn test:coverage`                  | Jest with coverage thresholds              |
-| `yarn knip:check`                     | Unused files, exports, and dependencies    |
-| `yarn adb`                            | Reverse Metro and debugger ports           |
-| `yarn openWS` / `yarn openAS`         | Open the iOS or Android project in its IDE |
+| Command                               | What it does                                  |
+| :------------------------------------ | :-------------------------------------------- |
+| `yarn start`                          | Metro, cache cleared                          |
+| `yarn android` / `:staging` / `:prod` | Run an Android flavor                         |
+| `yarn ios` / `:staging` / `:prod`     | Run an iOS scheme                             |
+| `yarn build:android`                  | Production APK                                |
+| `yarn build:android:debug`            | Development debug APK                         |
+| `yarn bundle:android`                 | Production AAB                                |
+| `yarn build:ios`                      | iOS production Release                        |
+| `yarn install:all`                    | `yarn install` plus CocoaPods                 |
+| `yarn clean:install`                  | Wipe caches and reinstall                     |
+| `yarn typecheck`                      | `tsc --noEmit`                                |
+| `yarn lint` / `yarn lint:fix`         | ESLint                                        |
+| `yarn format` / `yarn format:check`   | Prettier                                      |
+| `yarn test`                           | Jest                                          |
+| `yarn test:coverage`                  | Jest with coverage thresholds                 |
+| `yarn knip:check`                     | Unused files, exports, and dependencies       |
+| `yarn check`                          | typecheck, lint, format, coverage, knip       |
+| `yarn sonar:start`                    | Start the local SonarQube server              |
+| `yarn sonar:open`                     | Open the project dashboard in the browser     |
+| `yarn sonar`                          | Run tests with coverage, then scan and upload |
+| `yarn sonar:stop`                     | Stop SonarQube, keep its data                 |
+| `yarn adb`                            | Reverse Metro and debugger ports              |
+| `yarn open:ios` / `yarn open:android` | Open the iOS or Android project in its IDE    |
 
 ---
 
@@ -297,6 +303,45 @@ setCrashReporter({
 - New native modules are TurboModules or Fabric components, with a spec in `specs/`.
 - Commits follow [Conventional Commits](https://www.conventionalcommits.org). Husky runs lint-staged and commitlint.
 - CI (`.github/workflows/ci.yml`) runs typecheck, lint, format, tests with coverage, and knip.
+
+---
+
+## SonarQube locally
+
+Local SonarQube community server in Docker. The scanner runs on your machine through `@sonar/scan`. Docker Desktop must be running. This is not part of CI.
+
+```bash
+yarn sonar:start    # start the server (first run downloads the image)
+yarn sonar          # test with coverage, then scan and upload
+yarn sonar:open     # open the project dashboard
+yarn sonar:stop     # stop the server, keep its data
+```
+
+### First time
+
+1. Open Docker Desktop and wait until `docker ps` works.
+2. `yarn sonar:start`, then open http://localhost:9000 and sign in with `admin` / `admin`. Change that password.
+3. Avatar → My Account → Security → generate a **Global Analysis Token**. Copy it once.
+4. Keep the token out of the repo. Export it in your shell profile (for example `~/.zshrc`):
+
+   ```bash
+   export SONAR_TOKEN=your-token
+   ```
+
+   `sonar-project.properties` has no token line. The scanner reads `SONAR_TOKEN` from the environment. Never commit a token.
+
+5. `yarn sonar`, then `yarn sonar:open`.
+
+The dashboard is http://localhost:9000/dashboard?id=RN_Boilerplate_Latest. It exists after the first successful scan. Before that, http://localhost:9000 is the login page.
+
+To remove the containers, run `docker-compose down`. Named volumes keep the data until `docker-compose down -v`.
+
+| Problem                     | What to do                                                                        |
+| :-------------------------- | :-------------------------------------------------------------------------------- |
+| Server never becomes ready  | `docker-compose logs -f sonarqube`, then `yarn sonar:stop` and `yarn sonar:start` |
+| Scanner says not authorized | `SONAR_TOKEN` is not set in this shell, or the token was revoked                  |
+| Dashboard URL is empty      | Run `yarn sonar` once, then `yarn sonar:open`                                     |
+| Port 9000 is taken          | `lsof -i :9000`. Another local SonarQube (for example Aramex) already uses it     |
 
 ---
 

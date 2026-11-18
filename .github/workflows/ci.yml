@@ -5,8 +5,10 @@ on:
     branches: [main]
   pull_request:
 
+# Keyed by commit. A new push no longer cancels an older run, and re-running
+# a failed older commit cannot cancel the current commit's install.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.sha }}
   cancel-in-progress: true
 
 permissions:
@@ -30,6 +32,15 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: yarn
+
+      # setup-node puts a new Node on PATH. Activate Yarn 3.6.4 on that Node
+      # before install. The earlier `corepack enable` only covers the cache probe.
+      - name: Activate pinned Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@3.6.4 --activate
+          echo "node $(node -v)"
+          echo "yarn $(yarn -v)"
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -64,7 +75,14 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-      - name: Enable Corepack
-        run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Activate pinned Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@3.6.4 --activate
+          echo "node $(node -v)"
+          echo "yarn $(yarn -v)"
       - name: Audit production dependencies
         run: yarn npm audit --environment production

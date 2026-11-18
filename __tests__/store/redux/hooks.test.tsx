@@ -57,14 +57,14 @@ describe('Redux custom hooks (useAppDispatch, useAppSelector)', () => {
     );
 
     // Dispatch clear via hook
-    fireEvent.press(screen.getByText('Clear All'));
+    await fireEvent.press(screen.getByText('Clear All'));
     await waitFor(() => {
       expect(screen.getByTestId('product-count')).toHaveTextContent('0');
     });
     expect(testStore.getState().home.products).toHaveLength(0);
 
     // Dispatch add via hook
-    fireEvent.press(screen.getByText('Add Item'));
+    await fireEvent.press(screen.getByText('Add Item'));
     await waitFor(() => {
       expect(screen.getByTestId('product-count')).toHaveTextContent('1');
     });

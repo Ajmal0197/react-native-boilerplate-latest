@@ -12,7 +12,7 @@ describe('Button Component', () => {
     const onPressMock = jest.fn();
     await render(<Button title="Click Me" onPress={onPressMock} />);
 
-    fireEvent.press(screen.getByText('Click Me'));
+    await fireEvent.press(screen.getByText('Click Me'));
     expect(onPressMock).toHaveBeenCalledTimes(1);
   });
 
@@ -20,7 +20,7 @@ describe('Button Component', () => {
     const onPressMock = jest.fn();
     await render(<Button title="Disabled" disabled onPress={onPressMock} />);
 
-    fireEvent.press(screen.getByText('Disabled'));
+    await fireEvent.press(screen.getByText('Disabled'));
     expect(onPressMock).not.toHaveBeenCalled();
   });
 });
