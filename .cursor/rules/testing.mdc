@@ -1,0 +1,14 @@
+---
+description: Jest + RNTL — test layout and render wrapper
+globs: __tests__/**/*,**/*.{test,spec}.{ts,tsx}
+alwaysApply: false
+---
+
+# Testing
+
+- Tests live in `__tests__/` (not co-located under `src/`).
+- Import `render`, `screen`, `fireEvent`, `act` from `@test-utils` (Redux + theme providers).
+- Global mocks: `__tests__/setup.ts` + `react-native-unistyles/mocks` in Jest config — do not re-mock unless isolating one unit.
+- Name scenarios after Jira AC when mapping spec-driven work (`describe('Jira AC: …')`).
+- Prefer `testID` for interactions; match existing component patterns.
+- After logic changes, run `yarn test` or targeted `yarn test path/to/file.test.ts`.

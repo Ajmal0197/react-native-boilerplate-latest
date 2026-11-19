@@ -419,6 +419,16 @@ import { UnistylesRuntime } from 'react-native-unistyles';
 UnistylesRuntime.setTheme('dark'); // or 'light'
 ```
 
+### Responsive layouts & foldables
+
+Breakpoints live in [`src/theme/unistyles.ts`](../src/theme/unistyles.ts) (`xs` → `xl`, plus `fold` at 600dp for unfolded narrow panels). Unistyles reapplies styles when the window resizes (fold open/close, rotation, iPad split).
+
+- Use **breakpoint maps** on style values (`padding: { xs: theme.spacing.md, md: theme.spacing.lg }`) — see `PhotoList`, `ProductDetailScreen`, Login/Register.
+- Use [`useBreakpoint`](../src/hooks/useBreakpoint.ts) when JSX structure must change (`isWide`, `isExpanded`, `isAtLeast('md')`).
+- Sample wide UI: centered list column (`maxWidth` 960), product **master–detail** at `lg`, auth forms capped at ~480dp.
+
+Not included: hinge inset APIs (add native WindowManager only if design requires avoiding the fold line). Test on phone, unfolded fold, and tablet simulators.
+
 ---
 
 ## ⚡ Synchronous Fast Storage — MMKV

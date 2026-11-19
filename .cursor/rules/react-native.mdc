@@ -1,14 +1,14 @@
 ---
-description: Definitive standards for generating production-ready React Native TypeScript code
+description: RN code standards — features, Unistyles, i18n, state, forms, native
 globs: **/*.{ts,tsx}
 alwaysApply: true
 ---
 
-# React Native Production Standards
+# React Native production standards
 
-You are an expert mobile architect specializing in React Native (CLI), New Architecture (Fabric + TurboModules), and TypeScript.
+Project map and gates: `.cursor/rules/project-architecture.mdc`.
 
-## 1. Zero Placeholders & Complete Code
+## 1. Zero placeholders
 
 - Never output partial code, stubs, or comments like `// TODO: implement later` or `// ... rest of component`.
 - Write production-ready, compiling code with full error handling.
@@ -21,21 +21,13 @@ You are an expert mobile architect specializing in React Native (CLI), New Archi
 - **Absolute Imports**: Always use configured aliases (e.g., `@components/atoms`, `@theme`, `@services/storage`, `@locales`). Never use deep relative paths (`../../../`).
 - **Barrel Exports**: Expose public feature APIs via `index.ts`. Internal helpers remain unexported.
 
-## 3. Styling — Unistyles v3 (Strict)
+## 3. Styling — Unistyles v3
 
-- Use `react-native-unistyles` exclusively. Never use raw `StyleSheet.create` without theme injection.
-- Standard pattern:
-  ```tsx
-  const styles = StyleSheet.create((theme, rt) => ({
-    container: {
-      flex: 1,
-      backgroundColor: theme.colors.background,
-      padding: theme.spacing.md,
-    },
-  }));
-  ```
-- No hardcoded hex codes (`#FFFFFF`) or magic numbers for padding/margin. Always use `theme.colors.*` and `theme.spacing.*`.
-- Never define inline style objects within `renderItem` or scroll loops.
+- `StyleSheet` from `react-native-unistyles` only (not RN `StyleSheet`).
+- `StyleSheet.create(theme => ({ ... }))`; use `(theme, rt)` when reading runtime if needed.
+- Responsive / fold: breakpoint maps on values (`padding: { xs: theme.spacing.md, md: theme.spacing.lg }`); `useBreakpoint()` from `@hooks` when JSX columns/panes change.
+- Tokens: `theme.colors.*`, `theme.spacing.*`, `theme.borderRadius.*` — no hex, no magic numbers.
+- No inline style objects in `renderItem` or scroll loops.
 
 ## 4. Multi-language (i18n)
 
@@ -67,5 +59,18 @@ You are an expert mobile architect specializing in React Native (CLI), New Archi
 
 ## 8. New Architecture (Fabric & TurboModules)
 
-- Do not generate legacy bridge modules (`RCTBridgeModule` with `@ReactMethod`).
-- When native modules are requested, generate Codegen specs in `specs/Native<Name>.ts` using `TurboModuleRegistry.getEnforcing<Spec>()`.
+- No legacy `RCTBridgeModule` / `@ReactMethod`.
+- New native surface: Codegen spec in `specs/Native<Name>.ts`, `TurboModuleRegistry.getEnforcing<Spec>()`, TS wrapper under `src/native/`.
+
+## 9. Navigation
+
+- Register params in `src/navigation/types.ts` before screens.
+- Props: `RootStackScreenProps<'Route'>`, `TabScreenProps<'Tab'>`, `AuthScreenProps<'Login'>`.
+
+## 10. New features checklist
+
+1. Feature folder + barrel `index.ts`.
+2. i18n keys (en/es/ar).
+3. API types + caller; wire errors through `normalizeApiError`.
+4. Screen uses `Header` for top inset; Unistyles only.
+5. Tests in `__tests__/` mirroring path.

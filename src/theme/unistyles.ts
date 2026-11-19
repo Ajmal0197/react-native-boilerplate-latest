@@ -4,11 +4,13 @@ import { spacing, borderRadius } from './spacing';
 import { fontSize, fontWeight, lineHeight } from './typography';
 
 /**
- * Breakpoints configuration for responsive design
+ * Breakpoints for responsive / foldable layouts (width in dp).
+ * `fold` ≈ unfolded narrow inner panel; `md`+ ≈ tablet / fully unfolded.
  */
 export const breakpoints = {
   xs: 0,
   sm: 576,
+  fold: 600,
   md: 768,
   lg: 992,
   xl: 1200,

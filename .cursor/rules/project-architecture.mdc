@@ -1,0 +1,65 @@
+---
+description: Boilerplate map — layout, decisions, gates, SDD, UI conventions
+alwaysApply: true
+---
+
+# Project architecture
+
+## Stack
+
+RN CLI 0.88+, New Architecture (Fabric + TurboModules), TypeScript strict, Hermes, Unistyles v3, React Navigation 7, Redux Toolkit (primary), Zustand (auth/UI), MMKV, Axios, RHF + Yup, i18next, Notifee.
+
+## Where code goes
+
+| Area | Path |
+|------|------|
+| Feature work | `src/features/<name>/` → `api/`, `components/`, `hooks/`, `screens/`, `store/`, `types/`, `validation/`, `index.ts` |
+| Shared UI | `src/components/atoms|molecules|organisms/` |
+| HTTP core | `src/api/` (`client`, `errors`) |
+| Types (global DTOs) | `src/types/` or feature `types/` |
+| Navigation types | `src/navigation/types.ts` — extend param lists before new routes |
+| State | `src/store/redux/` (server/cache), `src/store/zustand/` (auth, theme mode) |
+| Theme / breakpoints | `src/theme/` (`unistyles.ts`: `fold` 600, `md` 768, `lg` 992) |
+| Config (no secrets in git) | `keys.*.json` + `Config` from `@config/env` |
+| Native contracts | `specs/Native*.ts` → TurboModule / Fabric |
+| Tests | `__tests__/` mirrors `src/` |
+| Docs | `docs/DOCUMENTATION.md`, `docs/SPEC_DRIVEN_DEVELOPMENT.md` |
+
+Imports: path aliases only (`@components`, `@features`, `@api`, `@hooks`, `@test-utils`, …). No `../../../`.
+
+## Decision table
+
+| Need | Use |
+|------|-----|
+| API calls | `apiClient` + typed modules; catch → `normalizeApiError`; silent requests: Axios `silent: true` |
+| Cancel on unmount | RTK `promise.abort()` or `useApiCancellation().signal` |
+| User-visible errors | `Toast` (`@components/organisms`); global network toast in interceptor unless `silent` |
+| Loader | `AppConstant.showLoader` / `hideLoader` (reference counted) |
+| Strings | `useTranslation()` — keys in `en.json`, `es.json`, `ar.json` |
+| Persistence | `storage` from `@services/storage` (MMKV) |
+
+## Workflow
+
+- Branch: `feat/`, `fix/`, `chore/` from `main`.
+- Before push: `yarn ci` (typecheck, lint, format, test, knip).
+- Commits: Conventional Commits (commitlint).
+- Behavior change → add/update `__tests__/`; render via `@test-utils`.
+
+## Spec-driven (optional)
+
+Jira AC → tests; Postman → `src/types` + `src/api`; Figma → `theme.*` tokens. MCP agent flow: `docs/SPEC_DRIVEN_DEVELOPMENT.md` §3.1.
+
+## UI rules (this repo)
+
+- Screens: `flex: 1` + `theme.colors.background`; top safe area only in `Header` (`insets.top`).
+- Bottom overlays (sheet, toast): account for Android nav bar — see `docs/DOCUMENTATION.md` inset formula.
+- Styles: Unistyles breakpoint maps for width/fold; `useBreakpoint()` when layout structure changes.
+- No hex/magic spacing; no inline styles in list `renderItem`.
+
+## Agent discipline
+
+Production-ready diffs only (no TODO stubs). Smallest change that satisfies the task. No new dependencies without clear need. No credentials in repo.
+
+## Performance deep-dive
+
+When profiling FPS, lists, or TTI: apply `.cursor/rules/callstack-performance.mdc`.

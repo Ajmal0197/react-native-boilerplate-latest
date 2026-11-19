@@ -74,77 +74,81 @@ export const ProductDetailScreen: React.FC<
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <Card variant="elevated" style={styles.imageCard}>
-          <Image
-            source={{ uri: imageUri }}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        </Card>
+        <View style={styles.mainRow}>
+          <View style={styles.mediaColumn}>
+            <Card variant="elevated" style={styles.imageCard}>
+              <Image
+                source={{ uri: imageUri }}
+                style={styles.image}
+                resizeMode="cover"
+              />
+            </Card>
+          </View>
 
-        <Spacer size="md" />
+          <View style={styles.detailColumn}>
+            <Card variant="outlined" style={styles.infoCard}>
+              <View style={styles.badgeRow}>
+                {product?.albumId != null && (
+                  <View style={styles.albumBadge}>
+                    <Text variant="caption" weight="bold" tone="primary">
+                      {t('home.albumBadge', { id: product.albumId })}
+                    </Text>
+                  </View>
+                )}
+                <View style={styles.idBadge}>
+                  <Text variant="caption" tone="textSecondary">
+                    {t('productDetail.itemBadge', { id: productId })}
+                  </Text>
+                </View>
+              </View>
 
-        <Card variant="outlined" style={styles.infoCard}>
-          <View style={styles.badgeRow}>
-            {product?.albumId != null && (
-              <View style={styles.albumBadge}>
-                <Text variant="caption" weight="bold" tone="primary">
-                  {t('home.albumBadge', { id: product.albumId })}
+              <Spacer size="sm" />
+
+              <Text variant="title" weight="bold">
+                {displayTitle}
+              </Text>
+
+              <Spacer size="sm" />
+
+              <Text variant="body" tone="textSecondary">
+                {t('productDetail.description')}
+              </Text>
+            </Card>
+
+            <Spacer size="md" />
+
+            <Card variant="flat" style={styles.metaCard}>
+              <Text variant="label" weight="bold">
+                {t('productDetail.metadata')}
+              </Text>
+              <Spacer size="xs" />
+              <View style={styles.metaRow}>
+                <Text variant="caption" tone="textSecondary">
+                  {t('productDetail.identifier')}
+                </Text>
+                <Text variant="caption" weight="medium">
+                  {productId}
                 </Text>
               </View>
-            )}
-            <View style={styles.idBadge}>
-              <Text variant="caption" tone="textSecondary">
-                {t('productDetail.itemBadge', { id: productId })}
-              </Text>
-            </View>
+              <View style={styles.metaRow}>
+                <Text variant="caption" tone="textSecondary">
+                  {t('productDetail.albumId')}
+                </Text>
+                <Text variant="caption" weight="medium">
+                  {product?.albumId ?? t('common.na')}
+                </Text>
+              </View>
+              <View style={styles.metaRow}>
+                <Text variant="caption" tone="textSecondary">
+                  {t('productDetail.status')}
+                </Text>
+                <Text variant="caption" weight="medium" tone="success">
+                  {t('productDetail.active')}
+                </Text>
+              </View>
+            </Card>
           </View>
-
-          <Spacer size="sm" />
-
-          <Text variant="title" weight="bold">
-            {displayTitle}
-          </Text>
-
-          <Spacer size="sm" />
-
-          <Text variant="body" tone="textSecondary">
-            {t('productDetail.description')}
-          </Text>
-        </Card>
-
-        <Spacer size="md" />
-
-        <Card variant="flat" style={styles.metaCard}>
-          <Text variant="label" weight="bold">
-            {t('productDetail.metadata')}
-          </Text>
-          <Spacer size="xs" />
-          <View style={styles.metaRow}>
-            <Text variant="caption" tone="textSecondary">
-              {t('productDetail.identifier')}
-            </Text>
-            <Text variant="caption" weight="medium">
-              {productId}
-            </Text>
-          </View>
-          <View style={styles.metaRow}>
-            <Text variant="caption" tone="textSecondary">
-              {t('productDetail.albumId')}
-            </Text>
-            <Text variant="caption" weight="medium">
-              {product?.albumId ?? t('common.na')}
-            </Text>
-          </View>
-          <View style={styles.metaRow}>
-            <Text variant="caption" tone="textSecondary">
-              {t('productDetail.status')}
-            </Text>
-            <Text variant="caption" weight="medium" tone="success">
-              {t('productDetail.active')}
-            </Text>
-          </View>
-        </Card>
+        </View>
 
         {isLoading && (
           <View style={styles.loaderContainer}>
@@ -188,8 +192,50 @@ const styles = StyleSheet.create(theme => ({
     backgroundColor: theme.colors.background,
   },
   scrollContent: {
-    padding: theme.spacing.md,
+    padding: {
+      xs: theme.spacing.md,
+      md: theme.spacing.lg,
+    },
     paddingBottom: theme.spacing.xxl,
+    maxWidth: {
+      lg: 1100,
+    },
+    width: {
+      lg: '100%',
+    },
+    alignSelf: {
+      lg: 'center',
+    },
+  },
+  mainRow: {
+    flexDirection: {
+      xs: 'column',
+      lg: 'row',
+    },
+    alignItems: {
+      lg: 'flex-start',
+    },
+    gap: theme.spacing.md,
+  },
+  mediaColumn: {
+    flex: {
+      lg: 1,
+    },
+    width: {
+      xs: '100%',
+    },
+  },
+  detailColumn: {
+    flex: {
+      lg: 1,
+    },
+    width: {
+      xs: '100%',
+    },
+    marginTop: {
+      xs: theme.spacing.md,
+      lg: 0,
+    },
   },
   imageCard: {
     padding: 0,
@@ -198,7 +244,11 @@ const styles = StyleSheet.create(theme => ({
   },
   image: {
     width: '100%',
-    height: 260,
+    height: {
+      xs: 260,
+      md: 300,
+      lg: 320,
+    },
     backgroundColor: theme.colors.surface,
   },
   infoCard: {

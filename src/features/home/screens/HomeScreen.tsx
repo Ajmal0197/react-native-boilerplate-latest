@@ -105,8 +105,20 @@ const styles = StyleSheet.create(theme => ({
     backgroundColor: theme.colors.background,
   },
   searchContainer: {
-    paddingHorizontal: theme.spacing.md,
+    paddingHorizontal: {
+      xs: theme.spacing.md,
+      md: theme.spacing.lg,
+    },
     paddingTop: theme.spacing.sm,
+    alignSelf: {
+      lg: 'center',
+    },
+    width: {
+      lg: '100%',
+    },
+    maxWidth: {
+      lg: 960,
+    },
   },
   labCard: {
     backgroundColor: theme.colors.primaryLight,

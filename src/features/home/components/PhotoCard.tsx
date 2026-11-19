@@ -69,8 +69,16 @@ const styles = StyleSheet.create(theme => ({
     alignItems: 'center',
   },
   thumbnail: {
-    width: 72,
-    height: 72,
+    width: {
+      xs: 72,
+      fold: 80,
+      md: 88,
+    },
+    height: {
+      xs: 72,
+      fold: 80,
+      md: 88,
+    },
     borderRadius: theme.borderRadius.md,
     backgroundColor: theme.colors.surface,
   },

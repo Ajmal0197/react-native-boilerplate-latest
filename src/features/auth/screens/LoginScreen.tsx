@@ -45,6 +45,7 @@ export const LoginScreen = ({ navigation }: AuthScreenProps<'Login'>) => {
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
+      <View style={styles.formShell}>
       <View style={styles.header}>
         <Text variant="display" weight="bold">
           {t('auth.login.title')}
@@ -120,6 +121,7 @@ export const LoginScreen = ({ navigation }: AuthScreenProps<'Login'>) => {
           </Text>
         </TouchableOpacity>
       </View>
+      </View>
     </ScrollView>
   );
 };
@@ -127,9 +129,21 @@ export const LoginScreen = ({ navigation }: AuthScreenProps<'Login'>) => {
 const styles = StyleSheet.create(theme => ({
   container: {
     flexGrow: 1,
-    padding: theme.spacing.lg,
+    padding: {
+      xs: theme.spacing.lg,
+      md: theme.spacing.xl,
+    },
     justifyContent: 'center',
     backgroundColor: theme.colors.background,
+  },
+  formShell: {
+    width: '100%',
+    maxWidth: {
+      xs: '100%',
+      md: 480,
+      lg: 520,
+    },
+    alignSelf: 'center',
   },
   header: {
     marginBottom: theme.spacing.xl,

@@ -81,7 +81,20 @@ export const PhotoList: React.FC<PhotoListProps> = ({
 
 const styles = StyleSheet.create(theme => ({
   listContent: {
-    padding: theme.spacing.md,
+    padding: {
+      xs: theme.spacing.md,
+      md: theme.spacing.lg,
+      lg: theme.spacing.xl,
+    },
+    width: {
+      lg: '100%',
+    },
+    maxWidth: {
+      lg: 960,
+    },
+    alignSelf: {
+      lg: 'center',
+    },
   },
   footerLoader: {
     paddingVertical: theme.spacing.md,
