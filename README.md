@@ -19,6 +19,12 @@ This README tells you what is already in the box, where each piece lives, and ho
   <a href="./docs/assets/demo.mov">Watch the demo video</a>
 </p>
 
+<p align="center">
+  <img src="./docs/assets/foldable.jpg" alt="Home screen on a foldable device" width="480" />
+  <br />
+  <sub>Home screen on a foldable device</sub>
+</p>
+
 ---
 
 ## What you see when the app opens
