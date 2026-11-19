@@ -49,6 +49,13 @@ describe('SettingsScreen', () => {
     ).toHaveBeenCalledWith('LanguageSelect');
   });
 
+  it('shows the TurboModule battery level in the Fabric view row', async () => {
+    await render(<SettingsScreen navigation={navigation} route={route} />);
+
+    expect(await screen.findByText('85%')).toBeTruthy();
+    expect(screen.getByTestId('settings-battery-view')).toBeTruthy();
+  });
+
   it('logs the user out', async () => {
     await render(<SettingsScreen navigation={navigation} route={route} />);
 

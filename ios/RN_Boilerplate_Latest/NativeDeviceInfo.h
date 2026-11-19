@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import <AppSpecsJSI.h>
+#import <AppSpecs/AppSpecs.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

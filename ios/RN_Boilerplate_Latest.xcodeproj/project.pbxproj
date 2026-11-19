@@ -12,6 +12,9 @@
 		675994A321B3891396D80F2B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		761780EF2CA45674006654EF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EE2CA45674006654EF /* SceneDelegate.swift */; };
+		A1B2C3D41A68108700BATT02 /* NativeDeviceInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D41A68108700BATT01 /* NativeDeviceInfo.mm */; };
+		A1B2C3D41A68108700BATT05 /* NativeBatteryView.mm in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D41A68108700BATT04 /* NativeBatteryView.mm */; };
+		A1B2C3D41A68108700BATT08 /* BoilerplateDependencyProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D41A68108700BATT07 /* BoilerplateDependencyProvider.mm */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +29,11 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-RN_Boilerplate_Latest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RN_Boilerplate_Latest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = RN_Boilerplate_Latest/AppDelegate.swift; sourceTree = "<group>"; };
 		761780EE2CA45674006654EF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = RN_Boilerplate_Latest/SceneDelegate.swift; sourceTree = "<group>"; };
+		A1B2C3D41A68108700BATT01 /* NativeDeviceInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = NativeDeviceInfo.mm; path = RN_Boilerplate_Latest/NativeDeviceInfo.mm; sourceTree = "<group>"; };
+		A1B2C3D41A68108700BATT03 /* NativeDeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NativeDeviceInfo.h; path = RN_Boilerplate_Latest/NativeDeviceInfo.h; sourceTree = "<group>"; };
+		A1B2C3D41A68108700BATT04 /* NativeBatteryView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = NativeBatteryView.mm; path = RN_Boilerplate_Latest/NativeBatteryView.mm; sourceTree = "<group>"; };
+		A1B2C3D41A68108700BATT06 /* NativeBatteryView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NativeBatteryView.h; path = RN_Boilerplate_Latest/NativeBatteryView.h; sourceTree = "<group>"; };
+		A1B2C3D41A68108700BATT07 /* BoilerplateDependencyProvider.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BoilerplateDependencyProvider.mm; path = RN_Boilerplate_Latest/BoilerplateDependencyProvider.mm; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RN_Boilerplate_Latest/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -48,6 +56,11 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				761780EE2CA45674006654EF /* SceneDelegate.swift */,
+				A1B2C3D41A68108700BATT03 /* NativeDeviceInfo.h */,
+				A1B2C3D41A68108700BATT01 /* NativeDeviceInfo.mm */,
+				A1B2C3D41A68108700BATT06 /* NativeBatteryView.h */,
+				A1B2C3D41A68108700BATT04 /* NativeBatteryView.mm */,
+				A1B2C3D41A68108700BATT07 /* BoilerplateDependencyProvider.mm */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
@@ -253,6 +266,9 @@
 			files = (
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
 				761780EF2CA45674006654EF /* SceneDelegate.swift in Sources */,
+				A1B2C3D41A68108700BATT02 /* NativeDeviceInfo.mm in Sources */,
+				A1B2C3D41A68108700BATT05 /* NativeBatteryView.mm in Sources */,
+				A1B2C3D41A68108700BATT08 /* BoilerplateDependencyProvider.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

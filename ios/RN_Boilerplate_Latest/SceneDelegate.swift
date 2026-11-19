@@ -16,7 +16,12 @@ class SceneDelegate: RCTDefaultReactNativeFactoryDelegate, UIWindowSceneDelegate
       return
     }
 
-    dependencyProvider = RCTAppDependencyProvider()
+    let providerType = NSClassFromString("BoilerplateDependencyProvider") as? NSObject.Type
+    if let provider = providerType?.init() as? RCTDependencyProvider {
+      dependencyProvider = provider
+    } else {
+      dependencyProvider = RCTAppDependencyProvider()
+    }
     reactNativeFactory = RCTReactNativeFactory(delegate: self)
     window = UIWindow(windowScene: windowScene)
     window?.backgroundColor = .systemBackground

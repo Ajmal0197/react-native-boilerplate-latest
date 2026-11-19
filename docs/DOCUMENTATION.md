@@ -496,6 +496,13 @@ The New Architecture is enabled by default.
    const model = NativeDeviceInfo.getDeviceModel();
    ```
 
+### Fabric component (`NativeBatteryView`)
+
+1. **Spec**: [`specs/NativeBatteryViewNativeComponent.ts`](../specs/NativeBatteryViewNativeComponent.ts). Props are `level` (0–1), `isCharging`, and `fillColor`.
+2. **Android**: [`NativeBatteryView.kt`](../android/app/src/main/java/com/rn_boilerplate_latest/NativeBatteryView.kt) paints the view. [`NativeBatteryViewManager.kt`](../android/app/src/main/java/com/rn_boilerplate_latest/NativeBatteryViewManager.kt) implements the generated manager interface. [`NativeBatteryViewPackage.kt`](../android/app/src/main/java/com/rn_boilerplate_latest/NativeBatteryViewPackage.kt) registers it from `MainApplication`.
+3. **iOS**: [`NativeBatteryView.mm`](../ios/RN_Boilerplate_Latest/NativeBatteryView.mm) is an `RCTViewComponentView`. [`BoilerplateDependencyProvider.mm`](../ios/RN_Boilerplate_Latest/BoilerplateDependencyProvider.mm) adds it to the Fabric component map. Codegen does not do that for app components. [`SceneDelegate.swift`](../ios/RN_Boilerplate_Latest/SceneDelegate.swift) installs that provider.
+4. **On screen**: Settings reads `NativeDeviceInfo.getBatteryLevel()` and passes `level / 100` into `<NativeBatteryView />`.
+
 ---
 
 ## 🔔 Local Notifications — Notifee

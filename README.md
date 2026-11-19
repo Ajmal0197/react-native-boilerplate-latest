@@ -27,11 +27,11 @@ Login is required. `USE_MOCK_API` is `"true"` in `keys.example.json`, so login a
 
 After login, three tabs:
 
-| Tab      | Screen                | What it shows                                                                               |
-| :------- | :-------------------- | :------------------------------------------------------------------------------------------ |
-| Home     | `HomeScreen`          | Searchable photo list (JSONPlaceholder) in a `LegendList`, plus a link to the Features Lab  |
-| Alerts   | `NotificationsScreen` | Local notifications through Notifee                                                         |
-| Settings | `SettingsScreen`      | Signed-in user, light / dark / auto theme, language, device info from a TurboModule, logout |
+| Tab      | Screen                | What it shows                                                                                             |
+| :------- | :-------------------- | :-------------------------------------------------------------------------------------------------------- |
+| Home     | `HomeScreen`          | Searchable photo list (JSONPlaceholder) in a `LegendList`, plus a link to the Features Lab                |
+| Alerts   | `NotificationsScreen` | Local notifications through Notifee                                                                       |
+| Settings | `SettingsScreen`      | Signed-in user, light / dark / auto theme, language, TurboModule device info, Fabric battery view, logout |
 
 Screens pushed on top of the tabs:
 

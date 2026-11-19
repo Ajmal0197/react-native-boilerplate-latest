@@ -1,5 +1,5 @@
 import type { TabScreenProps } from '@navigation/types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native-unistyles';
@@ -9,6 +9,7 @@ import { Text, Button, Spacer } from '@components/atoms';
 import { ListItem, Card } from '@components/molecules';
 import { Header } from '@components/organisms';
 import { Config } from '@config/env';
+import { NativeBatteryView } from '@native/NativeBatteryView';
 import { NativeDeviceInfo } from '@native/NativeDeviceInfo';
 import { AppConstant } from '@services/AppConstant';
 import { useAppStore } from '@store/zustand/useAppStore';
@@ -18,10 +19,39 @@ export const SettingsScreen = ({ navigation }: TabScreenProps<'Settings'>) => {
   const { t, i18n } = useTranslation();
   const { themeMode, setThemeMode } = useAppStore();
   const { user, logout } = useAuthStore();
+  const [batteryPercent, setBatteryPercent] = useState<number | null>(null);
 
   const deviceModel = NativeDeviceInfo.getDeviceModel();
   const isEmulator = NativeDeviceInfo.isEmulator();
   const appVersion = NativeDeviceInfo.getAppVersion();
+
+  useEffect(() => {
+    let active = true;
+    NativeDeviceInfo.getBatteryLevel()
+      .then(level => {
+        if (active) {
+          setBatteryPercent(level);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setBatteryPercent(-1);
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const knownBattery =
+    batteryPercent != null && batteryPercent >= 0 ? batteryPercent : null;
+  const batteryLevel = knownBattery == null ? 0 : knownBattery / 100;
+  let batterySubtitle = t('settings.batteryLoading');
+  if (batteryPercent != null && batteryPercent < 0) {
+    batterySubtitle = t('settings.batteryUnknown');
+  } else if (knownBattery != null) {
+    batterySubtitle = t('settings.batteryLevel', { level: knownBattery });
+  }
 
   const toggleTheme = () => {
     if (themeMode === 'light') setThemeMode('dark');
@@ -96,6 +126,18 @@ export const SettingsScreen = ({ navigation }: TabScreenProps<'Settings'>) => {
             })}
           />
           <ListItem
+            title={t('settings.batteryTitle')}
+            subtitle={batterySubtitle}
+            rightElement={
+              <NativeBatteryView
+                level={batteryLevel}
+                isCharging={false}
+                style={styles.battery}
+                testID="settings-battery-view"
+              />
+            }
+          />
+          <ListItem
             title={t('settings.pageTrackerTitle')}
             subtitle={t('settings.pageTrackerSubtitle', {
               id: AppConstant.getCurrentHomeScreenPageId() ?? '1',
@@ -157,5 +199,9 @@ const styles = StyleSheet.create(theme => ({
   section: {
     padding: 0,
     overflow: 'hidden',
+  },
+  battery: {
+    width: theme.spacing.xxxl,
+    height: theme.spacing.lg,
   },
 }));
