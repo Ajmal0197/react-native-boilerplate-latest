@@ -29,6 +29,7 @@ A production-ready, feature-driven **React Native CLI (v0.88+)** boilerplate bui
 21. [Interactive Features Lab — TabViewDemoScreen](#-interactive-features-lab--tabviewdemoscreen)
 22. [Testing Guide — Jest + RNTL](#-testing-guide--jest--rntl)
 23. [NPM Scripts & Shortcuts](#-npm-scripts--shortcuts)
+24. [Spec-Driven Development (SDD) — Jira, Figma, Postman](#-spec-driven-development-sdd--jira-figma-postman)
 
 ---
 
@@ -852,3 +853,14 @@ it('handles button press', async () => {
 | **`yarn test`**                | `jest`                                                                                                        | Run all 21 test suites in `__tests__/` (85 tests)       |
 | **`yarn test:coverage`**       | `jest --coverage`                                                                                             | Run tests with coverage summary                         |
 | **`yarn knip:check`**          | `knip`                                                                                                        | Detect unused files, exports & dependencies             |
+
+---
+
+## 📐 Spec-Driven Development (SDD) — Jira, Figma, Postman
+
+This codebase is built from the ground up to support **Spec-Driven Development (SDD)**:
+- **Jira**: User stories and Acceptance Criteria (Gherkin syntax) define what to build and provide the exact test cases implemented in `__tests__/`.
+- **Figma**: Design tokens and interactive states (Default, Pressed, Loading, Disabled, Error) map directly into Unistyles v3 tokens in `src/theme/tokens.ts` and Atomic components in `src/components/atoms/`.
+- **Postman**: API contracts, mock servers, and response schemas generate strict TypeScript DTOs in `src/types/` and typed Axios endpoints in `src/api/`.
+
+👉 For a complete, beginner-friendly walkthrough tutorial with workflows, diagrams, and code examples, read the dedicated [**Spec-Driven Development Guide (`SPEC_DRIVEN_DEVELOPMENT.md`)**](./SPEC_DRIVEN_DEVELOPMENT.md).

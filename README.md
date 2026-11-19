@@ -2,7 +2,7 @@
 
 A starter app for React Native **0.88.1** and React **19.3.0**. The New Architecture (Fabric and TurboModules) is on. TypeScript is strict. Clone it, run it, then replace the sample features with your product.
 
-This README tells you what is already in the box, where each piece lives, and how to run it. Native build internals and TurboModule walkthroughs are in [docs/DOCUMENTATION.md](./docs/DOCUMENTATION.md). Team workflow is in [CONTRIBUTING.md](./CONTRIBUTING.md). For a full inventory of libraries, ESLint rules, tests, SonarQube, and CI, see the [dev.to walkthrough](https://dev.to/ajmal_hasan/everything-inside-rn-boilerplate-latest-libraries-lint-rules-tests-sonar-and-ci-a-full-46dc).
+This README tells you what is already in the box, where each piece lives, and how to run it. Native build internals and TurboModule walkthroughs are in [docs/DOCUMENTATION.md](./docs/DOCUMENTATION.md). Team workflow is in [CONTRIBUTING.md](./CONTRIBUTING.md). For beginner-friendly guidance on connecting **Jira**, **Postman**, and **Figma** into this codebase, see [docs/SPEC_DRIVEN_DEVELOPMENT.md](./docs/SPEC_DRIVEN_DEVELOPMENT.md). For a full inventory of libraries, ESLint rules, tests, SonarQube, and CI, see the [dev.to walkthrough](https://dev.to/ajmal_hasan/everything-inside-rn-boilerplate-latest-libraries-lint-rules-tests-sonar-and-ci-a-full-46dc).
 
 <p>
   <a href="https://reactnative.dev"><img src="https://img.shields.io/badge/React%20Native-0.88.1-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React Native 0.88.1" /></a>
@@ -43,6 +43,17 @@ Screens pushed on top of the tabs:
 | `TabViewDemoScreen`              | Home or Settings → Features Lab | Live samples: stacked sheets, keyboard sheet, toasts, network errors, request cancel |
 
 Non-production builds also mount `BugBubble` (`@lokal-dev/react-native-bugbubble`) so you can inspect network, console, and analytics logs inside the app. Production builds do not render it.
+
+---
+
+## 📐 Spec-Driven Development (SDD)
+
+This boilerplate is structured for **Spec-Driven Development** across the three core engineering pillars:
+- **Jira (Product Spec)**: User stories and Gherkin acceptance criteria map 1:1 into Jest unit tests in `__tests__/`.
+- **Figma (Design Spec)**: Component states and design tokens map directly into Unistyles v3 tokens in `src/theme/tokens.ts`.
+- **Postman (API Spec)**: Contract schemas and mock servers generate TypeScript types in `src/types/` and Axios endpoints in `src/api/`.
+
+👉 Read the beginner-friendly [**Spec-Driven Development Guide**](./docs/SPEC_DRIVEN_DEVELOPMENT.md) for a full end-to-end tutorial with checklists and workflows.
 
 ---
 
